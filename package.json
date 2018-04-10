@@ -4,11 +4,11 @@
   "description": "The coolest tower defense game around, made by YamBam",
   "main": "server/index.js",
   "scripts": {
-    "build": "webpack",
-    "start": "node ./server/index.js",
+    "build": "webpack --mode production",
     "serve": "nodemon ./server/index.js",
-    "webpack": "webpack --watch",
-    "dev": "run-p webpack serve"
+    "start": "run-s build serve",
+    "webpack-watch": "webpack --watch",
+    "dev": "run-p webpack-watch serve"
   },
   "repository": {
     "type": "git",
