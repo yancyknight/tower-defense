@@ -7,5 +7,16 @@ module.exports = {
   output: {
     path: __dirname + "/server/public",
     filename: "bundle.js"
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          { loader: "style-loader" },
+          { loader: "css-loader" }
+        ]
+      }
+    ]
   }
 };

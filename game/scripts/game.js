@@ -1,3 +1,4 @@
+import style from '../styles/game.css'
 const screens = require('./screens');
 const showScreen = require('./showScreen');
 const mainMenu = require('./mainmenu');
