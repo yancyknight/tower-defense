@@ -8,8 +8,7 @@ body {
 	left: 300px;
 	width: 800px;
 	height: 600px;
-	background-color: #0404B4;
-	/* background: url("./../images/spacefield_a-000.png"); */
+	background: url("./../images/spacefield_a-000.png");
 }
 
 #game {
