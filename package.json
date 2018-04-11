@@ -24,6 +24,8 @@
   "homepage": "https://github.com/yancyknight/tower-defense#readme",
   "devDependencies": {
     "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "image-webpack-loader": "^4.2.0",
     "nodemon": "^1.17.3",
     "npm-run-all": "^4.1.2",
     "rimraf": "^2.6.2",

@@ -2,16 +2,20 @@ const graphics = require('../../framework/graphics');
 const input = require('../../framework/input');
 const showScreen = require('./showScreen');
 const mainMenu = require('./mainmenu');
+const mapModule = require('./map');
 
 var mouseCapture = false,
 	myMouse = input.Mouse(),
 	myKeyboard = input.Keyboard(),
 	myTexture = null,
 	cancelNextRequest = false,
-	lastTimeStamp;
+	lastTimeStamp,
+	map;
 
 function initialize() {
 	console.log('game initializing...');
+
+	map = mapModule.createMap({imageSrc: 'https://cnet1.cbsistatic.com/img/_hQqXhr3_GT2VJK36JhNq-QAcMQ=/1600x900/2016/11/22/92ef90df-13ae-4cdc-949e-035eac407727/brgavinshaw.jpg'});
 
 	// Create the keyboard input handler and register the keyboard commands
 	// myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myTexture.moveLeft);
@@ -50,10 +54,12 @@ function initialize() {
 function update(elapsedTime) {
 	myKeyboard.update(elapsedTime);
 	myMouse.update(elapsedTime);
+	map.update();
 }
 
 function render() {
 	graphics.clear();
+	map.render();
 	// myTexture.draw();
 }
 
