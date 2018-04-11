@@ -117,6 +117,24 @@ function drawImage({
 	})
 }
 
+function drawLine({
+	leftx,
+	rightx,
+	topy,
+	bottomy,
+	color="#000000"
+} = {}) {
+	context.save();
+	context.strokeStyle = color;
+	context.beginPath();
+	context.moveTo(leftx, topy);
+	context.lineTo(rightx, bottomy);
+	context.stroke();
+	
+	context.restore();
+}
+
+
 module.exports = {
 	clear,
 	canvas,
@@ -126,5 +144,6 @@ module.exports = {
 	drawImage,
 	drawText,
 	drawCircle,
+	drawLine,
 };
 
