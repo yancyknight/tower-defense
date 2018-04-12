@@ -71,6 +71,7 @@ function render() {
 function gameLoop(time) {
 	
 	update(time - lastTimeStamp);
+	console.log(time-lastTimeStamp);
 	lastTimeStamp = time;
 	
 	render();
