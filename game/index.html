@@ -3,7 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>YamBam Tower Defense</title>
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body>
@@ -11,19 +10,19 @@
 
 		<div v-show="show == 'main-menu'" id="main-menu" class="screen">
 			<ul class="menu">
-				<li><button class="menu-btn" @click="startGame">New Game</button></li>
-				<li><button class="menu-btn" @click="show = 'high-scores'">High Scores</button></li>
-				<li><button class="menu-btn" @click="show = 'help'">Help</button></li>
-				<li><button class="menu-btn" @click="show = 'about'">About</button></li>
+				<li><el-button type="danger" class="menu-btn" @click="startGame">New Game</el-button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'high-scores'">High Scores</el-button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'help'">Help</el-button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'about'">About</el-button></li>
 			</ul>
 		</div>
 
 		<div v-show="show == 'game-play'" id="game-play" class="screen">
 			<div id="tower-menu">
 				<ul>
-					<li><button class="menu-btn">Fire</button></li>
-					<li><button class="menu-btn">Ice</button></li>
-					<li><button class="menu-btn">Air</button></li>
+					<li><el-button type="danger" class="menu-btn">Fire</el-button></li>
+					<li><el-button type="danger" class="menu-btn">Ice</el-button></li>
+					<li><el-button type="danger" class="menu-btn">Air</el-button></li>
 				</ul>
 			</div>
 
@@ -40,7 +39,7 @@
 				<li>7000</li>
 			</ol>
 			<ul class="menu">
-				<li><button class="menu-btn" @click="show = 'main-menu'">Back</button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
 
@@ -48,7 +47,7 @@
 			<h1>Help</h1>
 			<p>This is some help on how to play the game</p>
 			<ul class="menu">
-				<li><button class="menu-btn" @click="show = 'main-menu'">Back</button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
 
@@ -59,7 +58,7 @@
 			<p>Instructor</p>
 			<p>Dr. James Dean Mathias</p>
 			<ul class="menu">
-				<li><button class="menu-btn" @click="show = 'main-menu'">Back</button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
 	</div>

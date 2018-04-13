@@ -13,19 +13,26 @@ var mouseCapture = false,
 function initialize() {
 	console.log('game initializing...');
 
+	cancelNextRequest = false;
 	map = mapModule.createMap({imageSrc: 'https://cnet1.cbsistatic.com/img/_hQqXhr3_GT2VJK36JhNq-QAcMQ=/1600x900/2016/11/22/92ef90df-13ae-4cdc-949e-035eac407727/brgavinshaw.jpg'});
 
 	// Create the keyboard input handler and register the keyboard commands
 	myKeyboard.registerCommand(input.KeyEvent.DOM_VK_ESCAPE, function() {
-
+		
 		// Stop the game loop by canceling the request for the next animation frame
 		cancelNextRequest = true;
 
-		// Then, return to the main menu
-		view.show = 'main-menu';
+		view.$confirm('Quit game and return to main menu?', 'Quit Game', {
+			confirmButtonText: 'Yes',
+			cancelButtonText: 'No! I was just gonna win!'
+		}).then(function() {
+			view.show = 'main-menu';
+		}).catch(function() {
+			cancelNextRequest = false;    
+			run();    
+		});
 	});
 	
-	// Create an ability to move the logo using the mouse
 	myMouse = input.Mouse();
 	myMouse.registerCommand('mousedown', function(e) {
 		mouseCapture = true;
