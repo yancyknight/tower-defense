@@ -1,7 +1,5 @@
 const graphics = require('../../framework/graphics');
 const input = require('../../framework/input');
-const showScreen = require('./showScreen');
-const mainMenu = require('./mainmenu');
 const mapModule = require('./map');
 
 var mouseCapture = false,
@@ -18,19 +16,13 @@ function initialize() {
 	map = mapModule.createMap({imageSrc: 'https://cnet1.cbsistatic.com/img/_hQqXhr3_GT2VJK36JhNq-QAcMQ=/1600x900/2016/11/22/92ef90df-13ae-4cdc-949e-035eac407727/brgavinshaw.jpg'});
 
 	// Create the keyboard input handler and register the keyboard commands
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myTexture.moveLeft);
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_D, myTexture.moveRight);
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myTexture.moveUp);
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_S, myTexture.moveDown);
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, myTexture.rotateLeft);
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_E, myTexture.rotateRight);
 	myKeyboard.registerCommand(input.KeyEvent.DOM_VK_ESCAPE, function() {
 
 		// Stop the game loop by canceling the request for the next animation frame
 		cancelNextRequest = true;
 
 		// Then, return to the main menu
-		showScreen(mainMenu);
+		view.show = 'main-menu';
 	});
 	
 	// Create an ability to move the logo using the mouse
@@ -60,14 +52,8 @@ function update(elapsedTime) {
 function render() {
 	graphics.clear();
 	map.render();
-	// myTexture.draw();
 }
 
-//------------------------------------------------------------------
-//
-// This is the Game Loop function!
-//
-//------------------------------------------------------------------
 function gameLoop(time) {
 	
 	update(time - lastTimeStamp);
@@ -90,6 +76,5 @@ function run() {
 
 module.exports = {
 	initialize: initialize,
-	run: run,
-	id: 'game-play'
+	run: run
 };
