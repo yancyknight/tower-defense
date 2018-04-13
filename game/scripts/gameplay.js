@@ -15,7 +15,7 @@ var mouseCapture = false,
 function initialize() {
 	console.log('game initializing...');
 
-	map = mapModule.createMap({imageSrc: 'https://cnet1.cbsistatic.com/img/_hQqXhr3_GT2VJK36JhNq-QAcMQ=/1600x900/2016/11/22/92ef90df-13ae-4cdc-949e-035eac407727/brgavinshaw.jpg'});
+	map = mapModule.createMap();
 
 	// Create the keyboard input handler and register the keyboard commands
 	// myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myTexture.moveLeft);

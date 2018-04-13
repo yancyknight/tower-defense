@@ -7,14 +7,11 @@ var SquareEnum = {
 };
 const rowColSize = 20;
 
-var createMap = function ({
-    imageSrc
-} = {}) {
+var createMap = function () {
     var that = {};
 
     var m_showGrid = false;
 
-    var image = graphics.Img(imageSrc);
     var grid = [];
     for (let i = 0; i < rowColSize; i++) {
         grid.push([]);
@@ -43,15 +40,6 @@ var createMap = function ({
     grid[rowColSize / 2 - 3][rowColSize - 1] = SquareEnum.BLOCK;
     grid[rowColSize / 2 + 2][rowColSize - 1] = SquareEnum.BLOCK;
 
-    for(let i = 2 ; i < rowColSize-3; i++){
-        grid[i][3] = SquareEnum.TOWER;
-        grid[i+1][5] = SquareEnum.TOWER;
-        grid[i][7] = SquareEnum.TOWER;
-        grid[i+1][9] = SquareEnum.TOWER;
-    }
-
-    // console.log('creating map');
-
     that.update = function ({
         showGrid = true
     } = {}) {
@@ -59,9 +47,7 @@ var createMap = function ({
     }
 
     that.render = function () {
-        //        graphics.drawImage({image, dx:0,dy:0,dWidth:1000, dHeight:1000});
         if (m_showGrid === true) {
-            // console.log('printing grid');
             for (let i = 1; i < rowColSize; i++) {
                 let spot = i * 1000 / rowColSize;
                 graphics.drawLine({
@@ -102,7 +88,6 @@ var createMap = function ({
         }
 
         var myPath = that.nearestExit({x:0,y:8}, {x:rowColSize-1, y:11});
-        // console.log(myPath.length);
         for(let i = 0; i < myPath.length; i++) {
              graphics.drawRectangle({
                  x: myPath[i].x * 1000 / rowColSize,
@@ -114,7 +99,6 @@ var createMap = function ({
         }
 
         myPath = that.nearestExit({x:8,y:0}, {x:11, y:rowColSize-1});
-        // console.log(myPath.length);
         for(let i = 0; i < myPath.length; i++) {
              graphics.drawRectangle({
                  x: myPath[i].x * 1000 / rowColSize,
@@ -145,7 +129,6 @@ var createMap = function ({
 
         that.addItem = function (element) {
             for (let i = 0; i < items.length; i++) {
-                // console.log(element.hEstimate + " vx " + items[i].hEstimate);
                 if (element.hEstimate <= items[i].hEstimate) {
                     items.splice(i, 0, element);
                     return;
@@ -161,7 +144,6 @@ var createMap = function ({
         }
 
         that.myLength = function () {
-            // console.log('my length is ' + items.length);
             return items.length;
         }
 
@@ -200,17 +182,11 @@ var createMap = function ({
                 placesBeen[i][j] = undefined
             }
         }
-        // var ttl = 15;
         while (frontier.myLength() > 0) {
             let current = frontier.remove();
             
-            // console.log('came from: '  + current.cameFrom);
-            // console.log('Cur Spot: ' + current.x + " " + current.y);
-            // ttl--;
             if (current.x === goal.x && current.y === goal.y) {
                 placesBeen[current.y][current.x] = current;
-                // console.log('going to: ' + placesBeen[current.y][current.x].cameFrom);
-                
                 break;
             }
 
@@ -219,7 +195,6 @@ var createMap = function ({
                     x: current.x,
                     y: current.y - 1
                 }) && placesBeen[current.y - 1][current.x] === undefined) {
-                    // console.log('moving up');
                     dist = calcDist(goal, {
                     x: current.x,
                     y: current.y - 1
@@ -238,7 +213,6 @@ var createMap = function ({
                     x: current.x,
                     y: current.y + 1
                 }) && placesBeen[current.y + 1][current.x] === undefined) {
-                // console.log('moving down');
                     
                 dist = calcDist(goal, {
                     x: current.x,
@@ -258,7 +232,6 @@ var createMap = function ({
                     x: current.x - 1,
                     y: current.y
                 }) && placesBeen[current.y][current.x - 1] === undefined) {
-                // console.log('moving left');
                     
                 dist = calcDist(goal, {
                     x: current.x - 1,
@@ -278,7 +251,6 @@ var createMap = function ({
                     x: current.x + 1,
                     y: current.y
                 }) && placesBeen[current.y][current.x + 1] === undefined) {
-                // console.log('moving right');
                     
                 dist = calcDist(goal, {
                     x: current.x + 1,
@@ -293,39 +265,13 @@ var createMap = function ({
                     hEstimate: current.cost + 1 + dist
                 });
             }
-            // frontier.printList();
             placesBeen[current.y][current.x] = current;
-            // console.log('placing' + current.x + current.y + placesBeen[current.y][current.x].cameFrom);
-            
-            // graphics.drawRectangle({
-            //     x: current.x * 1000 / rowColSize,
-            //     y: current.y * 1000 / rowColSize,
-            //     w: 1000 / rowColSize,
-            //     h: 1000 / rowColSize,
-            //     fill: '#FFFF00'
-            // });
         }
 
-        // console.log("map");
-        // for(let i = 0; i < placesBeen.length; i++) {
-        //     for(let j = 0; j < placesBeen.length; j++) {
-        //         console.log(placesBeen[i][j].x + " " + placesBeen[i][j].y);
-        //     }
-        // }
-
-        // console.log('curPos:');
         let path = [];
         let current = goal;
         while (current.x !== curPos.x || current.y !== curPos.y) {
             path.push(current);
-            // graphics.drawRectangle({
-            //     x: current.x * 1000 / rowColSize,
-            //     y: current.y * 1000 / rowColSize,
-            //     w: 1000 / rowColSize,
-            //     h: 1000 / rowColSize,
-            //     fill: '#FF00FF'
-            // });
-            // console.log('at:' + current.x + current.y +placesBeen[current.y][current.x].cameFrom)
             switch (placesBeen[current.y][current.x].cameFrom) {
                 case CameFromEnum.UP:
                     current = {
@@ -352,7 +298,6 @@ var createMap = function ({
                     };
                     break;
                 default:
-                    // console.log('bad...' + current.x + current.y + placesBeen[current.y][current.x].cameFrom);
                     return path;
                     break;
             }
@@ -361,22 +306,8 @@ var createMap = function ({
         return path;
     }
 
-    // console.log('made finding algorithm.');
-    var myPath = that.nearestExit({
-        x: 0,
-        y: 8
-    }, {
-        x: rowColSize - 1,
-        y: 11
-    });
-    for(let i = 0; i < myPath.length; i++) {
-        // console.log('nextStep: ' +myPath[i].x + " " + myPath[i].y);
-    }
-
     return that;
 }
-
-createMap("  ");
 
 module.exports = {
     createMap: createMap,
