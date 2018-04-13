@@ -134,7 +134,6 @@ function drawLine({
 	context.restore();
 }
 
-
 module.exports = {
 	clear,
 	canvas,
