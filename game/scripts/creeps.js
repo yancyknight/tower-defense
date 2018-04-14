@@ -12,7 +12,7 @@ var CreepType = {
 
 const amountOfCreatures = 29;
 
-//var creaturesImage = graphics.Img("./../game/images/creatures.png");
+var creaturesImage = graphics.Img("./../images/creatures.png");
 
 //const creatureHeight = creaturesImage.height / amountOfCreatures;
 //const creatureWidth = creaturesImage.width / 4;
