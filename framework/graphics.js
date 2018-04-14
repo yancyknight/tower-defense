@@ -1,4 +1,3 @@
-'use strict';
 var canvas = document.getElementById('fw-canvas');
 var context = canvas.getContext('2d');
 
@@ -11,10 +10,14 @@ CanvasRenderingContext2D.prototype.clear = function () {
 	this.restore();
 };
 
+function init() {
+	canvas = document.getElementById('fw-canvas');
+	context = canvas.getContext('2d');
+}
+
 function clear() {
 	context.clear();
 }
-
 
 function drawCircle({
 	x,
@@ -125,6 +128,7 @@ function drawLine({
 	color="#000000"
 } = {}) {
 	context.save();
+	
 	context.strokeStyle = color;
 	context.beginPath();
 	context.moveTo(leftx, topy);
@@ -133,7 +137,6 @@ function drawLine({
 	
 	context.restore();
 }
-
 
 module.exports = {
 	clear,
@@ -145,5 +148,6 @@ module.exports = {
 	drawText,
 	drawCircle,
 	drawLine,
+	init
 };
 

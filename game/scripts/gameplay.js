@@ -1,22 +1,36 @@
 const graphics = require('../../framework/graphics');
 const input = require('../../framework/input');
-const showScreen = require('./showScreen');
-const mainMenu = require('./mainmenu');
 const mapModule = require('./map');
 const creepModule = require('./creeps');
 
-var mouseCapture = false,
-	myMouse = input.Mouse(),
-	myKeyboard = input.Keyboard(),
-	myTexture = null,
-	cancelNextRequest = false,
-	lastTimeStamp,
-	map = mapModule.map,
-	creepSystem = creepModule.creepSystem();
+var mouseCapture = false;
+var myMouse = input.Mouse();
+var myKeyboard = input.Keyboard();
+var myTexture = null;
+var cancelNextRequest = false;
+var lastTimeStamp;
+var map = mapModule.map;
+var creepSystem = creepModule.creepSystem();
+
+function quitGame() {
+	// Stop the game loop by canceling the request for the next animation frame
+	cancelNextRequest = true;
+
+	view.$confirm('Quit game and return to main menu?', 'Quit Game', {
+		confirmButtonText: 'Yes',
+		cancelButtonText: `No! I'm winning!`
+	}).then(function() {
+		view.show = 'main-menu';
+	}).catch(function() {
+		cancelNextRequest = false;    
+		run();    
+	});
+}
 
 function initialize() {
 	console.log('game initializing...');
 
+	cancelNextRequest = false;
 	creepSystem.addCreepSystem({
 		time: 10000,
 		amount: 50,
@@ -63,20 +77,15 @@ function initialize() {
 						  {x: 11,y: 19}]
 	});
 
+	// console.log(`map`, map);
 	// Create the keyboard input handler and register the keyboard commands
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_A, myTexture.moveLeft);
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_D, myTexture.moveRight);
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_W, myTexture.moveUp);
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_S, myTexture.moveDown);
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_Q, myTexture.rotateLeft);
-	// myKeyboard.registerCommand(KeyEvent.DOM_VK_E, myTexture.rotateRight);
+	myKeyboard.registerCommand(input.KeyEvent.DOM_VK_ESCAPE, quitGame);
+	
 	myKeyboard.registerCommand(input.KeyEvent.DOM_VK_ESCAPE, function () {
 
 		// Stop the game loop by canceling the request for the next animation frame
 		cancelNextRequest = true;
 
-		// Then, return to the main menu
-		showScreen(mainMenu);
 	});
 
 	// Create an ability to move the logo using the mouse
@@ -110,11 +119,6 @@ function render() {
 	creepSystem.render();
 }
 
-//------------------------------------------------------------------
-//
-// This is the Game Loop function!
-//
-//------------------------------------------------------------------
 function gameLoop(time) {
 
 	update(time - lastTimeStamp);
@@ -138,6 +142,5 @@ function run() {
 
 module.exports = {
 	initialize: initialize,
-	run: run,
-	id: 'game-play'
+	run: run
 };

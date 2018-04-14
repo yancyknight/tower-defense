@@ -2,23 +2,35 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>Midterm</title>
+	<title>YamBam Tower Defense</title>
 </head>
 
 <body>
 	<div id="game">
-		<div id="main-menu" class="screen">
+
+		<div v-show="show == 'main-menu'" id="main-menu" class="screen">
 			<ul class="menu">
-				<li><button id="id-new-game">New Game</button></li>
-				<li><button id="id-high-scores">High Scores</button></li>
-				<li><button id="id-help">Help</button></li>
-				<li><button id="id-about">About</button></li>
+				<li><el-button type="danger" class="menu-btn" @click="startGame">New Game</el-button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'high-scores'">High Scores</el-button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'help'">Help</el-button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'about'">About</el-button></li>
 			</ul>
 		</div>
-		<div id="game-play" class="screen">
+
+		<div v-show="show == 'game-play'" id="game-play" class="screen">
+			<div id="tower-menu">
+				<ul>
+					<li><el-button type="danger" class="menu-btn">Fire</el-button></li>
+					<li><el-button type="danger" class="menu-btn">Ice</el-button></li>
+					<li><el-button type="danger" class="menu-btn">Air</el-button></li>
+				</ul>
+			</div>
+
+			<div id="tower-details"></div>
 			<canvas id="fw-canvas" width="1000" height="1000"></canvas>
 		</div>
-		<div id="high-scores" class="screen">
+
+		<div v-show="show == 'high-scores'" id="high-scores" class="screen">
 			<h1>High Scores</h1>
 			<ol>
 				<li>10000</li>
@@ -27,27 +39,30 @@
 				<li>7000</li>
 			</ol>
 			<ul class="menu">
-				<li><button id="id-high-scores-back">Back</button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
-		<div id="help" class="screen">
+
+		<div v-show="show == 'help'" id="help" class="screen">
 			<h1>Help</h1>
 			<p>This is some help on how to play the game</p>
 			<ul class="menu">
-				<li><button id="id-help-back">Back</button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
-		<div id="about" class="screen">
+
+		<div v-show="show == 'about'" id="about" class="screen">
 			<h1>About</h1>
 			<p>Developed by</p>
 			<p>Yancy Knight</p>
 			<p>Instructor</p>
 			<p>Dr. James Dean Mathias</p>
 			<ul class="menu">
-				<li><button id="id-about-back">Back</button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
 	</div>
+
 	<script src="/bundle.js"></script>
 </body>
 </html>
