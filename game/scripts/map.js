@@ -9,9 +9,9 @@ const rowColSize = 20;
 
 var createMap = function () {
     var that = {};
-
+    
     var m_showGrid = false;
-
+    
     var grid = [];
     for (let i = 0; i < rowColSize; i++) {
         grid.push([]);
@@ -19,7 +19,7 @@ var createMap = function () {
             grid[i].push(SquareEnum.EMPTY);
         }
     }
-
+    
     for (let i = 1; i < rowColSize / 2 - 2; i++) {
         grid[i][1] = SquareEnum.BLOCK;
         grid[i][rowColSize - 2] = SquareEnum.BLOCK;
@@ -87,7 +87,7 @@ var createMap = function () {
             }
         }
 
-        var myPath = that.nearestExit({x:0,y:8}, {x:rowColSize-1, y:11});
+        var myPath = that.shortestPath({x:0,y:8}, {x:rowColSize-1, y:11});
         for(let i = 0; i < myPath.length; i++) {
              graphics.drawRectangle({
                  x: myPath[i].x * 1000 / rowColSize,
@@ -98,7 +98,7 @@ var createMap = function () {
              });
         }
 
-        myPath = that.nearestExit({x:8,y:0}, {x:11, y:rowColSize-1});
+        myPath = that.shortestPath({x:8,y:0}, {x:11, y:rowColSize-1});
         for(let i = 0; i < myPath.length; i++) {
              graphics.drawRectangle({
                  x: myPath[i].x * 1000 / rowColSize,
@@ -164,7 +164,7 @@ var createMap = function () {
         return that;
     }
 
-    that.nearestExit = function (curPos, goal) {
+    that.shortestPath = function (curPos, goal) {
         let dist = calcDist(curPos, goal);
         let frontier = PriorityQueue();
         frontier.addItem({
@@ -271,7 +271,7 @@ var createMap = function () {
         let path = [];
         let current = goal;
         while (current.x !== curPos.x || current.y !== curPos.y) {
-            path.push(current);
+            path.push({x:Math.floor(current.x*1000/rowColSize+rowColSize/2), y: Math.floor(current.y*1000/rowColSize+rowColSize/2)});
             switch (placesBeen[current.y][current.x].cameFrom) {
                 case CameFromEnum.UP:
                     current = {
@@ -303,13 +303,16 @@ var createMap = function () {
             }
         }
 
-        return path;
+        return path.reverse();
     }
 
     return that;
 }
 
+var m_map = createMap();
+
 module.exports = {
-    createMap: createMap,
+    map: m_map,
+    rowColSize,
     id: 'map'
 };
