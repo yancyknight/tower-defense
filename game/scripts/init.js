@@ -2,11 +2,12 @@ import style from '../styles/game.css';
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import lang from 'element-ui/lib/locale/lang/en'
-import locale from 'element-ui/lib/locale'
+import lang from 'element-ui/lib/locale/lang/en';
+import locale from 'element-ui/lib/locale';
+import graphics from '../../framework/graphics';
 
 // configure language
-locale.use(lang)
+locale.use(lang);
 
 Vue.use(ElementUI);
 
@@ -22,7 +23,11 @@ var view = new Vue({
             gameplay.initialize();
             gameplay.run();
             this.show = 'game-play';
+            graphics.init();
         }
+    },
+    mounted() {
+
     }
 });
 
