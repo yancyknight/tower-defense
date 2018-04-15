@@ -5,11 +5,18 @@
 	<title>YamBam Tower Defense</title>
 </head>
 
+<style>
+[v-cloak] {
+	display: none;
+	background-color: rgb(63, 63, 63);
+}
+</style>
+
 <body>
-	<div id="game">
+	<div id="game" v-cloak>
 
 		<div v-show="show == 'main-menu'" id="main-menu" class="screen">
-			<ul class="menu">
+			<ul class="menu-center">
 				<li><el-button type="danger" class="menu-btn" @click="startGame">New Game</el-button></li>
 				<li><el-button type="danger" class="menu-btn" @click="show = 'high-scores'">High Scores</el-button></li>
 				<li><el-button type="danger" class="menu-btn" @click="show = 'help'">Help</el-button></li>
@@ -18,15 +25,42 @@
 		</div>
 
 		<div v-show="show == 'game-play'" id="game-play" class="screen">
-			<div id="tower-menu">
-				<ul>
-					<li><el-button type="danger" class="menu-btn">Fire</el-button></li>
-					<li><el-button type="danger" class="menu-btn">Ice</el-button></li>
-					<li><el-button type="danger" class="menu-btn">Air</el-button></li>
-				</ul>
+			<!-- Normal Game Menu -->
+			<div v-show="!showOptions" id="tower-display">
+				<div id="tower-menu">
+					<ul>
+						<li><el-button type="danger" class="menu-btn">Fire</el-button></li>
+						<li><el-button type="danger" class="menu-btn">Ice</el-button></li>
+						<li><el-button type="danger" class="menu-btn">Air</el-button></li>
+					</ul>
+				</div>
+	
+				<div id="tower-details">
+				</div>
+				<el-button class="btn--options" @click="showOptions = true">Options</el-button>
 			</div>
 
-			<div id="tower-details"></div>
+			<!-- Options Menu -->
+			<div v-show="showOptions" id="options-display">
+				<div id="game-options">
+					<h5 style="margin: 10px 10px;">Game Options</h5>
+					<ul class="menu">
+						<li><el-checkbox style="width: 175px; color: #fff;" v-model="showGrid" label="Show Placement Grid" border></el-checkbox></li>
+						<li><el-checkbox style="width: 175px; color: #fff;" v-model="showTowerCoverage" label="Show Tower Coverage" border></el-checkbox></li>
+						<li><el-checkbox style="width: 175px; color: #fff;" v-model="mute" label="Mute Sound Effects" border></el-checkbox></li>
+						<!-- <el-checkbox v-model="showEnemyPath" label="Show Enemy Path" border></el-checkbox> -->
+					</ul>
+				</div>
+				<div id="user-controls">
+					<h5 style="margin: 10px 10px;">User Controls</h5>
+					<ul class="menu">
+						<li><el-button style="width: 175px;" type="info" @click="selectUpgradeTower">Upgrade Tower ({{upgradeTowerKey}})</el-button></li>
+						<li><el-button style="width: 175px;" type="info" @click="selectSellTower">Sell Tower ({{sellTowerKey}})</el-button></li>
+						<li><el-button style="width: 175px;" type="info" @click="selectStartLevel">Start Level ({{startLevelKey}})</el-button></li>
+					</ul>
+				</div>
+				<el-button class="btn--options" @click="showOptions = false">Back</el-button>
+			</div>
 			<canvas id="fw-canvas" width="1000" height="1000"></canvas>
 		</div>
 
@@ -57,7 +91,7 @@
 			<p>Yancy Knight</p>
 			<p>Instructor</p>
 			<p>Dr. James Dean Mathias</p>
-			<ul class="menu">
+			<ul class="menu-center">
 				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>

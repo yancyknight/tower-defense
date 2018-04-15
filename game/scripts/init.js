@@ -16,14 +16,32 @@ const gameplay = require('./gameplay');
 var view = new Vue({
     el: '#game',
     data: {
-        show: 'main-menu'
+        show: 'main-menu',
+        showOptions: false,
+        showGrid: false,
+        showTowerCoverage: false,
+        // showEnemyPath: false,
+        mute: false,
+        upgradeTowerKey: 'U',
+        sellTowerKey: 'S',
+        startLevelKey: 'G'
     },
     methods: {
         startGame() {
             gameplay.initialize();
             gameplay.run();
             this.show = 'game-play';
+            this.showOptions = false;
             graphics.init();
+        },
+        selectUpgradeTower() {
+
+        },
+        selectSellTower() {
+            
+        },
+        selectStartLevel() {
+            
         }
     },
     mounted() {

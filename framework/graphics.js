@@ -1,5 +1,4 @@
-var canvas = document.getElementById('fw-canvas');
-var context = canvas.getContext('2d');
+init();
 
 // Place a 'clear' function on the Canvas prototype, this makes it a part
 // of the canvas, rather than making a function that calls and does it.
