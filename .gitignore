@@ -60,3 +60,5 @@ typings/
 **/.cache
 
 /server/public
+
+*.xcf

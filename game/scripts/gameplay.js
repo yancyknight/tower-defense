@@ -115,7 +115,7 @@ function update(elapsedTime) {
 
 function render() {
 	graphics.clear();
-	map.render();
+	// map.render();
 	creepSystem.render();
 }
 

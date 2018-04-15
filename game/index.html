@@ -61,7 +61,7 @@
 				</div>
 				<el-button class="btn--options" @click="showOptions = false">Back</el-button>
 			</div>
-			<canvas id="fw-canvas" width="1000" height="1000"></canvas>
+			<canvas :class="{grid: showGrid}" id="fw-canvas" width="1000" height="1000"></canvas>
 		</div>
 
 		<div v-show="show == 'high-scores'" id="high-scores" class="screen">
