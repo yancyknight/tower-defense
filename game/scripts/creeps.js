@@ -12,7 +12,7 @@ var CreepType = {
 
 const amountOfCreatures = 29;
 
-var creaturesImage = graphics.Img("./../images/creatures.png");
+var creaturesImage = graphics.Img("creatures.png");
 
 //const creatureHeight = creaturesImage.height / amountOfCreatures;
 //const creatureWidth = creaturesImage.width / 4;
@@ -32,31 +32,33 @@ var creep = function ({
     let rot = 0;
     let speed = 40;
     var myPath = m_map.shortestPath(pos, goal);
+    let creatureWidth = 40;
+    let creatureHeight = 40;
     var myPos = {
     x: pos.x*1000/map.rowColSize + map.rowColSize/2,
     y: pos.y*1000/map.rowColSize + map.rowColSize/2}
 
     that.render = function () {
-        /*graphics.drawImage({
+        graphics.drawImage({
             image: creaturesImage,
             dx: myPos.x,
             dy: myPos.y,
-            sx: curPos * creatureWidth,
-            sy: type * creatureHeight,
-            sWidth: 10,
-            sHeight: 10,
+            // sx: myPos * creatureWidth,
+            // sy: type * creatureHeight,
+            // sWidth: 10,
+            // sHeight: 10,
             dWidth: creatureWidth,
-            dHeight: createHeight,
-            rotation: rot,
-        });*/
-        graphics.drawRectangle({
-            x: myPos.x,
-            y: myPos.y,
-            w: 10,
-            h: 10,
-            fill: '#F00F00',
-            stroke: '#FA3498',
-        })
+            dHeight: creatureHeight,
+            // rotation: rot,
+        });
+        // graphics.drawRectangle({
+        //     x: myPos.x,
+        //     y: myPos.y,
+        //     w: 10,
+        //     h: 10,
+        //     fill: '#F00F00',
+        //     stroke: '#FA3498',
+        // })
     }
 
     that.update = function (elapsedTime) {
