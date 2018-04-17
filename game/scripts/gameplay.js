@@ -2,6 +2,7 @@ const graphics = require('../../framework/graphics');
 const input = require('../../framework/input');
 const mapModule = require('./map');
 const creepModule = require('./creeps');
+const towerModule = require('./towers');
 
 var mouseCapture = false;
 var myMouse = input.Mouse();
@@ -10,7 +11,8 @@ var myTexture = null;
 var cancelNextRequest = false;
 var lastTimeStamp;
 var map = mapModule.map;
-var creepSystem = creepModule.creepSystem();
+var creepSystem = creepModule.creepSystem
+var towerSystem = towerModule.towerSystem(map);
 
 function quitGame() {
 	// Stop the game loop by canceling the request for the next animation frame
@@ -77,7 +79,46 @@ function initialize() {
 						  {x: 11,y: 19}]
 	});
 
-	// console.log(`map`, map);
+	towerSystem.addTower({
+		type: towerModule.TowerType.TOWER1,
+		pos: {x:9, y:9},
+		});
+
+	towerSystem.addTower({
+		type: towerModule.TowerType.TOWER1,
+		pos: {x:11, y:11},
+		});
+	towerSystem.addTower({
+		type: towerModule.TowerType.TOWER1,
+		pos: {x:11, y:9},
+		});
+	
+	towerSystem.addTower({
+		type: towerModule.TowerType.TOWER1,
+		pos: {x:9, y:11},
+		});	
+	towerSystem.addTower({
+		type: towerModule.TowerType.TOWER1,
+		pos: {x:7, y:11},
+		});	
+		towerSystem.addTower({
+			type: towerModule.TowerType.TOWER1,
+			pos: {x:7, y:7},
+			});
+		towerSystem.addTower({
+			type: towerModule.TowerType.TOWER1,
+			pos: {x:7, y:9},
+			});
+		
+		towerSystem.addTower({
+			type: towerModule.TowerType.TOWER1,
+			pos: {x:9, y:7},
+			});	
+		towerSystem.addTower({
+			type: towerModule.TowerType.TOWER1,
+			pos: {x:11, y:7},
+			});	
+
 	// Create the keyboard input handler and register the keyboard commands
 	myKeyboard.registerCommand(input.KeyEvent.DOM_VK_ESCAPE, quitGame);
 	
@@ -110,19 +151,20 @@ function update(elapsedTime) {
 	myKeyboard.update(elapsedTime);
 	myMouse.update(elapsedTime);
 	map.update();
+	towerSystem.update(elapsedTime);
 	creepSystem.update(elapsedTime);
 }
 
 function render() {
 	graphics.clear();
-	// map.render();
 	creepSystem.render();
+	towerSystem.render();
 }
 
 function gameLoop(time) {
 
 	update(time - lastTimeStamp);
-	// console.log(time - lastTimeStamp);
+	console.log(time - lastTimeStamp);
 	lastTimeStamp = time;
 
 	render();

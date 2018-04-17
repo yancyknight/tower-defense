@@ -93,7 +93,7 @@ function drawImage({
 	sHeight,
 	dWidth,
 	dHeight,
-	rotation = 0,
+	rotation,
 } = {}) {
 	var self = this;
 	image.then(function(img){

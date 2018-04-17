@@ -87,28 +87,35 @@ var createMap = function () {
             }
         }
 
-        var myPath = that.shortestPath({x:0,y:8}, {x:rowColSize-1, y:11});
-        for(let i = 0; i < myPath.length; i++) {
-             graphics.drawRectangle({
-                 x: myPath[i].x * 1000 / rowColSize,
-                 y: myPath[i].y * 1000 / rowColSize,
-                 w: 1000 / rowColSize,
-                 h: 1000 / rowColSize,
-                 fill: '#FFFF00'
-             });
-        }
+        // var myPath = that.shortestPath({x:0,y:8}, {x:rowColSize-1, y:11});
+        // for(let i = 0; i < myPath.length; i++) {
+        //      graphics.drawRectangle({
+        //          x: myPath[i].x * 1000 / rowColSize,
+        //          y: myPath[i].y * 1000 / rowColSize,
+        //          w: 1000 / rowColSize,
+        //          h: 1000 / rowColSize,
+        //          fill: '#FFFF00'
+        //      });
+        // }
 
-        myPath = that.shortestPath({x:8,y:0}, {x:11, y:rowColSize-1});
-        for(let i = 0; i < myPath.length; i++) {
-             graphics.drawRectangle({
-                 x: myPath[i].x * 1000 / rowColSize,
-                 y: myPath[i].y * 1000 / rowColSize,
-                 w: 1000 / rowColSize,
-                 h: 1000 / rowColSize,
-                 fill: '#FF00FF'
-             });
-        }
+        // myPath = that.shortestPath({x:8,y:0}, {x:11, y:rowColSize-1});
+        // for(let i = 0; i < myPath.length; i++) {
+        //      graphics.drawRectangle({
+        //          x: myPath[i].x * 1000 / rowColSize,
+        //          y: myPath[i].y * 1000 / rowColSize,
+        //          w: 1000 / rowColSize,
+        //          h: 1000 / rowColSize,
+        //          fill: '#FF00FF'
+        //      });
+        // }
 
+    }
+
+    that.setTower = function({x, y}) {
+        grid[y][x] = SquareEnum.TOWER;
+        grid[y+1][x] = SquareEnum.TOWER;
+        grid[y][x+1] = SquareEnum.TOWER;
+        grid[y+1][x+1] = SquareEnum.TOWER;
     }
 
     var CameFromEnum = {
@@ -119,7 +126,7 @@ var createMap = function () {
         NONE: 5,
     };
 
-    var calcDist = function (a, b) {
+    that.calcDist = function (a, b) {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
 
@@ -165,7 +172,7 @@ var createMap = function () {
     }
 
     that.shortestPath = function (curPos, goal) {
-        let dist = calcDist(curPos, goal);
+        let dist = that.calcDist(curPos, goal);
         let frontier = PriorityQueue();
         frontier.addItem({
             x: curPos.x,
@@ -195,7 +202,7 @@ var createMap = function () {
                     x: current.x,
                     y: current.y - 1
                 }) && placesBeen[current.y - 1][current.x] === undefined) {
-                    dist = calcDist(goal, {
+                    dist = that.calcDist(goal, {
                     x: current.x,
                     y: current.y - 1
                 });
@@ -214,7 +221,7 @@ var createMap = function () {
                     y: current.y + 1
                 }) && placesBeen[current.y + 1][current.x] === undefined) {
                     
-                dist = calcDist(goal, {
+                dist = that.calcDist(goal, {
                     x: current.x,
                     y: current.y + 1
                 });
@@ -233,7 +240,7 @@ var createMap = function () {
                     y: current.y
                 }) && placesBeen[current.y][current.x - 1] === undefined) {
                     
-                dist = calcDist(goal, {
+                dist = that.calcDist(goal, {
                     x: current.x - 1,
                     y: current.y
                 });
@@ -252,7 +259,7 @@ var createMap = function () {
                     y: current.y
                 }) && placesBeen[current.y][current.x + 1] === undefined) {
                     
-                dist = calcDist(goal, {
+                dist = that.calcDist(goal, {
                     x: current.x + 1,
                     y: current.y
                 });

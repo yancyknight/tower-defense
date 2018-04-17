@@ -32,24 +32,27 @@ var creep = function ({
     let rot = 0;
     let speed = 40;
     var myPath = m_map.shortestPath(pos, goal);
-    let creatureWidth = 40;
+    let creatureWidth = 30;
     let creatureHeight = 40;
-    var myPos = {
+    that.myPos = {
     x: pos.x*1000/map.rowColSize + map.rowColSize/2,
     y: pos.y*1000/map.rowColSize + map.rowColSize/2}
+    let pic = 0;
+    let lastPicMove = 0;
+    let rotatePicTime = 333;
 
     that.render = function () {
         graphics.drawImage({
             image: creaturesImage,
-            dx: myPos.x,
-            dy: myPos.y,
-            // sx: myPos * creatureWidth,
-            // sy: type * creatureHeight,
-            // sWidth: 10,
-            // sHeight: 10,
+            dx: that.myPos.x,
+            dy: that.myPos.y,
+            sx: pic * creatureWidth,
+            sy: type * creatureHeight,
+            sWidth: creatureWidth,
+            sHeight: creatureHeight,
             dWidth: creatureWidth,
             dHeight: creatureHeight,
-            // rotation: rot,
+            rotation: rot,
         });
         // graphics.drawRectangle({
         //     x: myPos.x,
@@ -62,28 +65,35 @@ var creep = function ({
     }
 
     that.update = function (elapsedTime) {
-        var diffx = myPath[0].x - myPos.x;
+        var diffx = myPath[0].x - that.myPos.x;
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffx) > distanceToTraverse) {
-            myPos.x += distanceToTraverse * Math.sign(diffx);
+            that.myPos.x += distanceToTraverse * Math.sign(diffx);
+            rot = 0;
         } else {
-            myPos.x = myPath[0].x;
+            that.myPos.x = myPath[0].x;
         }
-
-        var diffy = myPath[0].y - myPos.y;
+        
+        var diffy = myPath[0].y - that.myPos.y;
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffy) > distanceToTraverse) {
-            myPos.y += distanceToTraverse * Math.sign(diffy);
+            that.myPos.y += distanceToTraverse * Math.sign(diffy);
+            //rot = -Math.PI/2; // confused if we need to do this
         } else {
-            myPos.y = myPath[0].y;
+            that.myPos.y = myPath[0].y;
         }
 
-        if (myPos.x === myPath[0].x && myPos.y === myPath[0].y) {
+        if (that.myPos.x === myPath[0].x && that.myPos.y === myPath[0].y) {
             if(myPath.length === 1) return true;
             myPath.shift();
-            rot = diffx > diffy ? 0 : Math.Pi / 2;
+            //rot = diffx > diffy ? 0 : -Math.PI / 2;
         }
         // update rot
+        lastPicMove += elapsedTime;
+        if(lastPicMove > rotatePicTime) {
+            pic = (pic + 1)%3;
+            lastPicMove = 0;
+        }
     }
 
     return that;
@@ -133,11 +143,21 @@ var creepSystem = function () {
         }
     }
 
+    that.findNextCreep = function({x, y}, range) {
+        for(let i = 0; i < creeps.length; i++) {
+            if(m_map.calcDist({x,y}, creeps[i].myPos) < range) {
+                return creeps[i];
+            }
+        }
+    }
+
     return that;
 }
 
+var m_creepSystem = creepSystem();
+
 module.exports = {
-    creepSystem,
+    creepSystem: m_creepSystem,
     CreepType,
-    id: 'map'
+    id: 'creep'
 };
