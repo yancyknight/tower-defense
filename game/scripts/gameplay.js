@@ -3,6 +3,7 @@ const object = require('../../framework/object');
 const mapModule = require('./map');
 const creepModule = require('./creeps');
 const { myMouse, myKeyboard, initInputs } = require('./input');
+const audio = require('./audio');
 
 var mouseCapture = false;
 var myTexture = null;
