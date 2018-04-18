@@ -2,6 +2,8 @@ const graphics = require('../../framework/graphics');
 const map = require('./map');
 var m_map = map.map;
 const creepSystem = require('./creeps').creepSystem;
+const bulletSystem = require('./bullets');
+var m_bulletSystem = bulletSystem.bulletSystem;
 
 var TowerType = {
     TOWER11: 0,
@@ -30,9 +32,9 @@ var tower = function ({
 } = {}) {
     var that = {};
     let rot = 0;
-    let rateOfFire = 100;
+    let rateOfFire = 500;
     let lastFire = 0;
-    let range = 350;
+    let range = 250;
     var myPos = {
         x: pos.x*1000/map.rowColSize,
         y: pos.y*1000/map.rowColSize}
@@ -160,6 +162,7 @@ var tower = function ({
         //find creep to fire at
         var creep = creepSystem.findNextCreep({x:myPos.x+towerWidth/2, y:myPos.y+towerWidth/2}, range);
         if(creep !== undefined) {
+            // console.log('creep loc: ' +creep.myPos.x + " " + creep.myPos.y);
             var angle = computeAngle(rot, {x:myPos.x+towerWidth/2, y:myPos.y+towerHeight/2}, {x:creep.myPos.x+16, y:creep.myPos.y+16});
             if(angle.angle < .1) {
                 if(angle.crossProduct > 0) {
@@ -168,7 +171,14 @@ var tower = function ({
                 else {
                     rot -= angle.angle;
                 }
-                //fire!
+                if(lastFire > rateOfFire) {
+                    //fire!
+                    m_bulletSystem.addBullet({type:bulletSystem.BulletType.BULLET, 
+                        myPos:{x:myPos.x+towerWidth/2, y:myPos.y+towerHeight/2}, 
+                        goal:creep.myPos});
+                    //register collision
+                    lastFire = 0;
+                }
             }
             else {
                 if(angle.crossProduct > 0) {

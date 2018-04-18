@@ -4,6 +4,7 @@ const input = require('../../framework/input');
 const mapModule = require('./map');
 const creepModule = require('./creeps');
 const towerModule = require('./towers');
+const bulletModule = require('./bullets');
 
 var mouseCapture = false;
 var myMouse = input.Mouse();
@@ -14,6 +15,7 @@ var lastTimeStamp;
 var map = mapModule.map;
 var creepSystem = creepModule.creepSystem
 var towerSystem = towerModule.towerSystem(map);
+var bulletSystem = bulletModule.bulletSystem;
 /*var sprite = object.AnimatedModel({
 	center: {
 		x: 500,
@@ -48,8 +50,8 @@ function initialize() {
 
 	cancelNextRequest = false;
 	creepSystem.addCreepSystem({
-		time: 1,
-		amount: 1,
+		time: 10000,
+		amount: 50,
 		type: creepModule.CreepType.EYEBALL,
 		startingPositions: [{
 			x: 0,
@@ -70,7 +72,7 @@ function initialize() {
 						  {x: 19,y: 11}]
 	});
 
-	/*creepSystem.addCreepSystem({
+	creepSystem.addCreepSystem({
 		time: 20000,
 		amount: 50,
 		type: creepModule.CreepType.FIREWOOF,
@@ -114,7 +116,7 @@ function initialize() {
 						  {x: 9,y: 19},
 						  {x: 10,y: 19},
 						  {x: 11,y: 19}]
-	});*/
+	});
 
 	towerSystem.addTower({
 		type: towerModule.TowerType.TOWER11,
@@ -192,15 +194,17 @@ function update(elapsedTime) {
 	map.update();
 	towerSystem.update(elapsedTime);
 	creepSystem.update(elapsedTime);
+	bulletSystem.update(elapsedTime);
 	x += 1;
-	sprite.updatePosition({x,y})
-	sprite.update(elapsedTime);
+	// sprite.updatePosition({x,y})
+	// sprite.update(elapsedTime);
 }
 
 function render() {
 	graphics.clear();
 	creepSystem.render();
 	towerSystem.render();
+	bulletSystem.render();
 }
 
 function gameLoop(time) {
