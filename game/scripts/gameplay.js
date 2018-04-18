@@ -2,12 +2,9 @@ const graphics = require('../../framework/graphics');
 const object = require('../../framework/object');
 const mapModule = require('./map');
 const creepModule = require('./creeps');
-<<<<<<< HEAD
 const towerModule = require('./towers');
 const bulletModule = require('./bullets');
-=======
 const { myMouse, myKeyboard, initInputs } = require('./input');
->>>>>>> origin/master
 
 var mouseCapture = false;
 var myTexture = null;
@@ -81,7 +78,6 @@ function initialize() {
 						  {x: 10,y: 19},
 						  {x: 11,y: 19}]
 	});
-<<<<<<< HEAD
 
 	creepSystem.addCreepSystem({
 		time: 30000,
@@ -172,8 +168,6 @@ function initialize() {
 			// myTexture.moveTo({x: e.clientX, y: e.clientY});
 		}
 	});
-=======
->>>>>>> origin/master
 }
 
 var x = 10;
