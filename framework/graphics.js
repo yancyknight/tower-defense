@@ -94,6 +94,7 @@ function drawImage({
 	dWidth,
 	dHeight,
 	rotation = 0,
+	horizontalFlip = false
 } = {}) {
 	var self = this;
 	image.then(function(img){
@@ -111,10 +112,14 @@ function drawImage({
 		context.translate(center.x, center.y);
 		context.rotate(rotation); // TODO check with yancy
 		context.translate(-center.x, -center.y);
-
+		if (horizontalFlip) {
+			context.scale(-1, 1);
+			dx = -dx;
+		}
 
 		context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 	
+		context.setTransform(1, 0, 0, 1, 0, 0);
 		context.restore();
 	})
 }
@@ -153,8 +158,8 @@ function SpriteSheet({
 	reverseOnFinish = false,
 	horizontalFlip = false
 } = {}) {
-	var that = {},
-		image = new Image();
+	var that = {};
+	var image = Img(src);
 
 	if(typeof spriteTime === 'number') {
 		var temp = [];
@@ -169,37 +174,20 @@ function SpriteSheet({
 		y = pos.y;
 	}
 
-	// Load the image, set the ready flag once it is loaded so that
-	// rendering can begin.
-	image.onload = function() { 
-		// Our clever trick, replace the draw function once the image is loaded...no if statements!
-		that.draw = function() {
-			context.save();
-
-			context.translate(x, y);
-			context.rotate(rotation);
-			context.translate(-x, -y);
-			if (horizontalFlip) {
-				context.scale(-1, 1);
-			}
-
-			// Pick the selected sprite from the sprite sheet to render
-			context.drawImage(
-				image,
-				width * sprite, 0,	// Which sprite to pick out
-				width, height,		// The size of the sprite
-				x - width/2,	// Where to draw the sprite
-				y - height/2,
-				width, height);
-
-			context.restore();
-		};
-		// Once the image is loaded, we can compute the height and width based upon
-		// what we know of the image and the number of sprites in the sheet.
-		// height = image.height;
-		// width = image.width / spriteCount;
+	that.draw = function() {
+		drawImage({
+			image,
+			sx: width * sprite,
+			sy: 0,
+			sWidth: width,
+			sHeight: height,
+			dx: x - width/2,
+			dy: y - height/2,
+			dWidth: width,
+			dHeight: height,
+			horizontalFlip: true
+		})
 	};
-	image.src = src;
 
 	//------------------------------------------------------------------
 	//
@@ -237,15 +225,6 @@ function SpriteSheet({
 				}
 			}
 		}
-	};
-
-	//------------------------------------------------------------------
-	//
-	// Render the correct sprint from the sprite sheet
-	//
-	//------------------------------------------------------------------
-	that.draw = function() {
-		// Starts out empty, but gets replaced once the image is loaded!
 	};
 
 	return that;
