@@ -1,12 +1,10 @@
 const graphics = require('../../framework/graphics');
 const object = require('../../framework/object');
-const input = require('../../framework/input');
 const mapModule = require('./map');
 const creepModule = require('./creeps');
+const { myMouse, myKeyboard } = require('./input');
 
 var mouseCapture = false;
-var myMouse = input.Mouse();
-var myKeyboard = input.Keyboard();
 var myTexture = null;
 var cancelNextRequest = false;
 var lastTimeStamp;
@@ -25,21 +23,6 @@ var sprite = object.AnimatedModel({
 	reverseOnFinish: true,
 	horizontalFlip: true
 });
-
-function quitGame() {
-	// Stop the game loop by canceling the request for the next animation frame
-	cancelNextRequest = true;
-
-	view.$confirm('Quit game and return to main menu?', 'Quit Game', {
-		confirmButtonText: 'Get me outta here!',
-		cancelButtonText: `No! I'm winning!`
-	}).then(function() {
-		view.show = 'main-menu';
-	}).catch(function() {
-		cancelNextRequest = false;    
-		run();    
-	});
-}
 
 function initialize() {
 	console.log('game initializing...');
@@ -89,34 +72,6 @@ function initialize() {
 						  {x: 9,y: 19},
 						  {x: 10,y: 19},
 						  {x: 11,y: 19}]
-	});
-
-	// console.log(`map`, map);
-	// Create the keyboard input handler and register the keyboard commands
-	myKeyboard.registerCommand(input.KeyEvent.DOM_VK_ESCAPE, quitGame);
-	
-	myKeyboard.registerCommand(input.KeyEvent.DOM_VK_ESCAPE, function () {
-
-		// Stop the game loop by canceling the request for the next animation frame
-		cancelNextRequest = true;
-
-	});
-
-	// Create an ability to move the logo using the mouse
-	myMouse = input.Mouse();
-	myMouse.registerCommand('mousedown', function (e) {
-		mouseCapture = true;
-		// myTexture.moveTo({x: e.clientX, y: e.clientY});
-	});
-
-	myMouse.registerCommand('mouseup', function () {
-		mouseCapture = false;
-	});
-
-	myMouse.registerCommand('mousemove', function (e) {
-		if (mouseCapture) {
-			// myTexture.moveTo({x: e.clientX, y: e.clientY});
-		}
 	});
 }
 

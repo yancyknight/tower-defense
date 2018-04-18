@@ -13,7 +13,7 @@ Vue.use(ElementUI);
 
 const gameplay = require('./gameplay');
 
-var view = new Vue({
+var vm = new Vue({
     el: '#game',
     data: {
         show: 'main-menu',
@@ -49,4 +49,4 @@ var view = new Vue({
     }
 });
 
-global.view = view;
+global.vm = vm;

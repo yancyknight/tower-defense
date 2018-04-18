@@ -24,7 +24,6 @@ function Mouse() {
 		let event;
 		let handler;
 
-		//
 		// Process the mouse events for each of the different kinds of handlers
 		for (event = 0; event < that.mouseDown.length; event++) {
 			for (handler = 0; handler < that.handlersDown.length; handler++) {
@@ -81,34 +80,33 @@ function Keyboard() {
 	}
 	
 	function keyRelease(e) {
+		that.handlers.forEach(function(handler) {
+			if(handler.key == e.keyCode) {
+				handler.exec = true;
+			}
+		});
 		delete that.keys[e.keyCode];
 	}
 	
-	// ------------------------------------------------------------------
-	//
-	// Allows the client code to register a keyboard handler
-	//
-	// ------------------------------------------------------------------
-	that.registerCommand = function(key, handler) {
-		that.handlers.push({ key: key, handler: handler });
+	that.registerCommand = function(key, handler, noHold = false) {
+		that.handlers.push({ key, handler, noHold, exec: true });
 	};
 	
-	// ------------------------------------------------------------------
-	//
-	// Allows the client to invoke all the handlers for the registered key/handlers.
-	//
-	// ------------------------------------------------------------------
 	that.update = function(elapsedTime) {
 		let key = 0;
 
 		for (key = 0; key < that.handlers.length; key++) {
 			if (typeof that.keys[that.handlers[key].key] !== 'undefined') {
-				that.handlers[key].handler(elapsedTime);
+				if(that.handlers[key].exec) {
+					that.handlers[key].handler(elapsedTime);
+				}
+				if(that.handlers[key].noHold) {
+					that.handlers[key].exec = false;
+				}
 			}
 		}
 	};
 	
-	//
 	// These are used to keep track of which keys are currently pressed
 	window.addEventListener('keydown', keyPress);
 	window.addEventListener('keyup', keyRelease);
@@ -116,11 +114,6 @@ function Keyboard() {
 	return that;
 }
 
-//------------------------------------------------------------------
-//
-// Source: http://stackoverflow.com/questions/1465374/javascript-event-keycode-constants
-//
-//------------------------------------------------------------------
 let KeyEvent = {
 	DOM_VK_CANCEL: 3,
 	DOM_VK_HELP: 6,
