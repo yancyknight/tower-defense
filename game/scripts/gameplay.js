@@ -1,20 +1,19 @@
 const graphics = require('../../framework/graphics');
 const object = require('../../framework/object');
-const mapModule = require('./map');
-const creepModule = require('./creeps');
-const towerModule = require('./towers');
-const bulletModule = require('./bullets');
+const { map } = require('./map');
+const { creepSystem, CreepType } = require('./creeps');
+const { towerSystem, TowerType } = require('./towers');
+const { bulletSystem } = require('./bullets');
 const { myMouse, myKeyboard, initInputs } = require('./input');
+const input = require('../../framework/input');
 const audio = require('./audio');
+const { quitGame } = require('./utils');
 
 var mouseCapture = false;
 var myTexture = null;
 var cancelNextRequest = false;
 var lastTimeStamp;
-var map = mapModule.map;
-var creepSystem = creepModule.creepSystem
-var towerSystem = towerModule.towerSystem(map);
-var bulletSystem = bulletModule.bulletSystem;
+var ts = towerSystem(map);
 /*var sprite = object.AnimatedModel({
 	center: {
 		x: 500,
@@ -37,7 +36,7 @@ function initialize() {
 	creepSystem.addCreepSystem({
 		time: 10000,
 		amount: 50,
-		type: creepModule.CreepType.EYEBALL,
+		type: CreepType.EYEBALL,
 		startingPositions: [{
 			x: 0,
 			y: 8
@@ -60,7 +59,7 @@ function initialize() {
 	creepSystem.addCreepSystem({
 		time: 20000,
 		amount: 50,
-		type: creepModule.CreepType.FIREWOOF,
+		type: CreepType.FIREWOOF,
 		startingPositions: [{
 			x: 8,
 			y: 0
@@ -83,7 +82,7 @@ function initialize() {
 	creepSystem.addCreepSystem({
 		time: 30000,
 		amount: 70,
-		type: creepModule.CreepType.JETSTER,
+		type: CreepType.JETSTER,
 		startingPositions: [{
 			x: 8,
 			y: 0
@@ -103,84 +102,54 @@ function initialize() {
 						  {x: 11,y: 19}]
 	});
 
-	towerSystem.addTower({
-		type: towerModule.TowerType.TOWER11,
+	ts.addTower({
+		type: TowerType.TOWER11,
 		pos: {x:9, y:9},
-		});
+	});
 
-	towerSystem.addTower({
-		type: towerModule.TowerType.TOWER12,
+	ts.addTower({
+		type: TowerType.TOWER12,
 		pos: {x:11, y:11},
-		});
-	towerSystem.addTower({
-		type: towerModule.TowerType.TOWER13,
+	});
+	ts.addTower({
+		type: TowerType.TOWER13,
 		pos: {x:11, y:9},
-		});
+	});
 	
-	towerSystem.addTower({
-		type: towerModule.TowerType.TOWER21,
+	ts.addTower({
+		type: TowerType.TOWER21,
 		pos: {x:9, y:11},
-		});	
-	towerSystem.addTower({
-		type: towerModule.TowerType.TOWER22,
+	});	
+	ts.addTower({
+		type: TowerType.TOWER22,
 		pos: {x:7, y:11},
-		});	
-		towerSystem.addTower({
-			type: towerModule.TowerType.TOWER23,
-			pos: {x:7, y:7},
-			});
-		towerSystem.addTower({
-			type: towerModule.TowerType.TOWER31,
-			pos: {x:7, y:9},
-			});
-		
-		towerSystem.addTower({
-			type: towerModule.TowerType.TOWER32,
-			pos: {x:9, y:7},
-			});	
-		towerSystem.addTower({
-			type: towerModule.TowerType.TOWER33,
-			pos: {x:11, y:7},
-			});	
-
-	// Create the keyboard input handler and register the keyboard commands
-	myKeyboard.registerCommand(input.KeyEvent.DOM_VK_ESCAPE, quitGame);
+	});	
+	ts.addTower({
+		type: TowerType.TOWER23,
+		pos: {x:7, y:7},
+	});
+	ts.addTower({
+		type: TowerType.TOWER31,
+		pos: {x:7, y:9},
+	});
 	
-	myKeyboard.registerCommand(input.KeyEvent.DOM_VK_ESCAPE, function () {
-
-		// Stop the game loop by canceling the request for the next animation frame
-		cancelNextRequest = true;
-
-	 });
-
-	// Create an ability to move the logo using the mouse
-	myMouse = input.Mouse();
-	 myMouse.registerCommand('mousedown', function (e) {
-	 	mouseCapture = true;
-	 	myTexture.moveTo({x: e.clientX, y: e.clientY});
-	 });
-
-	 myMouse.registerCommand('mouseup', function () {
-	 	mouseCapture = false;
-	 });
-
-	 myMouse.registerCommand('mousemove', function (e) {
-	 	if (mouseCapture) {
-	 		myTexture.moveTo({x: e.clientX, y: e.clientY});
-	 	}
-	 });
+	ts.addTower({
+		type: TowerType.TOWER32,
+		pos: {x:9, y:7},
+	});	
+	ts.addTower({
+		type: TowerType.TOWER33,
+		pos: {x:11, y:7},
+	});
 }
 
-var x = 10;
-var y = 500;
 function update(elapsedTime) {
 	myKeyboard.update(elapsedTime);
 	myMouse.update(elapsedTime);
 	map.update();
-	towerSystem.update(elapsedTime);
+	ts.update(elapsedTime);
 	creepSystem.update(elapsedTime);
 	bulletSystem.update(elapsedTime);
-	x += 1;
 	// sprite.updatePosition({x,y})
 	// sprite.update(elapsedTime);
 }
@@ -188,7 +157,7 @@ function update(elapsedTime) {
 function render() {
 	graphics.clear();
 	creepSystem.render();
-	towerSystem.render();
+	ts.render();
 	bulletSystem.render();
 }
 
