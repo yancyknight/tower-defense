@@ -3,19 +3,14 @@ const map = require('./map');
 var m_map = map.map;
 
 var CreepType = {
-    ALIEN: 0,
-    TANK: 1,
-    SHIP: 2,
-    SHIP: 3,
-    ROBOT: 4
+    FIREWOOF: 0,
+    EYEBALL: 1,
+    JETSTER: 2,
 };
 
-const amountOfCreatures = 29;
-
-var creaturesImage = graphics.Img("creatures.png");
-
-//const creatureHeight = creaturesImage.height / amountOfCreatures;
-//const creatureWidth = creaturesImage.width / 4;
+var creatureWidth = 32;
+var creatureHeight = 32;
+var showSize = 50;
 
 var creep = function ({
     type = CreepType.ALIEN,
@@ -29,61 +24,66 @@ var creep = function ({
     }
 } = {}) {
     var that = {};
-    let rot = 0;
-    let speed = 40;
-    var myPath = m_map.shortestPath(pos, goal);
-    let creatureWidth = 40;
-    let creatureHeight = 40;
-    var myPos = {
-    x: pos.x*1000/map.rowColSize + map.rowColSize/2,
-    y: pos.y*1000/map.rowColSize + map.rowColSize/2}
+        that.myPos = {
+        x: pos.x*1000/map.rowColSize + map.rowColSize/2,
+        y: pos.y*1000/map.rowColSize + map.rowColSize/2}
+        let rot = 0;
+        let speed = 40;
+        var myPath = m_map.shortestPath(pos, goal);
+        
+        switch(type) {
+            case CreepType.EYEBALL:
+            var creaturesImage = "eyebawl.png";
+            break;
+            case CreepType.FIREWOOF:
+            var creaturesImage = "firewoof.png";
+            break;
+            case CreepType.JETSTER:
+            var creaturesImage = "jetster.png";
+            break;
+        }
+        var m_sprite = graphics.SpriteSheet({
+            sprite: 0,
+            elapsedTime: 0,
+            center: that.myPos,
+            rotation: 0,
+            width: creatureWidth,
+            height: creatureWidth,
+            spriteCount: 3,
+            src: creaturesImage,
+            spriteTime: 300,
+            reverseOnFinish: true,
+            horizontalFlip: true
+        });
 
     that.render = function () {
-        graphics.drawImage({
-            image: creaturesImage,
-            dx: myPos.x,
-            dy: myPos.y,
-            // sx: myPos * creatureWidth,
-            // sy: type * creatureHeight,
-            // sWidth: 10,
-            // sHeight: 10,
-            dWidth: creatureWidth,
-            dHeight: creatureHeight,
-            // rotation: rot,
-        });
-        // graphics.drawRectangle({
-        //     x: myPos.x,
-        //     y: myPos.y,
-        //     w: 10,
-        //     h: 10,
-        //     fill: '#F00F00',
-        //     stroke: '#FA3498',
-        // })
+        m_sprite.draw();
     }
 
     that.update = function (elapsedTime) {
-        var diffx = myPath[0].x - myPos.x;
+        var diffx = myPath[0].x - that.myPos.x;
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffx) > distanceToTraverse) {
-            myPos.x += distanceToTraverse * Math.sign(diffx);
+            that.myPos.x += distanceToTraverse * Math.sign(diffx);
+            rot = 0;
         } else {
-            myPos.x = myPath[0].x;
+            that.myPos.x = myPath[0].x;
         }
-
-        var diffy = myPath[0].y - myPos.y;
+        
+        var diffy = myPath[0].y - that.myPos.y;
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffy) > distanceToTraverse) {
-            myPos.y += distanceToTraverse * Math.sign(diffy);
+            that.myPos.y += distanceToTraverse * Math.sign(diffy);
         } else {
-            myPos.y = myPath[0].y;
+            that.myPos.y = myPath[0].y;
         }
 
-        if (myPos.x === myPath[0].x && myPos.y === myPath[0].y) {
+        if (that.myPos.x === myPath[0].x && that.myPos.y === myPath[0].y) {
             if(myPath.length === 1) return true;
             myPath.shift();
-            rot = diffx > diffy ? 0 : Math.Pi / 2;
         }
-        // update rot
+        m_sprite.update(elapsedTime);
+        m_sprite.updatePosition({x:that.myPos.x, y:that.myPos.y});
     }
 
     return that;
@@ -133,11 +133,21 @@ var creepSystem = function () {
         }
     }
 
+    that.findNextCreep = function({x, y}, range) {
+        for(let i = 0; i < creeps.length; i++) {
+            if(m_map.calcDist({x,y}, creeps[i].myPos) < range) {
+                return creeps[i];
+            }
+        }
+    }
+
     return that;
 }
 
+var m_creepSystem = creepSystem();
+
 module.exports = {
-    creepSystem,
+    creepSystem: m_creepSystem,
     CreepType,
-    id: 'map'
+    id: 'creep'
 };
