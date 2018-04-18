@@ -181,8 +181,8 @@ function SpriteSheet({
 			sy: 0,
 			sWidth: width,
 			sHeight: height,
-			dx: x - width/2,
-			dy: y - height/2,
+			dx: x+30, //TODO: I don' know what i broke, but they are 30 pixels off...
+			dy: y,
 			dWidth: width,
 			dHeight: height,
 			horizontalFlip: true
