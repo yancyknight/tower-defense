@@ -93,7 +93,8 @@ function drawImage({
 	sHeight,
 	dWidth,
 	dHeight,
-	rotation,
+	rotation = 0,
+	horizontalFlip = false
 } = {}) {
 	var self = this;
 	image.then(function(img){
@@ -111,9 +112,14 @@ function drawImage({
 		context.translate(center.x, center.y);
 		context.rotate(rotation); // TODO check with yancy
 		context.translate(-center.x, -center.y);
+		if (horizontalFlip) {
+			context.scale(-1, 1);
+			dx = -dx;
+		}
 
 		context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 	
+		context.setTransform(1, 0, 0, 1, 0, 0);
 		context.restore();
 	})
 }
@@ -136,6 +142,94 @@ function drawLine({
 	context.restore();
 }
 
+function SpriteSheet({
+	sprite = 0,
+	elapsedTime = 0,
+	center: {
+		x = 0,
+		y = 0
+	} = {},
+	rotation = 0,
+	width,
+	height,
+	spriteCount,
+	src,
+	spriteTime = 1000,
+	reverseOnFinish = false,
+	horizontalFlip = false
+} = {}) {
+	var that = {};
+	var image = Img(src);
+
+	if(typeof spriteTime === 'number') {
+		var temp = [];
+		for(let i = 0; i < spriteCount; i++) {
+			temp[i] = spriteTime;
+		}
+		spriteTime = temp;
+	}
+
+	that.updatePosition = function(pos) {
+		x = pos.x;
+		y = pos.y;
+	}
+
+	that.draw = function() {
+		drawImage({
+			image,
+			sx: width * sprite,
+			sy: 0,
+			sWidth: width,
+			sHeight: height,
+			dx: x - width/2,
+			dy: y - height/2,
+			dWidth: width,
+			dHeight: height,
+			horizontalFlip: true
+		})
+	};
+
+	//------------------------------------------------------------------
+	//
+	// Update the animation of the sprite based upon elapsed time.
+	//
+	//------------------------------------------------------------------
+	var forward = true;
+	that.update = function(elapsedTimeIn) {
+		elapsedTime += elapsedTimeIn;
+		// Check to see if we should update the animation frame
+		if (elapsedTime >= spriteTime[sprite]) {
+			// When switching sprites, keep the leftover time because
+			// it needs to be accounted for the next sprite animation frame.
+			elapsedTime -= spriteTime[sprite];
+			// Depending upon the direction of the animation...
+			if (forward === true) {
+				if (reverseOnFinish && sprite == spriteCount - 1) {
+					forward = false;
+					sprite -= 1;
+				} else {
+					sprite += 1;
+					// This provides wrap around from the last back to the first sprite
+					sprite = sprite % spriteCount;
+				}
+			} else {
+				if (reverseOnFinish && sprite == 0) {
+					sprite += 1;
+					forward = true;
+				} else {
+					sprite -= 1;
+					// This provides wrap around from the first to the last sprite
+					if (sprite < 0) {
+						sprite = spriteCount - 1;
+					}
+				}
+			}
+		}
+	};
+
+	return that;
+}
+
 module.exports = {
 	clear,
 	canvas,
@@ -146,6 +240,7 @@ module.exports = {
 	drawText,
 	drawCircle,
 	drawLine,
-	init
+	init,
+	SpriteSheet
 };
 

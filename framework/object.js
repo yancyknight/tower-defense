@@ -132,64 +132,67 @@ let behaviors = {
     }
 }
 
-// let Rectangle = function({
-//     position: {
-//         x: px,
-//         y: py
-//     } = {},
-//     size: {
-//         w,
-//         h
-//     } = {},
-//     speed: {
-//         x: sx = 0,
-//         y: sy = 0,
-//         angle,
-//         velocity
-//     } = {},
-//     color: {
-//         fill = '#000000',
-//         stroke = '#000000'
-//     } = {},
-// } = {}) {
-//     let that = GameObject({
-//         position: {
-//             x: px,
-//             y: py
-//         },
-//         size: {
-//             w,
-//             h
-//         },
-//         speed: {
-//             x: sx,
-//             y: sy,
-//             angle,
-//             velocity
-//         },
-//         color: {
-//             fill,
-//             stroke
-//         },
-//     });
+function AnimatedModel(spec) {
+    var that = {},
+        sprite = graphics.SpriteSheet(spec);	// We contain a SpriteSheet, not inherited from, big difference
+        
+    that.update = function(elapsedTime) {
+        sprite.update(elapsedTime);
+    };
+    
+    that.render = function() {
+        sprite.draw();
+    };
 
-//     that.render = function() {
-//         let { x, y } = that.getPosition();
-//         let { w, h } = that.getSize();
-//         graphics.drawRectangle({x, y, w, h, stroke, fill});
-//     };
-
-//     that.getColor = function() {
-//         return {
-//             fill,
-//             stroke
-//         }
-//     }
-
-//     return that;
-// }
+    that.updatePosition = function({x, y} = {}) {
+        sprite.updatePosition({x,y});
+    }
+    
+    that.rotateRight = function(elapsedTime) {
+        spec.rotation += spec.rotateRate * (elapsedTime);
+    };
+    
+    that.rotateLeft = function(elapsedTime) {
+        spec.rotation -= spec.rotateRate * (elapsedTime);
+    };
+    
+    //------------------------------------------------------------------
+    //
+    // Move in the direction the sprite is facing
+    //
+    //------------------------------------------------------------------
+    that.moveForward = function(elapsedTime) {
+        //
+        // Create a normalized direction vector
+        var vectorX = Math.cos(spec.rotation + spec.orientation),
+            vectorY = Math.sin(spec.rotation + spec.orientation);
+        //
+        // With the normalized direction vector, move the center of the sprite
+        spec.center.x += (vectorX * spec.moveRate * elapsedTime);
+        spec.center.y += (vectorY * spec.moveRate * elapsedTime);
+    };
+    
+    //------------------------------------------------------------------
+    //
+    // Move in the negative direction the sprite is facing
+    //
+    //------------------------------------------------------------------
+    that.moveBackward = function(elapsedTime) {
+        //
+        // Create a normalized direction vector
+        var vectorX = Math.cos(spec.rotation + spec.orientation),
+            vectorY = Math.sin(spec.rotation + spec.orientation);
+        //
+        // With the normalized direction vector, move the center of the sprite
+        spec.center.x -= (vectorX * spec.moveRate * elapsedTime);
+        spec.center.y -= (vectorY * spec.moveRate * elapsedTime);
+    };
+    
+    return that;
+}
 
 module.exports = {
     GameObject,
-    behaviors
+    behaviors,
+    AnimatedModel
 }
