@@ -30,7 +30,8 @@ var bullet = function ({
     let pic = 0;
 
     that.render = function () {
-        graphics.drawImage({
+        graphics.drawCircle({x:pos.x, y:pos.y, radius: 10, fill: '#ff00ff'});
+/*        graphics.drawImage({
             image: bulletImage,
             dx: pos.x + bulletWidth/2,
             dy: pos.y + bulletHeight/2,
@@ -41,11 +42,11 @@ var bullet = function ({
             dWidth: bulletWidth,
             dHeight: bulletHeight,
             rotation: rot,
-        });
+        });*/
     }
 
     that.update = function (elapsedTime) {
-        
+
         if (lastFire >= rateOfFire) {
             //find creep to fire at
             var creep = creepSystem.findNextCreep({

@@ -3,19 +3,14 @@ const map = require('./map');
 var m_map = map.map;
 
 var CreepType = {
-    ALIEN: 0,
-    TANK: 1,
-    SHIP: 2,
-    SHIP: 3,
-    ROBOT: 4
+    FIREWOOF: 0,
+    EYEBALL: 1,
+    JETSTER: 2,
 };
 
-const amountOfCreatures = 29;
-
-var creaturesImage = graphics.Img("creatures.png");
-
-//const creatureHeight = creaturesImage.height / amountOfCreatures;
-//const creatureWidth = creaturesImage.width / 4;
+var creatureWidth = 32;
+var creatureHeight = 32;
+var showSize = 50;
 
 var creep = function ({
     type = CreepType.ALIEN,
@@ -32,8 +27,6 @@ var creep = function ({
     let rot = 0;
     let speed = 40;
     var myPath = m_map.shortestPath(pos, goal);
-    let creatureWidth = 30;
-    let creatureHeight = 40;
     that.myPos = {
     x: pos.x*1000/map.rowColSize + map.rowColSize/2,
     y: pos.y*1000/map.rowColSize + map.rowColSize/2}
@@ -41,27 +34,31 @@ var creep = function ({
     let lastPicMove = 0;
     let rotatePicTime = 333;
 
+    switch(type) {
+        case CreepType.EYEBALL:
+            var creaturesImage = graphics.Img("eyebawl.png");
+            break;
+        case CreepType.FIREWOOF:
+            var creaturesImage = graphics.Img("firewoof.png");
+            break;
+        case CreepType.JETSTER:
+            var creaturesImage = graphics.Img("jetster.png");
+            break;
+    }
+
     that.render = function () {
         graphics.drawImage({
             image: creaturesImage,
             dx: that.myPos.x,
             dy: that.myPos.y,
             sx: pic * creatureWidth,
-            sy: type * creatureHeight,
+            sy: 0,
             sWidth: creatureWidth,
             sHeight: creatureHeight,
-            dWidth: creatureWidth,
-            dHeight: creatureHeight,
+            dWidth: showSize,
+            dHeight: showSize,
             rotation: rot,
         });
-        // graphics.drawRectangle({
-        //     x: myPos.x,
-        //     y: myPos.y,
-        //     w: 10,
-        //     h: 10,
-        //     fill: '#F00F00',
-        //     stroke: '#FA3498',
-        // })
     }
 
     that.update = function (elapsedTime) {

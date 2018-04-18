@@ -34,9 +34,9 @@ function initialize() {
 
 	cancelNextRequest = false;
 	creepSystem.addCreepSystem({
-		time: 10000,
-		amount: 50,
-		type: creepModule.CreepType.ALIEN,
+		time: 1,
+		amount: 1,
+		type: creepModule.CreepType.EYEBALL,
 		startingPositions: [{
 			x: 0,
 			y: 8
@@ -56,10 +56,10 @@ function initialize() {
 						  {x: 19,y: 11}]
 	});
 
-	creepSystem.addCreepSystem({
+	/*creepSystem.addCreepSystem({
 		time: 20000,
 		amount: 50,
-		type: creepModule.CreepType.ALIEN,
+		type: creepModule.CreepType.FIREWOOF,
 		startingPositions: [{
 			x: 8,
 			y: 0
@@ -79,43 +79,66 @@ function initialize() {
 						  {x: 11,y: 19}]
 	});
 
+	creepSystem.addCreepSystem({
+		time: 30000,
+		amount: 70,
+		type: creepModule.CreepType.JETSTER,
+		startingPositions: [{
+			x: 8,
+			y: 0
+		}, {
+			x: 9,
+			y: 0
+		}, {
+			x: 10,
+			y: 0
+		}, {
+			x: 11,
+			y: 0
+		}],
+		endingPositions: [{x: 8,y: 19},
+						  {x: 9,y: 19},
+						  {x: 10,y: 19},
+						  {x: 11,y: 19}]
+	});*/
+
 	towerSystem.addTower({
-		type: towerModule.TowerType.TOWER1,
+		type: towerModule.TowerType.TOWER11,
 		pos: {x:9, y:9},
 		});
 
 	towerSystem.addTower({
-		type: towerModule.TowerType.TOWER1,
+		type: towerModule.TowerType.TOWER12,
 		pos: {x:11, y:11},
 		});
 	towerSystem.addTower({
-		type: towerModule.TowerType.TOWER1,
+		type: towerModule.TowerType.TOWER13,
 		pos: {x:11, y:9},
 		});
 	
 	towerSystem.addTower({
-		type: towerModule.TowerType.TOWER1,
+		type: towerModule.TowerType.TOWER21,
 		pos: {x:9, y:11},
 		});	
 	towerSystem.addTower({
-		type: towerModule.TowerType.TOWER1,
+		type: towerModule.TowerType.TOWER22,
 		pos: {x:7, y:11},
 		});	
 		towerSystem.addTower({
-			type: towerModule.TowerType.TOWER1,
+			type: towerModule.TowerType.TOWER23,
 			pos: {x:7, y:7},
 			});
 		towerSystem.addTower({
-			type: towerModule.TowerType.TOWER1,
+			type: towerModule.TowerType.TOWER31,
 			pos: {x:7, y:9},
 			});
 		
 		towerSystem.addTower({
-			type: towerModule.TowerType.TOWER1,
+			type: towerModule.TowerType.TOWER32,
 			pos: {x:9, y:7},
 			});	
 		towerSystem.addTower({
-			type: towerModule.TowerType.TOWER1,
+			type: towerModule.TowerType.TOWER33,
 			pos: {x:11, y:7},
 			});	
 
@@ -164,7 +187,7 @@ function render() {
 function gameLoop(time) {
 
 	update(time - lastTimeStamp);
-	console.log(time - lastTimeStamp);
+	// console.log(time - lastTimeStamp);
 	lastTimeStamp = time;
 
 	render();

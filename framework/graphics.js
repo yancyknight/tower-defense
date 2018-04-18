@@ -112,7 +112,6 @@ function drawImage({
 		context.rotate(rotation); // TODO check with yancy
 		context.translate(-center.x, -center.y);
 
-
 		context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 	
 		context.restore();
