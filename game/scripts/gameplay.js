@@ -2,7 +2,7 @@ const graphics = require('../../framework/graphics');
 const object = require('../../framework/object');
 const { map } = require('./map');
 const { creepSystem, CreepType } = require('./creeps');
-const { towerSystem, TowerType } = require('./towers');
+const { TowerSystem, TowerType } = require('./towers');
 const { bulletSystem } = require('./bullets');
 const { myMouse, myKeyboard, initInputs } = require('./input');
 const input = require('../../framework/input');
@@ -13,7 +13,7 @@ var mouseCapture = false;
 var myTexture = null;
 var cancelNextRequest = false;
 var lastTimeStamp;
-var ts = towerSystem(map);
+var towerSystem = TowerSystem(map);
 /*var sprite = object.AnimatedModel({
 	center: {
 		x: 500,
@@ -102,42 +102,42 @@ function initialize() {
 						  {x: 11,y: 19}]
 	});
 
-	ts.addTower({
+	towerSystem.addTower({
 		type: TowerType.TOWER11,
 		pos: {x:9, y:9},
 	});
 
-	ts.addTower({
+	towerSystem.addTower({
 		type: TowerType.TOWER12,
 		pos: {x:11, y:11},
 	});
-	ts.addTower({
+	towerSystem.addTower({
 		type: TowerType.TOWER13,
 		pos: {x:11, y:9},
 	});
 	
-	ts.addTower({
+	towerSystem.addTower({
 		type: TowerType.TOWER21,
 		pos: {x:9, y:11},
 	});	
-	ts.addTower({
+	towerSystem.addTower({
 		type: TowerType.TOWER22,
 		pos: {x:7, y:11},
 	});	
-	ts.addTower({
+	towerSystem.addTower({
 		type: TowerType.TOWER23,
 		pos: {x:7, y:7},
 	});
-	ts.addTower({
+	towerSystem.addTower({
 		type: TowerType.TOWER31,
 		pos: {x:7, y:9},
 	});
 	
-	ts.addTower({
+	towerSystem.addTower({
 		type: TowerType.TOWER32,
 		pos: {x:9, y:7},
 	});	
-	ts.addTower({
+	towerSystem.addTower({
 		type: TowerType.TOWER33,
 		pos: {x:11, y:7},
 	});
@@ -147,7 +147,7 @@ function update(elapsedTime) {
 	myKeyboard.update(elapsedTime);
 	myMouse.update(elapsedTime);
 	map.update();
-	ts.update(elapsedTime);
+	towerSystem.update(elapsedTime);
 	creepSystem.update(elapsedTime);
 	bulletSystem.update(elapsedTime);
 	// sprite.updatePosition({x,y})
@@ -157,7 +157,7 @@ function update(elapsedTime) {
 function render() {
 	graphics.clear();
 	creepSystem.render();
-	ts.render();
+	towerSystem.render();
 	bulletSystem.render();
 }
 

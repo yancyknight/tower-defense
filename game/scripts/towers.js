@@ -194,7 +194,7 @@ var tower = function ({
     return that;
 }
 
-var towerSystem = function (map) {
+var TowerSystem = function (map) {
     var that = {};
     var towers = [];
 
@@ -222,7 +222,7 @@ var towerSystem = function (map) {
 }
 
 module.exports = {
-    towerSystem,
+    TowerSystem,
     TowerType,
     id: 'tower'
 };
