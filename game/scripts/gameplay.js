@@ -1,4 +1,5 @@
 const graphics = require('../../framework/graphics');
+const object = require('../../framework/object');
 const input = require('../../framework/input');
 const mapModule = require('./map');
 const creepModule = require('./creeps');
@@ -11,13 +12,26 @@ var cancelNextRequest = false;
 var lastTimeStamp;
 var map = mapModule.map;
 var creepSystem = creepModule.creepSystem();
+var sprite = object.AnimatedModel({
+	center: {
+		x: 500,
+		y: 500
+	},
+	width: 32,
+	height: 32,
+	spriteCount: 3,
+	src: '/eyebawl.png',
+	spriteTime: 500,
+	reverseOnFinish: true,
+	horizontalFlip: true
+});
 
 function quitGame() {
 	// Stop the game loop by canceling the request for the next animation frame
 	cancelNextRequest = true;
 
 	view.$confirm('Quit game and return to main menu?', 'Quit Game', {
-		confirmButtonText: 'Yes',
+		confirmButtonText: 'Get me outta here!',
 		cancelButtonText: `No! I'm winning!`
 	}).then(function() {
 		view.show = 'main-menu';
@@ -106,17 +120,23 @@ function initialize() {
 	});
 }
 
+var x = 10;
+var y = 500;
 function update(elapsedTime) {
 	myKeyboard.update(elapsedTime);
 	myMouse.update(elapsedTime);
 	map.update();
 	creepSystem.update(elapsedTime);
+	x += 1;
+	sprite.updatePosition({x,y})
+	sprite.update(elapsedTime);
 }
 
 function render() {
 	graphics.clear();
+	sprite.render();
 	// map.render();
-	creepSystem.render();
+	// creepSystem.render();
 }
 
 function gameLoop(time) {

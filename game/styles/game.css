@@ -13,6 +13,10 @@ body {
 	background: url("./../images/field.jpg");
 }
 
+#fw-canvas.grid {
+	background: url("./../images/field-grid.jpg");
+}
+
 #game {
 	position: absolute;
 	left: 0;

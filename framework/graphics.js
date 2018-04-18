@@ -137,6 +137,120 @@ function drawLine({
 	context.restore();
 }
 
+function SpriteSheet({
+	sprite = 0,
+	elapsedTime = 0,
+	center: {
+		x = 0,
+		y = 0
+	} = {},
+	rotation = 0,
+	width,
+	height,
+	spriteCount,
+	src,
+	spriteTime = 1000,
+	reverseOnFinish = false,
+	horizontalFlip = false
+} = {}) {
+	var that = {},
+		image = new Image();
+
+	if(typeof spriteTime === 'number') {
+		var temp = [];
+		for(let i = 0; i < spriteCount; i++) {
+			temp[i] = spriteTime;
+		}
+		spriteTime = temp;
+	}
+
+	that.updatePosition = function(pos) {
+		x = pos.x;
+		y = pos.y;
+	}
+
+	// Load the image, set the ready flag once it is loaded so that
+	// rendering can begin.
+	image.onload = function() { 
+		// Our clever trick, replace the draw function once the image is loaded...no if statements!
+		that.draw = function() {
+			context.save();
+
+			context.translate(x, y);
+			context.rotate(rotation);
+			context.translate(-x, -y);
+			if (horizontalFlip) {
+				context.scale(-1, 1);
+			}
+
+			// Pick the selected sprite from the sprite sheet to render
+			context.drawImage(
+				image,
+				width * sprite, 0,	// Which sprite to pick out
+				width, height,		// The size of the sprite
+				x - width/2,	// Where to draw the sprite
+				y - height/2,
+				width, height);
+
+			context.restore();
+		};
+		// Once the image is loaded, we can compute the height and width based upon
+		// what we know of the image and the number of sprites in the sheet.
+		// height = image.height;
+		// width = image.width / spriteCount;
+	};
+	image.src = src;
+
+	//------------------------------------------------------------------
+	//
+	// Update the animation of the sprite based upon elapsed time.
+	//
+	//------------------------------------------------------------------
+	var forward = true;
+	that.update = function(elapsedTimeIn) {
+		elapsedTime += elapsedTimeIn;
+		// Check to see if we should update the animation frame
+		if (elapsedTime >= spriteTime[sprite]) {
+			// When switching sprites, keep the leftover time because
+			// it needs to be accounted for the next sprite animation frame.
+			elapsedTime -= spriteTime[sprite];
+			// Depending upon the direction of the animation...
+			if (forward === true) {
+				if (reverseOnFinish && sprite == spriteCount - 1) {
+					forward = false;
+					sprite -= 1;
+				} else {
+					sprite += 1;
+					// This provides wrap around from the last back to the first sprite
+					sprite = sprite % spriteCount;
+				}
+			} else {
+				if (reverseOnFinish && sprite == 0) {
+					sprite += 1;
+					forward = true;
+				} else {
+					sprite -= 1;
+					// This provides wrap around from the first to the last sprite
+					if (sprite < 0) {
+						sprite = spriteCount - 1;
+					}
+				}
+			}
+		}
+	};
+
+	//------------------------------------------------------------------
+	//
+	// Render the correct sprint from the sprite sheet
+	//
+	//------------------------------------------------------------------
+	that.draw = function() {
+		// Starts out empty, but gets replaced once the image is loaded!
+	};
+
+	return that;
+}
+
 module.exports = {
 	clear,
 	canvas,
@@ -147,6 +261,7 @@ module.exports = {
 	drawText,
 	drawCircle,
 	drawLine,
-	init
+	init,
+	SpriteSheet
 };
 
