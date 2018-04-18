@@ -15,6 +15,16 @@
 <body>
 	<div id="game" v-cloak>
 
+		<el-dialog
+		:title="command"
+		:visible.sync="changeKeysVisible"
+		width="30%">
+			<span>Press any key to change key binding</span>
+			<span slot="footer" class="dialog-footer">
+				<el-button type="danger" @click="changeKeysVisible = false">Cancel</el-button>
+			</span>
+		</el-dialog>
+
 		<div v-show="show == 'main-menu'" id="main-menu" class="screen">
 			<ul class="menu-center">
 				<li><el-button type="danger" class="menu-btn" @click="startGame">New Game</el-button></li>

@@ -1,14 +1,15 @@
 const graphics = require('../../framework/graphics');
 const object = require('../../framework/object');
-const input = require('../../framework/input');
 const mapModule = require('./map');
 const creepModule = require('./creeps');
+<<<<<<< HEAD
 const towerModule = require('./towers');
 const bulletModule = require('./bullets');
+=======
+const { myMouse, myKeyboard, initInputs } = require('./input');
+>>>>>>> origin/master
 
 var mouseCapture = false;
-var myMouse = input.Mouse();
-var myKeyboard = input.Keyboard();
 var myTexture = null;
 var cancelNextRequest = false;
 var lastTimeStamp;
@@ -30,23 +31,9 @@ var bulletSystem = bulletModule.bulletSystem;
 	horizontalFlip: true
 });*/
 
-function quitGame() {
-	// Stop the game loop by canceling the request for the next animation frame
-	cancelNextRequest = true;
-
-	view.$confirm('Quit game and return to main menu?', 'Quit Game', {
-		confirmButtonText: 'Get me outta here!',
-		cancelButtonText: `No! I'm winning!`
-	}).then(function() {
-		view.show = 'main-menu';
-	}).catch(function() {
-		cancelNextRequest = false;    
-		run();    
-	});
-}
-
 function initialize() {
 	console.log('game initializing...');
+	initInputs();
 
 	cancelNextRequest = false;
 	creepSystem.addCreepSystem({
@@ -94,6 +81,7 @@ function initialize() {
 						  {x: 10,y: 19},
 						  {x: 11,y: 19}]
 	});
+<<<<<<< HEAD
 
 	creepSystem.addCreepSystem({
 		time: 30000,
@@ -184,6 +172,8 @@ function initialize() {
 			// myTexture.moveTo({x: e.clientX, y: e.clientY});
 		}
 	});
+=======
+>>>>>>> origin/master
 }
 
 var x = 10;

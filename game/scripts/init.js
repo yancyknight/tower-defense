@@ -12,8 +12,11 @@ locale.use(lang);
 Vue.use(ElementUI);
 
 const gameplay = require('./gameplay');
+const { myKeyboard } = require('./input');
+const { EventKey, KeyEvent } = require('../../framework/input');
+const { upgradeTower, sellTower, startLevel } = require('./utils');
 
-var view = new Vue({
+var vm = new Vue({
     el: '#game',
     data: {
         show: 'main-menu',
@@ -24,7 +27,9 @@ var view = new Vue({
         mute: false,
         upgradeTowerKey: 'U',
         sellTowerKey: 'S',
-        startLevelKey: 'G'
+        startLevelKey: 'G',
+        command: '',
+        changeKeysVisible: false
     },
     methods: {
         startGame() {
@@ -35,13 +40,40 @@ var view = new Vue({
             graphics.init();
         },
         selectUpgradeTower() {
-
+            this.command = 'Upgrade Tower'
+            this.changeKeysVisible = true;
+            window.addEventListener('keydown', function(e) {
+                if(vm.changeKeysVisible) {
+                    myKeyboard.deregisterCommands(KeyEvent[`DOM_VK_${vm.upgradeTowerKey}`]);
+                    myKeyboard.registerCommand(e.keyCode, upgradeTower, true);
+                    vm.upgradeTowerKey = EventKey[e.keyCode];
+                    vm.changeKeysVisible = false;
+                }
+            }, { once: true });
         },
         selectSellTower() {
-            
+            this.command = 'Sell Tower'
+            this.changeKeysVisible = true;
+            window.addEventListener('keydown', function(e) {
+                if(vm.changeKeysVisible) {
+                    myKeyboard.deregisterCommands(KeyEvent[`DOM_VK_${vm.sellTowerKey}`]);
+                    myKeyboard.registerCommand(e.keyCode, sellTower, true);
+                    vm.sellTowerKey = EventKey[e.keyCode];
+                    vm.changeKeysVisible = false;
+                }
+            }, { once: true });
         },
         selectStartLevel() {
-            
+            this.command = 'Start Level'
+            this.changeKeysVisible = true;
+            window.addEventListener('keydown', function(e) {
+                if(vm.changeKeysVisible) {
+                    myKeyboard.deregisterCommands(KeyEvent[`DOM_VK_${vm.startLevelKey}`]);
+                    myKeyboard.registerCommand(e.keyCode, startLevel, true);
+                    vm.startLevelKey = EventKey[e.keyCode];
+                    vm.changeKeysVisible = false;
+                }
+            }, { once: true });
         }
     },
     mounted() {
@@ -49,4 +81,4 @@ var view = new Vue({
     }
 });
 
-global.view = view;
+global.vm = vm;
