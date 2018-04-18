@@ -150,24 +150,24 @@ function initialize() {
 		// Stop the game loop by canceling the request for the next animation frame
 		cancelNextRequest = true;
 
-	});
+	 });
 
 	// Create an ability to move the logo using the mouse
 	myMouse = input.Mouse();
-	myMouse.registerCommand('mousedown', function (e) {
-		mouseCapture = true;
-		// myTexture.moveTo({x: e.clientX, y: e.clientY});
-	});
+	 myMouse.registerCommand('mousedown', function (e) {
+	 	mouseCapture = true;
+	 	myTexture.moveTo({x: e.clientX, y: e.clientY});
+	 });
 
-	myMouse.registerCommand('mouseup', function () {
-		mouseCapture = false;
-	});
+	 myMouse.registerCommand('mouseup', function () {
+	 	mouseCapture = false;
+	 });
 
-	myMouse.registerCommand('mousemove', function (e) {
-		if (mouseCapture) {
-			// myTexture.moveTo({x: e.clientX, y: e.clientY});
-		}
-	});
+	 myMouse.registerCommand('mousemove', function (e) {
+	 	if (mouseCapture) {
+	 		myTexture.moveTo({x: e.clientX, y: e.clientY});
+	 	}
+	 });
 }
 
 var x = 10;

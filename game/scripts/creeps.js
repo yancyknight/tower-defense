@@ -24,41 +24,40 @@ var creep = function ({
     }
 } = {}) {
     var that = {};
-    let rot = 0;
-    let speed = 40;
-    var myPath = m_map.shortestPath(pos, goal);
-    that.myPos = {
-    x: pos.x*1000/map.rowColSize + map.rowColSize/2,
-    y: pos.y*1000/map.rowColSize + map.rowColSize/2}
-    let pic = 0;
-    let lastPicMove = 0;
-    let rotatePicTime = 333;
-
-    switch(type) {
-        case CreepType.EYEBALL:
-            var creaturesImage = graphics.Img("eyebawl.png");
+        that.myPos = {
+        x: pos.x*1000/map.rowColSize + map.rowColSize/2,
+        y: pos.y*1000/map.rowColSize + map.rowColSize/2}
+        let rot = 0;
+        let speed = 40;
+        var myPath = m_map.shortestPath(pos, goal);
+        
+        switch(type) {
+            case CreepType.EYEBALL:
+            var creaturesImage = "eyebawl.png";
             break;
-        case CreepType.FIREWOOF:
-            var creaturesImage = graphics.Img("firewoof.png");
+            case CreepType.FIREWOOF:
+            var creaturesImage = "firewoof.png";
             break;
-        case CreepType.JETSTER:
-            var creaturesImage = graphics.Img("jetster.png");
+            case CreepType.JETSTER:
+            var creaturesImage = "jetster.png";
             break;
-    }
+        }
+        var m_sprite = graphics.SpriteSheet({
+            sprite: 0,
+            elapsedTime: 0,
+            center: that.myPos,
+            rotation: 0,
+            width: creatureWidth,
+            height: creatureWidth,
+            spriteCount: 3,
+            src: creaturesImage,
+            spriteTime: 300,
+            reverseOnFinish: true,
+            horizontalFlip: true
+        });
 
     that.render = function () {
-        graphics.drawImage({
-            image: creaturesImage,
-            dx: that.myPos.x,
-            dy: that.myPos.y,
-            sx: pic * creatureWidth,
-            sy: 0,
-            sWidth: creatureWidth,
-            sHeight: creatureHeight,
-            dWidth: showSize,
-            dHeight: showSize,
-            rotation: rot,
-        });
+        m_sprite.draw();
     }
 
     that.update = function (elapsedTime) {
@@ -75,7 +74,6 @@ var creep = function ({
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffy) > distanceToTraverse) {
             that.myPos.y += distanceToTraverse * Math.sign(diffy);
-            //rot = -Math.PI/2; // confused if we need to do this
         } else {
             that.myPos.y = myPath[0].y;
         }
@@ -83,14 +81,9 @@ var creep = function ({
         if (that.myPos.x === myPath[0].x && that.myPos.y === myPath[0].y) {
             if(myPath.length === 1) return true;
             myPath.shift();
-            //rot = diffx > diffy ? 0 : -Math.PI / 2;
         }
-        // update rot
-        lastPicMove += elapsedTime;
-        if(lastPicMove > rotatePicTime) {
-            pic = (pic + 1)%3;
-            lastPicMove = 0;
-        }
+        m_sprite.update(elapsedTime);
+        m_sprite.updatePosition({x:that.myPos.x, y:that.myPos.y});
     }
 
     return that;
