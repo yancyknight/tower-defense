@@ -87,6 +87,10 @@ function Keyboard() {
 		});
 		delete that.keys[e.keyCode];
 	}
+
+	that.deregisterAll = function() {
+		that.handlers.length = 0;
+	}
 	
 	that.registerCommand = function(key, handler, noHold = false) {
 		that.handlers.push({ key, handler, noHold, exec: true });

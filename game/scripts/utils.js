@@ -18,6 +18,8 @@ function quitGame() {
 		confirmButtonText: 'Get me outta here!',
 		cancelButtonText: `No! I'm winning!`
 	}).then(function() {
+        const { myKeyboard } = require('./input');
+        myKeyboard.deregisterAll();
 		vm.show = 'main-menu';
 	}).catch(function() {
 		cancelNextRequest = false;    

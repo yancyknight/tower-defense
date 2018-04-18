@@ -2,7 +2,7 @@ const graphics = require('../../framework/graphics');
 const object = require('../../framework/object');
 const mapModule = require('./map');
 const creepModule = require('./creeps');
-const { myMouse, myKeyboard } = require('./input');
+const { myMouse, myKeyboard, initInputs } = require('./input');
 
 var mouseCapture = false;
 var myTexture = null;
@@ -26,6 +26,7 @@ var sprite = object.AnimatedModel({
 
 function initialize() {
 	console.log('game initializing...');
+	initInputs();
 
 	cancelNextRequest = false;
 	creepSystem.addCreepSystem({
