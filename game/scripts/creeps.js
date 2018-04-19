@@ -133,9 +133,13 @@ var creepSystem = function () {
         }
     }
 
+    var calcDist = function(a, b) {
+        return Math.sqrt(Math.pow(a.x-b.x, 2) + Math.pow(a.y-b.y, 2));
+    }
+
     that.findNextCreep = function({x, y}, range) {
         for(let i = 0; i < creeps.length; i++) {
-            if(m_map.calcDist({x,y}, creeps[i].myPos) < range) {
+            if(calcDist({x,y}, {x:creeps[i].myPos.x+16, y:creeps[i].myPos.y+16}) < range) {
                 return creeps[i];
             }
         }
