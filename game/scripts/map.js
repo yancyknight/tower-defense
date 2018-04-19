@@ -10,8 +10,6 @@ const rowColSize = 20;
 var createMap = function () {
     var that = {};
     
-    var m_showGrid = false; // TODO get rid of this
-    
     var grid = [];
     for (let i = 0; i < rowColSize; i++) {
         grid.push([]);
@@ -40,74 +38,10 @@ var createMap = function () {
     grid[rowColSize / 2 - 3][rowColSize - 1] = SquareEnum.BLOCK;
     grid[rowColSize / 2 + 2][rowColSize - 1] = SquareEnum.BLOCK;
 
-    that.update = function ({
-        showGrid = true
-    } = {}) {
-        m_showGrid = showGrid;
+    that.update = function () {
     }
 
     that.render = function () {
-        if (m_showGrid === true) {
-            for (let i = 1; i < rowColSize; i++) {
-                let spot = i * 1000 / rowColSize;
-                graphics.drawLine({
-                    leftx: spot,
-                    topy: 0,
-                    rightx: spot,
-                    bottomy: 1000
-                });
-                graphics.drawLine({
-                    leftx: 0,
-                    topy: spot,
-                    rightx: 1000,
-                    bottomy: spot
-                });
-            }
-        }
-        for (let i = 0; i < rowColSize; i++) {
-            for (let j = 0; j < rowColSize; j++) {
-                if (grid[i][j] === SquareEnum.BLOCK) {
-                    graphics.drawRectangle({
-                        x: j * 1000 / rowColSize,
-                        y: i * 1000 / rowColSize,
-                        w: 1000 / rowColSize,
-                        h: 1000 / rowColSize,
-                        fill: '#FF0000'
-                    });
-                }
-                else if(grid[i][j] === SquareEnum.TOWER) {
-                    graphics.drawRectangle({
-                        x: j * 1000 / rowColSize,
-                        y: i * 1000 / rowColSize,
-                        w: 1000 / rowColSize,
-                        h: 1000 / rowColSize,
-                        fill: '#F0A0F0'
-                    });
-                }
-            }
-        }
-
-        // var myPath = that.shortestPath({x:0,y:8}, {x:rowColSize-1, y:11});
-        // for(let i = 0; i < myPath.length; i++) {
-        //      graphics.drawRectangle({
-        //          x: myPath[i].x * 1000 / rowColSize,
-        //          y: myPath[i].y * 1000 / rowColSize,
-        //          w: 1000 / rowColSize,
-        //          h: 1000 / rowColSize,
-        //          fill: '#FFFF00'
-        //      });
-        // }
-
-        // myPath = that.shortestPath({x:8,y:0}, {x:11, y:rowColSize-1});
-        // for(let i = 0; i < myPath.length; i++) {
-        //      graphics.drawRectangle({
-        //          x: myPath[i].x * 1000 / rowColSize,
-        //          y: myPath[i].y * 1000 / rowColSize,
-        //          w: 1000 / rowColSize,
-        //          h: 1000 / rowColSize,
-        //          fill: '#FF00FF'
-        //      });
-        // }
 
     }
 
@@ -126,7 +60,7 @@ var createMap = function () {
         NONE: 5,
     };
 
-    that.calcDist = function (a, b) {
+    var calcDist = function (a, b) {
         return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
     }
 
@@ -172,7 +106,7 @@ var createMap = function () {
     }
 
     that.shortestPath = function (curPos, goal) {
-        let dist = that.calcDist(curPos, goal);
+        let dist = calcDist(curPos, goal);
         let frontier = PriorityQueue();
         frontier.addItem({
             x: curPos.x,
@@ -202,7 +136,7 @@ var createMap = function () {
                     x: current.x,
                     y: current.y - 1
                 }) && placesBeen[current.y - 1][current.x] === undefined) {
-                    dist = that.calcDist(goal, {
+                    dist = calcDist(goal, {
                     x: current.x,
                     y: current.y - 1
                 });
@@ -221,7 +155,7 @@ var createMap = function () {
                     y: current.y + 1
                 }) && placesBeen[current.y + 1][current.x] === undefined) {
                     
-                dist = that.calcDist(goal, {
+                dist = calcDist(goal, {
                     x: current.x,
                     y: current.y + 1
                 });
@@ -240,7 +174,7 @@ var createMap = function () {
                     y: current.y
                 }) && placesBeen[current.y][current.x - 1] === undefined) {
                     
-                dist = that.calcDist(goal, {
+                dist = calcDist(goal, {
                     x: current.x - 1,
                     y: current.y
                 });
@@ -259,7 +193,7 @@ var createMap = function () {
                     y: current.y
                 }) && placesBeen[current.y][current.x + 1] === undefined) {
                     
-                dist = that.calcDist(goal, {
+                dist = calcDist(goal, {
                     x: current.x + 1,
                     y: current.y
                 });
