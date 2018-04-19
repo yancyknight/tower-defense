@@ -19,13 +19,11 @@ var TowerType = {
 
 var towerBaseImage = graphics.Img("tankBase.png");
 
-//const creatureHeight = creaturesImage.height / amountOfCreatures;
-//const creatureWidth = creaturesImage.width / 4;
-
 let towerImages = [];
 for(let i = 0; i < Object.keys(TowerType).length; i++) {
     towerImages.push(graphics.Img(`tower${ Math.ceil((i + 1) / 3) }-${ (i % 3) + 1 }.PNG`));
 }
+const baseSize = 100;
 
 var tower = function ({
     type = TowerType.TOWER1,
@@ -98,14 +96,16 @@ var tower = function ({
             imageSize = 50;
             break;
     }
+
+    var towerCenter = {x: myPos.x + 50, y: myPos.y + 50};
         
     that.render = function () {
         graphics.drawImage({
             image:towerBaseImage,
             dx: myPos.x,
             dy: myPos.y,
-            dWidth: 100,
-            dHeight: 100,
+            dWidth: baseSize,
+            dHeight: baseSize,
             alpha: ghost ? .5 : 1
         });
         graphics.drawImage({
@@ -121,6 +121,14 @@ var tower = function ({
             rotation: rot + Math.PI/2,
             alpha: ghost ? .5 : 1
         });
+        if(vm.showTowerCoverage) {
+            graphics.drawCircle({
+                x: towerCenter.x,
+                y: towerCenter.y,
+                radius: range,
+                fill: 'rgba(128, 223, 255, .2)',
+            });
+        }
     }
 
     function crossProduct2d(v1, v2) {
@@ -161,10 +169,10 @@ var tower = function ({
     that.update = function (elapsedTime) {
         lastFire += elapsedTime;
         //find creep to fire at
-        var creep = creepSystem.findNextCreep({x:myPos.x+towerWidth/2, y:myPos.y+towerWidth/2}, range);
+        var creep = creepSystem.findNextCreep({x:towerCenter.x, y:towerCenter.y}, range);
         if(creep !== undefined) {
             // console.log('creep loc: ' +creep.myPos.x + " " + creep.myPos.y);
-            var angle = computeAngle(rot, {x:myPos.x+towerWidth/2, y:myPos.y+towerHeight/2}, {x:creep.myPos.x+16, y:creep.myPos.y+16});
+            var angle = computeAngle(rot, {x:towerCenter.x, y:towerCenter.y}, {x:creep.myPos.x+16, y:creep.myPos.y+16});
             if(angle.angle < .1) {
                 if(angle.crossProduct > 0) {
                     rot += angle.angle;
@@ -175,7 +183,7 @@ var tower = function ({
                 if(lastFire > rateOfFire && !ghost) {
                     //fire!
                     m_bulletSystem.addBullet({type:bulletSystem.BulletType.BULLET, 
-                        myPos:{x:myPos.x+towerWidth/2, y:myPos.y+towerHeight/2}, 
+                        myPos:{x: towerCenter.x, y: towerCenter.y}, 
                         goal:creep.myPos});
                     //register collision
                     lastFire = 0;
