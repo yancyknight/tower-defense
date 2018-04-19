@@ -22,6 +22,10 @@ var towerBaseImage = graphics.Img("tankBase.png");
 //const creatureHeight = creaturesImage.height / amountOfCreatures;
 //const creatureWidth = creaturesImage.width / 4;
 
+let towerImages = [];
+for(let i = 0; i < Object.keys(TowerType).length; i++) {
+    towerImages.push(graphics.Img(`tower${ Math.ceil((i + 1) / 3) }-${ (i % 3) + 1 }.PNG`));
+}
 
 var tower = function ({
     type = TowerType.TOWER1,
@@ -29,75 +33,70 @@ var tower = function ({
         x,
         y
     },
+    ghost = false
 } = {}) {
     var that = {};
     let rot = 0;
     let rateOfFire = 500;
     let lastFire = 0;
     let range = 250;
+    
     var myPos = {
         x: pos.x*1000/map.rowColSize,
-        y: pos.y*1000/map.rowColSize}
-        let pic = 0;
-        let level = 0;
-        var rotateSpeed = 12 * 3.14159 / 1000;
-        var imageSize;
+        y: pos.y*1000/map.rowColSize
+    }
+
+    let pic = 0;
+    let level = 0;
+    var rotateSpeed = 12 * 3.14159 / 1000;
+    var imageSize;
+    var towerImage = towerImages[type];
     switch(type) {
         case TowerType.TOWER11:
-            var towerImage = graphics.Img("tower1-1.PNG");
             var towerWidth = 80;
             var towerHeight = 80;
             imageSize = 40;
             break;
         case TowerType.TOWER12:
-            var towerImage = graphics.Img("tower1-2.PNG");
             var towerWidth = 90;
             var towerHeight = 90;
             imageSize = 45;
             break;
         case TowerType.TOWER13:
-            var towerImage = graphics.Img("tower1-3.PNG");
             var towerWidth = 100;
             var towerHeight = 100;
             imageSize = 65;
             break;
         case TowerType.TOWER21:
-            var towerImage = graphics.Img("tower2-1.PNG");
             var towerWidth = 80;
             var towerHeight = 80;
             imageSize = 50;
             break;
         case TowerType.TOWER22:
-            var towerImage = graphics.Img("tower2-2.PNG");
             var towerWidth = 90;
             var towerHeight = 90;
             imageSize = 45;
             break;
         case TowerType.TOWER23:
-            var towerImage = graphics.Img("tower2-3.PNG");
             var towerWidth = 100;
             var towerHeight = 100;
             imageSize = 55;
             break;
         case TowerType.TOWER31:
-            var towerImage = graphics.Img("tower3-1.PNG");
             var towerWidth = 80;
             var towerHeight = 80;
             imageSize = 40;
             break;
         case TowerType.TOWER32:
-            var towerImage = graphics.Img("tower3-2.PNG");
             var towerWidth = 90;
             var towerHeight = 90;
             imageSize = 45;
             break;
         case TowerType.TOWER33:
-            var towerImage = graphics.Img("tower3-3.PNG");
             var towerWidth = 100;
             var towerHeight = 100;
             imageSize = 50;
             break;
-        
     }
         
     that.render = function () {
@@ -107,6 +106,7 @@ var tower = function ({
             dy: myPos.y,
             dWidth: 100,
             dHeight: 100,
+            alpha: ghost ? .5 : 1
         });
         graphics.drawImage({
             image: towerImage,
@@ -119,6 +119,7 @@ var tower = function ({
             dWidth: towerWidth,
             dHeight: towerHeight,
             rotation: rot + Math.PI/2,
+            alpha: ghost ? .5 : 1
         });
     }
 
@@ -171,7 +172,7 @@ var tower = function ({
                 else {
                     rot -= angle.angle;
                 }
-                if(lastFire > rateOfFire) {
+                if(lastFire > rateOfFire && !ghost) {
                     //fire!
                     m_bulletSystem.addBullet({type:bulletSystem.BulletType.BULLET, 
                         myPos:{x:myPos.x+towerWidth/2, y:myPos.y+towerHeight/2}, 
@@ -199,8 +200,8 @@ var TowerSystem = function (map) {
     var towers = [];
 
     that.addTower = function({
-    type = TowerType.TOWER1,
-    pos = {x, y},
+        type = TowerType.TOWER1,
+        pos = {x, y},
     } = {}) {
         towers.push(tower({type, pos}));
         map.setTower(pos);
@@ -224,5 +225,5 @@ var TowerSystem = function (map) {
 module.exports = {
     TowerSystem,
     TowerType,
-    id: 'tower'
+    tower
 };

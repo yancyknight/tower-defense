@@ -31,7 +31,8 @@ var vm = new Vue({
         changeKeysVisible: false,
         score: 0,
         money: 1000,
-        placeTower: ''
+        placeTower: '',
+        mousePosition: null
     },
     methods: {
         startGame() {
@@ -79,7 +80,17 @@ var vm = new Vue({
         }
     },
     mounted() {
+        this.$refs.gameCanvas.addEventListener('mousemove', (evt) => {
+            var rect = this.$refs.gameCanvas.getBoundingClientRect();
+            this.mousePosition = {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        });
 
+        this.$refs.gameCanvas.addEventListener('mouseout', () => {
+            this.mousePosition = null
+        });
     }
 });
 

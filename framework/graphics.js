@@ -94,7 +94,8 @@ function drawImage({
 	dWidth,
 	dHeight,
 	rotation = 0,
-	horizontalFlip = false
+	horizontalFlip = false,
+	alpha = 1
 } = {}) {
 	var self = this;
 	image.then(function(img){
@@ -116,6 +117,7 @@ function drawImage({
 			context.scale(-1, 1);
 			dx = -dx - dWidth;
 		}
+		context.globalAlpha = alpha;
 
 		context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 	

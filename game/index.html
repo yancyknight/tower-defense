@@ -52,6 +52,7 @@ body {
 				<div id="tower-details">
 					<span style="font-size: 16px; padding-left: 15px;">Score: {{score}}</span>
 					<span style="font-size: 16px; padding-left: 15px;">Money: ${{money}}</span>
+					<span style="font-size: 16px; padding-left: 15px;">mousePosition: ${{mousePosition}}</span>
 				</div>
 				<el-button class="btn--options" @click="showOptions = true">Options</el-button>
 			</div>
@@ -77,7 +78,7 @@ body {
 				</div>
 				<el-button class="btn--options" @click="showOptions = false">Back</el-button>
 			</div>
-			<canvas :class="{grid: showGrid}" id="fw-canvas" width="1000" height="1000"></canvas>
+			<canvas ref="gameCanvas" :class="{grid: showGrid}" id="fw-canvas" width="1000" height="1000"></canvas>
 		</div>
 
 		<div v-show="show == 'high-scores'" id="high-scores" class="screen">
