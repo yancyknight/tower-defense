@@ -10,7 +10,7 @@ const rowColSize = 20;
 var createMap = function () {
     var that = {};
     
-    var m_showGrid = false;
+    var m_showGrid = false; // TODO get rid of this
     
     var grid = [];
     for (let i = 0; i < rowColSize; i++) {

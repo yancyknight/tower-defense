@@ -19,10 +19,6 @@ var TowerType = {
 
 var towerBaseImage = graphics.Img("tankBase.png");
 
-//const creatureHeight = creaturesImage.height / amountOfCreatures;
-//const creatureWidth = creaturesImage.width / 4;
-
-
 var tower = function ({
     type = TowerType.TOWER1,
     pos = {
@@ -38,10 +34,11 @@ var tower = function ({
     var myPos = {
         x: pos.x*1000/map.rowColSize,
         y: pos.y*1000/map.rowColSize}
-        let pic = 0;
-        let level = 0;
-        var rotateSpeed = 12 * 3.14159 / 1000;
-        var imageSize;
+    let pic = 0;
+    let level = 0;
+    var rotateSpeed = 12 * 3.14159 / 1000;
+    var imageSize;
+
     switch(type) {
         case TowerType.TOWER11:
             var towerImage = graphics.Img("tower1-1.PNG");
@@ -120,6 +117,12 @@ var tower = function ({
             dHeight: towerHeight,
             rotation: rot + Math.PI/2,
         });
+        graphics.drawCircle({
+            x: myPos.x,
+            y: myPos.y,
+            radius,
+            fill: 'rgba(128, 223, 255, .2)',
+        })
     }
 
     function crossProduct2d(v1, v2) {
