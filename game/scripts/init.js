@@ -23,13 +23,15 @@ var vm = new Vue({
         showOptions: false,
         showGrid: false,
         showTowerCoverage: false,
-        // showEnemyPath: false,
         mute: false,
         upgradeTowerKey: 'U',
         sellTowerKey: 'S',
         startLevelKey: 'G',
         command: '',
-        changeKeysVisible: false
+        changeKeysVisible: false,
+        score: 0,
+        money: 1000,
+        placeTower: ''
     },
     methods: {
         startGame() {
