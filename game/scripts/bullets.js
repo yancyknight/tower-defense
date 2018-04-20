@@ -1,13 +1,15 @@
 const graphics = require('../../framework/graphics');
 // const map = require('./map');
 // var m_map = map.map;
-// const creepSystem = require('./creeps').creepSystem;
+const { creepSystem } = require('./creeps');
 
 var BulletType = {
     BULLET: 0,
     ROCKET: 1,
     BOMB: 2,
 };
+
+var bulletImages = [graphics.Img("bullet.png"), graphics.Img("rocket.png"), graphics.Img("bomb.png")];
 
 var bullet = function ({
     type = BulletType.BULLET1,
@@ -27,24 +29,33 @@ var bullet = function ({
     that.hit = false;
     var bulletWidth;
     var bulletHeight;
-    var bulletImage;
+    var bulletImage = bulletImages[type];
     
     switch(type) {
         case BulletType.BULLET:
             bulletWidth = 10;
             bulletHeight = 10;
-            bulletImage = graphics.Img("bullet.png");
+            that.damage = 70;
             break;
         case BulletType.BOMB:
             bulletWidth = 10;
             bulletHeight = 10;
-            bulletImage = graphics.Img("bomb.png");
+            that.damage = 85;
             break;
         case BulletType.ROCKET:
             bulletWidth = 10;
             bulletHeight = 10;
-            bulletImage = graphics.Img("rocket.png");
+            that.damage = 90;
             break;
+    }
+
+    that.getBoundingBox = function() {
+        return {
+            x: myPos.x,
+            y: myPos.y,
+            w: bulletWidth, 
+            h: bulletHeight
+        }
     }
 
     that.render = function () {
@@ -100,11 +111,15 @@ var bulletSystem = function () {
             x,y
         }
     } = {}) {
-        bullets.push(bullet({
+        var newBullet = bullet({
             type,
             myPos,
             goal,
-        }));
+        });
+
+        bullets.push(newBullet);
+        
+        return newBullet;
     }
 
     that.render = function () {
@@ -132,6 +147,5 @@ var m_bulletSystem = bulletSystem();
 
 module.exports = {
     bulletSystem: m_bulletSystem,
-    BulletType,
-    id: 'bullet'
+    BulletType
 };

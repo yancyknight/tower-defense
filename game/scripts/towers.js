@@ -4,6 +4,7 @@ var m_map = map.map;
 const creepSystem = require('./creeps').creepSystem;
 const bulletSystem = require('./bullets');
 var m_bulletSystem = bulletSystem.bulletSystem;
+const collision = require('./collision');
 
 var TowerType = {
     TOWER11: 0,
@@ -197,6 +198,7 @@ var tower = function ({
                 }
                 if (lastFire > rateOfFire && !ghost) {
                     //fire!
+<<<<<<< HEAD
                     m_bulletSystem.addBullet({
                         type: bulletSystem.BulletType.BULLET,
                         myPos: {
@@ -206,6 +208,15 @@ var tower = function ({
                         goal: creep.myPos
                     });
                     //register collision
+=======
+                    var newBullet = m_bulletSystem.addBullet({
+                        type:bulletSystem.BulletType.BULLET, 
+                        myPos:{x: towerCenter.x, y: towerCenter.y}, 
+                        goal:creep.myPos
+                    });
+                    collision.add(newBullet, creep);
+
+>>>>>>> origin/master
                     lastFire = 0;
                 }
             } else {

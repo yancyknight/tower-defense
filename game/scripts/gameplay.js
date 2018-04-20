@@ -9,6 +9,7 @@ const input = require('../../framework/input');
 const audio = require('./audio');
 const { quitGame } = require('./utils');
 const { startLevel } = require('./level');
+const collision = require('../../framework/collision');
 
 var mouseCapture = false;
 var myTexture = null;
@@ -29,32 +30,33 @@ function initialize() {
 		pos: {x:9, y:9},
 	});/*
 
-	towerSystem.addTower({
-		type: TowerType.TOWER12,
-		pos: {x:11, y:11},
-	});
-	towerSystem.addTower({
-		type: TowerType.TOWER13,
-		pos: {x:11, y:9},
-	});
+	// towerSystem.addTower({
+	// 	type: TowerType.TOWER12,
+	// 	pos: {x:11, y:11},
+	// });
+	// towerSystem.addTower({
+	// 	type: TowerType.TOWER13,
+	// 	pos: {x:11, y:9},
+	// });
 	
-	towerSystem.addTower({
-		type: TowerType.TOWER21,
-		pos: {x:9, y:11},
-	});	
-	towerSystem.addTower({
-		type: TowerType.TOWER22,
-		pos: {x:7, y:11},
-	});	
-	towerSystem.addTower({
-		type: TowerType.TOWER23,
-		pos: {x:7, y:7},
-	});
-	towerSystem.addTower({
-		type: TowerType.TOWER31,
-		pos: {x:7, y:9},
-	});
+	// towerSystem.addTower({
+	// 	type: TowerType.TOWER21,
+	// 	pos: {x:9, y:11},
+	// });	
+	// towerSystem.addTower({
+	// 	type: TowerType.TOWER22,
+	// 	pos: {x:7, y:11},
+	// });	
+	// towerSystem.addTower({
+	// 	type: TowerType.TOWER23,
+	// 	pos: {x:7, y:7},
+	// });
+	// towerSystem.addTower({
+	// 	type: TowerType.TOWER31,
+	// 	pos: {x:7, y:9},
+	// });
 	
+<<<<<<< HEAD
 	towerSystem.addTower({
 		type: TowerType.TOWER32,
 		pos: {x:9, y:7},
@@ -63,6 +65,16 @@ function initialize() {
 		type: TowerType.TOWER33,
 		pos: {x:11, y:7},
 	});*/
+=======
+	// towerSystem.addTower({
+	// 	type: TowerType.TOWER32,
+	// 	pos: {x:9, y:7},
+	// });	
+	// towerSystem.addTower({
+	// 	type: TowerType.TOWER33,
+	// 	pos: {x:11, y:7},
+	// });
+>>>>>>> origin/master
 }
 
 function update(elapsedTime) {
@@ -72,6 +84,7 @@ function update(elapsedTime) {
 	towerSystem.update(elapsedTime);
 	creepSystem.update(elapsedTime);
 	bulletSystem.update(elapsedTime);
+	collision.update(elapsedTime);
 	// sprite.updatePosition({x,y})
 	// sprite.update(elapsedTime);
 }
@@ -81,6 +94,7 @@ function render() {
 	creepSystem.render();
 	towerSystem.render();
 	bulletSystem.render();
+	collision.drawBoundingBox();
 }
 
 function gameLoop(time) {
