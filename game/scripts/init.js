@@ -35,13 +35,16 @@ var vm = new Vue({
         showOptions: false,
         showGrid: getSettingOr("showGrid", false),
         showTowerCoverage: getSettingOr("showTowerCoverage", false),
-        // showEnemyPath: false,
         mute: getSettingOr('mute', false),
         upgradeTowerKey: getSettingOr('upgradeTowerKey', 'U'),
         sellTowerKey: getSettingOr('sellTowerKey', 'S'),
         startLevelKey: getSettingOr('startLevelKey', 'G'),
         command: '',
-        changeKeysVisible: false
+        changeKeysVisible: false,
+        score: 0,
+        money: 1000,
+        placeTower: '',
+        mousePosition: null
     },
     watch:{
         showGrid: function () {updateSetting("showGrid");},
@@ -97,7 +100,17 @@ var vm = new Vue({
         }
     },
     mounted() {
+        this.$refs.gameCanvas.addEventListener('mousemove', (evt) => {
+            var rect = this.$refs.gameCanvas.getBoundingClientRect();
+            this.mousePosition = {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        });
 
+        this.$refs.gameCanvas.addEventListener('mouseout', () => {
+            this.mousePosition = null
+        });
     }
 });
 

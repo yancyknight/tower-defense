@@ -94,7 +94,8 @@ function drawImage({
 	dWidth,
 	dHeight,
 	rotation = 0,
-	horizontalFlip = false
+	horizontalFlip = false,
+	alpha = 1
 } = {}) {
 	var self = this;
 	image.then(function(img){
@@ -114,8 +115,9 @@ function drawImage({
 		context.translate(-center.x, -center.y);
 		if (horizontalFlip) {
 			context.scale(-1, 1);
-			dx = -dx;
+			dx = -dx - dWidth;
 		}
+		context.globalAlpha = alpha;
 
 		context.drawImage(img, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
 	
@@ -181,7 +183,7 @@ function SpriteSheet({
 			sy: 0,
 			sWidth: width,
 			sHeight: height,
-			dx: x+30, //TODO: I don' know what i broke, but they are 30 pixels off...
+			dx: x,
 			dy: y,
 			dWidth: width,
 			dHeight: height,

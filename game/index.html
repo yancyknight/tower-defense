@@ -8,6 +8,9 @@
 <style>
 [v-cloak] {
 	display: none;
+}
+
+body {
 	background-color: rgb(63, 63, 63);
 }
 </style>
@@ -39,13 +42,17 @@
 			<div v-show="!showOptions" id="tower-display">
 				<div id="tower-menu">
 					<ul>
-						<li><el-button type="danger" class="menu-btn">Fire</el-button></li>
-						<li><el-button type="danger" class="menu-btn">Ice</el-button></li>
-						<li><el-button type="danger" class="menu-btn">Air</el-button></li>
+						<li><el-button type="danger" class="menu-btn" @click="placeTower = 'ground1'">Basic</el-button></li>
+						<li><el-button type="danger" class="menu-btn" @click="placeTower = 'ground2'">Bomb</el-button></li>
+						<li><el-button type="danger" class="menu-btn" @click="placeTower = 'air1'">Basic</el-button></li>
+						<li><el-button type="danger" class="menu-btn" @click="placeTower = 'air2'">Guided Missile</el-button></li>
 					</ul>
 				</div>
 	
 				<div id="tower-details">
+					<span style="font-size: 16px; padding-left: 15px;">Score: {{score}}</span>
+					<span style="font-size: 16px; padding-left: 15px;">Money: ${{money}}</span>
+					<span style="font-size: 16px; padding-left: 15px;">mousePosition: ${{mousePosition}}</span>
 				</div>
 				<el-button class="btn--options" @click="showOptions = true">Options</el-button>
 			</div>
@@ -71,7 +78,7 @@
 				</div>
 				<el-button class="btn--options" @click="showOptions = false">Back</el-button>
 			</div>
-			<canvas :class="{grid: showGrid}" id="fw-canvas" width="1000" height="1000"></canvas>
+			<canvas ref="gameCanvas" :class="{grid: showGrid}" id="fw-canvas" width="1000" height="1000"></canvas>
 		</div>
 
 		<div v-show="show == 'high-scores'" id="high-scores" class="screen">

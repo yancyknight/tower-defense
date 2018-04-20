@@ -6,32 +6,38 @@ const explosionSound = new Audio('explosion.wav');
 const rocketLaunchSound = new Audio('rocketlaunch.wav');
 const bulletSound = new Audio('bullet.ogg');
 
+function playSound(sound) {
+    if(!vm.mute) {
+        sound.play();
+    }
+}
+
 function die() {
-    dieSound.play();
+    playSound(dieSound)
 }
 
 function hit() {
-    hitSound.play();
+    playSound(hitSound)
 }
 
 function sellTower() {
-    sellTowerSound.play();
+    playSound(sellTowerSound)
 }
 
 function buyTower() {
-    buyTowerSound.play();
+    playSound(buyTowerSound)
 }
 
 function explosion() {
-    explosionSound.play();
+    playSound(explosionSound)
 }
 
 function rocketLaunch() {
-    rocketLaunchSound.play();
+    playSound(rocketLaunchSound)
 }
 
 function bullet() {
-    bulletSound.play();
+    playSound(bulletSound)
 }
 
 module.exports = {
