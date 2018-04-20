@@ -26,26 +26,9 @@ var creep = function ({
     }
 } = {}) {
     var that = {};
-<<<<<<< HEAD
     that.goal = goal;
-        that.myPos = {
-        x: pos.x*1000/map.rowColSize + map.rowColSize/2,
-        y: pos.y*1000/map.rowColSize + map.rowColSize/2}
-        let rot = 0;
-        let speed = 40;
     that.myPath = m_map.shortestPath(pos, goal);
         
-        switch(type) {
-            case CreepType.EYEBALL:
-            var creaturesImage = "eyebawl.png";
-            break;
-            case CreepType.FIREWOOF:
-            var creaturesImage = "firewoof.png";
-            break;
-            case CreepType.JETSTER:
-            var creaturesImage = "jetster.png";
-            break;
-=======
     that.myPos = {
         x: pos.x*1000/map.rowColSize + map.rowColSize/2,
         y: pos.y*1000/map.rowColSize + map.rowColSize/2
@@ -73,7 +56,6 @@ var creep = function ({
             y: that.myPos.y,
             w: creatureWidth,
             h: creatureHeight
->>>>>>> origin/master
         }
     }
 
@@ -96,15 +78,11 @@ var creep = function ({
     }
 
     that.update = function (elapsedTime) {
-<<<<<<< HEAD
-        var diffx = that.myPath[0].x - that.myPos.x;
-=======
         if(that.health < 1) {
             audio.die();
             return true;
         }
-        var diffx = myPath[0].x - that.myPos.x;
->>>>>>> origin/master
+        var diffx = that.myPath[0].x - that.myPos.x;
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffx) > distanceToTraverse) {
             that.myPos.x += distanceToTraverse * Math.sign(diffx);
@@ -177,7 +155,6 @@ var creepSystem = function () {
         }
     }
 
-<<<<<<< HEAD
     that.resetAllPaths = function() {
         for(let i = 0; i < creeps.length; i++) {
             var creep = creeps[i];
@@ -187,8 +164,6 @@ var creepSystem = function () {
         }
     }
 
-    var calcDist = function(a, b) {
-=======
     that.foreach = function(func) {
         for(let i = 0; i < creeps.length; i++) {
             func(creeps[i]);
@@ -196,7 +171,6 @@ var creepSystem = function () {
     }
 
     function calcDist(a, b) {
->>>>>>> origin/master
         return Math.sqrt(Math.pow(a.x-b.x, 2) + Math.pow(a.y-b.y, 2));
     }
 

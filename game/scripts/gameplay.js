@@ -56,16 +56,6 @@ function initialize() {
 	// 	pos: {x:7, y:9},
 	// });
 	
-<<<<<<< HEAD
-	towerSystem.addTower({
-		type: TowerType.TOWER32,
-		pos: {x:9, y:7},
-	});	
-	towerSystem.addTower({
-		type: TowerType.TOWER33,
-		pos: {x:11, y:7},
-	});*/
-=======
 	// towerSystem.addTower({
 	// 	type: TowerType.TOWER32,
 	// 	pos: {x:9, y:7},
@@ -73,8 +63,7 @@ function initialize() {
 	// towerSystem.addTower({
 	// 	type: TowerType.TOWER33,
 	// 	pos: {x:11, y:7},
-	// });
->>>>>>> origin/master
+	// });*/
 }
 
 function update(elapsedTime) {

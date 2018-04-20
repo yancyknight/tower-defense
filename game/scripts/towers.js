@@ -198,17 +198,6 @@ var tower = function ({
                 }
                 if (lastFire > rateOfFire && !ghost) {
                     //fire!
-<<<<<<< HEAD
-                    m_bulletSystem.addBullet({
-                        type: bulletSystem.BulletType.BULLET,
-                        myPos: {
-                            x: towerCenter.x,
-                            y: towerCenter.y
-                        },
-                        goal: creep.myPos
-                    });
-                    //register collision
-=======
                     var newBullet = m_bulletSystem.addBullet({
                         type:bulletSystem.BulletType.BULLET, 
                         myPos:{x: towerCenter.x, y: towerCenter.y}, 
@@ -216,7 +205,6 @@ var tower = function ({
                     });
                     collision.add(newBullet, creep);
 
->>>>>>> origin/master
                     lastFire = 0;
                 }
             } else {
