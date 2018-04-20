@@ -10,6 +10,7 @@ const audio = require('./audio');
 const { quitGame } = require('./utils');
 const { startLevel } = require('./level');
 const collision = require('../../framework/collision');
+const pointsSystem = require('./points').floatingPointSystem;
 
 var mouseCapture = false;
 var myTexture = null;
@@ -74,6 +75,7 @@ function update(elapsedTime) {
 	creepSystem.update(elapsedTime);
 	bulletSystem.update(elapsedTime);
 	collision.update(elapsedTime);
+	pointsSystem.update(elapsedTime);
 	// sprite.updatePosition({x,y})
 	// sprite.update(elapsedTime);
 }
@@ -84,6 +86,7 @@ function render() {
 	towerSystem.render();
 	bulletSystem.render();
 	collision.drawBoundingBox();
+	pointsSystem.render();
 }
 
 function gameLoop(time) {

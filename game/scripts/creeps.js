@@ -3,6 +3,7 @@ const map = require('./map');
 var m_map = map.map;
 const collision = require('../../framework/collision');
 const audio = require('./audio');
+const pointsSystem = require('./points').floatingPointSystem;
 
 var CreepType = {
     FIREWOOF: 0,
@@ -38,6 +39,9 @@ var creep = function ({
     var myPath = m_map.shortestPath(pos, goal);
     that.health = 1000;
     var maxHealth = that.health;
+    var points = 10;
+    var healthPercent;
+    var barFill;
     
     switch(type) {
         case CreepType.EYEBALL:
@@ -76,18 +80,13 @@ var creep = function ({
 
     that.render = function () {
         m_sprite.draw();
-        if(maxHealth !== that.health) {
-            var healthPercent = that.health / maxHealth;
-            var fill;
-            if(healthPercent > .5) fill = '#00FF00';
-            else if(healthPercent > .25) fill = '#FFFF00';
-            else fill = '#FF0000';
+        if(healthPercent !== 1) { // need to move this
             graphics.drawRectangle({
                 x: that.myPos.x,
                 y: that.myPos.y - 20,
                 w: healthPercent*25,
                 h: 10,
-                fill
+                fill: barFill
             });
         }
     }
@@ -95,7 +94,18 @@ var creep = function ({
     that.update = function (elapsedTime) {
         if(that.health < 1) {
             audio.die();
+            pointsSystem.addFloatingPoint({
+                num: points,
+                pos: that.myPos
+            });
+            vm.money += points;
             return true;
+        }
+        healthPercent = that.health / maxHealth;
+        if(healthPercent !== 1){
+            if(healthPercent > .5) barFill = '#00FF00';
+            else if(healthPercent > .25) barFill = '#FFFF00';
+            else barFill = '#FF0000';
         }
         var diffx = that.myPath[0].x - that.myPos.x;
         var distanceToTraverse = speed * elapsedTime / 1000;
