@@ -5,6 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import lang from 'element-ui/lib/locale/lang/en';
 import locale from 'element-ui/lib/locale';
 import graphics from '../../framework/graphics';
+import localStorage from '../../framework/LocalStorage';
 
 // configure language
 locale.use(lang);
@@ -16,23 +17,42 @@ const { myKeyboard } = require('./input');
 const { EventKey, KeyEvent } = require('../../framework/input');
 const { upgradeTower, sellTower, startLevel } = require('./utils');
 
+var updateSetting = function(option) {
+    localStorage.setSingleSetting(option, vm[option]);
+}
+
+var getSettingOr = function(option, defaultValue) {
+    var setting = localStorage.getSettings(option);
+    console.log(option, setting);
+    if(setting === null) return defaultValue;
+    return setting;
+}
+
 var vm = new Vue({
     el: '#game',
     data: {
         show: 'main-menu',
         showOptions: false,
-        showGrid: false,
-        showTowerCoverage: false,
-        mute: false,
-        upgradeTowerKey: 'U',
-        sellTowerKey: 'S',
-        startLevelKey: 'G',
+        showGrid: getSettingOr("showGrid", false),
+        showTowerCoverage: getSettingOr("showTowerCoverage", false),
+        mute: getSettingOr('mute', false),
+        upgradeTowerKey: getSettingOr('upgradeTowerKey', 'U'),
+        sellTowerKey: getSettingOr('sellTowerKey', 'S'),
+        startLevelKey: getSettingOr('startLevelKey', 'G'),
         command: '',
         changeKeysVisible: false,
         score: 0,
         money: 1000,
         placeTower: '',
         mousePosition: null
+    },
+    watch:{
+        showGrid: function () {updateSetting("showGrid");},
+        showTowerCoverage: function() {updateSetting("showTowerCoverage");},
+        mute: function() {updateSetting("mute");},
+        upgradeTowerKey: function() {updateSetting("upgradeTowerKey");},
+        sellTowerKey: function() {updateSetting("sellTowerKey");},
+        startLevelKey: function() {updateSetting("startLevelKey");},
     },
     methods: {
         startGame() {

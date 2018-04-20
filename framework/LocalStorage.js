@@ -4,12 +4,16 @@ function getSettings(path) {
     let settingsString = localStorage.getItem(path);
     if (settingsString === null) {
         // console.log("setting settings");
-        return {};
+        return null;
     }
     else {
         // console.log("settings: " + settingsString);
         return JSON.parse(settingsString);
     }
+}
+
+function setSingleSetting(path, value) {
+  localStorage.setItem(path, JSON.stringify(value));   
 }
 
 function setSettings(path, {
@@ -48,6 +52,7 @@ function removeAllSettings(path) {
 module.exports = {
     getSettings,
     setSettings,
+    setSingleSetting,
     removeSetting,
     removeAllSettings
 };
