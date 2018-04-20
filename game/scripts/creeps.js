@@ -1,6 +1,8 @@
 const graphics = require('../../framework/graphics');
 const map = require('./map');
 var m_map = map.map;
+const collision = require('../../framework/collision');
+const audio = require('./audio');
 
 var CreepType = {
     FIREWOOF: 0,
@@ -24,43 +26,59 @@ var creep = function ({
     }
 } = {}) {
     var that = {};
-        that.myPos = {
+    that.myPos = {
         x: pos.x*1000/map.rowColSize + map.rowColSize/2,
-        y: pos.y*1000/map.rowColSize + map.rowColSize/2}
-        let rot = 0;
-        let speed = 40;
-        var myPath = m_map.shortestPath(pos, goal);
-        
-        switch(type) {
-            case CreepType.EYEBALL:
-            var creaturesImage = "eyebawl.png";
-            break;
-            case CreepType.FIREWOOF:
-            var creaturesImage = "firewoof.png";
-            break;
-            case CreepType.JETSTER:
-            var creaturesImage = "jetster.png";
-            break;
+        y: pos.y*1000/map.rowColSize + map.rowColSize/2
+    }
+    let rot = 0;
+    let speed = 40;
+    var myPath = m_map.shortestPath(pos, goal);
+    that.health = 100;
+    
+    switch(type) {
+        case CreepType.EYEBALL:
+        var creaturesImage = "eyebawl.png";
+        break;
+        case CreepType.FIREWOOF:
+        var creaturesImage = "firewoof.png";
+        break;
+        case CreepType.JETSTER:
+        var creaturesImage = "jetster.png";
+        break;
+    }
+
+    that.getBoundingBox = function() {
+        return {
+            x: that.myPos.x,
+            y: that.myPos.y,
+            w: creatureWidth,
+            h: creatureHeight
         }
-        var m_sprite = graphics.SpriteSheet({
-            sprite: 0,
-            elapsedTime: 0,
-            center: that.myPos,
-            rotation: 0,
-            width: creatureWidth,
-            height: creatureWidth,
-            spriteCount: 3,
-            src: creaturesImage,
-            spriteTime: 300,
-            reverseOnFinish: true,
-            horizontalFlip: true
-        });
+    }
+
+    var m_sprite = graphics.SpriteSheet({
+        sprite: 0,
+        elapsedTime: 0,
+        center: that.myPos,
+        rotation: 0,
+        width: creatureWidth,
+        height: creatureWidth,
+        spriteCount: 3,
+        src: creaturesImage,
+        spriteTime: 300,
+        reverseOnFinish: true,
+        horizontalFlip: true
+    });
 
     that.render = function () {
         m_sprite.draw();
     }
 
     that.update = function (elapsedTime) {
+        if(that.health < 1) {
+            audio.die();
+            return true;
+        }
         var diffx = myPath[0].x - that.myPos.x;
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffx) > distanceToTraverse) {
@@ -95,11 +113,11 @@ var creepSystem = function () {
     var creepSystems = [];
 
     that.addCreepSystem = function({
-    time = 10000,
-    amount = 50,
-    type = CreepType.ALIEN,
-    startingPositions, // array of starting positions
-    endingPositions,
+        time = 10000,
+        amount = 50,
+        type = CreepType.ALIEN,
+        startingPositions, // array of starting positions
+        endingPositions,
     } = {}) {
         creepSystems.push({time, amount, type, startingPositions, endingPositions, creepsMade: 0, timePassed: 0});
     }
@@ -133,7 +151,13 @@ var creepSystem = function () {
         }
     }
 
-    var calcDist = function(a, b) {
+    that.foreach = function(func) {
+        for(let i = 0; i < creeps.length; i++) {
+            func(creeps[i]);
+        }
+    }
+
+    function calcDist(a, b) {
         return Math.sqrt(Math.pow(a.x-b.x, 2) + Math.pow(a.y-b.y, 2));
     }
 
@@ -152,6 +176,5 @@ var m_creepSystem = creepSystem();
 
 module.exports = {
     creepSystem: m_creepSystem,
-    CreepType,
-    id: 'creep'
+    CreepType
 };

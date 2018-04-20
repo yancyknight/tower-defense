@@ -23,7 +23,6 @@ var updateSetting = function(option) {
 
 var getSettingOr = function(option, defaultValue) {
     var setting = localStorage.getSettings(option);
-    console.log(option, setting);
     if(setting === null) return defaultValue;
     return setting;
 }

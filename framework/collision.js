@@ -12,10 +12,15 @@ collision.register = function ({
     if(typeof obj1 !== 'object') throw 'collision.register: obj1 is required and must be an object'
     if(typeof obj2 !== 'object') throw 'collision.register: obj2 is required and must be an object'
     if(typeof handler !== 'function') throw 'collision.register: handler is required and must be a function'
-    if(typeof obj1.behaviors !== 'object' || typeof obj2.behaviors !== 'object') throw 'objects must have behaviors'
-    if(typeof obj1.behaviors.collision !== 'object' || typeof obj2.behaviors.collision !== 'object') throw 'objects must have a collision behavior'
-    if(typeof obj1.behaviors.collision.getBoundingBox !== 'function' || typeof obj2.behaviors.collision.getBoundingBox !== 'function') throw 'object collision behavior must have a getBoundingBox function'
-
+    // if(typeof obj1.behaviors !== 'object' || typeof obj2.behaviors !== 'object') throw 'objects must have behaviors'
+    // if(typeof obj1.behaviors.collision !== 'object' || typeof obj2.behaviors.collision !== 'object') throw 'objects must have a collision behavior'
+    // if(typeof obj1.getBoundingBox !== 'function' || typeof obj2.getBoundingBox !== 'function') throw 'object collision behavior must have a getBoundingBox function'
+    if(typeof obj1.getBoundingBox !== 'function' || typeof obj2.getBoundingBox !== 'function') throw 'collision.register: objects must have a getBoundingBox function as a root level property'
+    var { x, y, w, h } = obj1.getBoundingBox();
+    if(typeof x === 'undefined' || typeof y === 'undefined' || typeof w === 'undefined' || typeof h === 'undefined') throw 'collision.register: object.getBoundingBox must be {x, y, w, h}'
+    var { x, y, w, h } = obj2.getBoundingBox();
+    if(typeof x === 'undefined' || typeof y === 'undefined' || typeof w === 'undefined' || typeof h === 'undefined') throw 'collision.register: object.getBoundingBox must be {x, y, w, h}'
+    
     registeredHandlers.push({
         obj1,
         obj2,
@@ -33,12 +38,12 @@ collision.drawBoundingBox = function () {
     for (let i = 0; i < registeredHandlers.length; i++) {
         let handler = registeredHandlers[i];
 
-        let bb1 = handler.obj1.behaviors.collision.getBoundingBox(handler.obj1);
+        let bb1 = handler.obj1.getBoundingBox(handler.obj1);
         bb1.fill = 'rgba(0,0,0,0)';
         bb1.stroke = 'rgb(255,0,0)';
         graphics.drawRectangle(bb1);
 
-        let bb2 = handler.obj2.behaviors.collision.getBoundingBox(handler.obj2);
+        let bb2 = handler.obj2.getBoundingBox(handler.obj2);
         bb2.fill = 'rgba(0,0,0,0)';
         bb2.stroke = 'rgb(255,0,0)';
         graphics.drawRectangle(bb2);
@@ -48,8 +53,8 @@ collision.drawBoundingBox = function () {
 collision.update = function() {
     for (let i = 0; i < registeredHandlers.length; i++) {
         let handler = registeredHandlers[i];
-        let bb1 = handler.obj1.behaviors.collision.getBoundingBox(handler.obj1);
-        let bb2 = handler.obj2.behaviors.collision.getBoundingBox(handler.obj2);
+        let bb1 = handler.obj1.getBoundingBox(handler.obj1);
+        let bb2 = handler.obj2.getBoundingBox(handler.obj2);
         let l1 = { x: bb1.x, y: bb1.y };
         let r1 = { x: bb1.x + bb1.w, y: bb1.y + bb1.h };
         let l2 = { x: bb2.x, y: bb2.y };
