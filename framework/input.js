@@ -8,7 +8,7 @@ function Mouse() {
 		handlersMove: []
 	};
 
-	function init() {
+	that.init = function() {
 		that.mouseDown.length = 0;
 		that.mouseUp.length = 0;
 		that.mouseMove.length = 0;
@@ -34,7 +34,6 @@ function Mouse() {
 		let handler;
 
 		// Process the mouse events for each of the different kinds of handlers
-		console.log('handler down', that.handlersDown.length);
 		for (event = 0; event < that.mouseDown.length; event++) {
 			for (handler = 0; handler < that.handlersDown.length; handler++) {
 				that.handlersDown[handler](that.mouseDown[event], elapsedTime);
@@ -63,7 +62,6 @@ function Mouse() {
 	that.registerCommand = function(type, handler) {
 		if (type === 'mousedown') {
 			that.handlersDown.push(handler);
-			console.log('registered', handler, that.handlersDown.length);
 		}
 		else if (type === 'mouseup') {
 			that.handlersUp.push(handler);
@@ -85,6 +83,10 @@ function Keyboard() {
 			keys: {},
 			handlers: []
 		};
+
+	that.init = function() {
+		that.handlers.length = 0;
+	}
 	
 	function keyPress(e) {
 		that.keys[e.keyCode] = e.timeStamp;

@@ -34,7 +34,8 @@ var tower = function ({
         x,
         y
     },
-    ghost = false
+    ghost = false,
+    fill = 'rgba(128, 223, 255, .1)'
 } = {}) {
     var that = {};
     let rot = 0;
@@ -127,12 +128,12 @@ var tower = function ({
             rotation: rot + Math.PI / 2,
             alpha: ghost ? .5 : 1
         });
-        if (vm.showTowerCoverage) {
+        if (vm.showTowerCoverage || ghost) {
             graphics.drawCircle({
                 x: towerCenter.x,
                 y: towerCenter.y,
                 radius: range,
-                fill: 'rgba(128, 223, 255, .2)',
+                fill: fill,
             });
         }
     }
@@ -220,7 +221,7 @@ var tower = function ({
     return that;
 }
 
-var TowerSystem = function (map) {
+var TowerSystem = function () {
     var that = {};
     var towers = [];
     var placeTower = false;
@@ -237,7 +238,8 @@ var TowerSystem = function (map) {
             pos
         }));
         placeTower = false;
-        map.setTower(pos);
+        m_map.setTower(pos);
+        creepSystem.resetAllPaths();
     }
 
     that.render = function () {
@@ -258,13 +260,16 @@ var TowerSystem = function (map) {
             return;
         }
         if (vm.mousePosition !== null) {
+            var pos= {
+                x: Math.floor(vm.mousePosition.x / 50),
+                y: Math.floor(vm.mousePosition.y / 50)
+            };
+            var isValid = m_map.validPosition(pos);
             placeTower = tower({
                 type: TowerType[vm.placeTower],
-                pos: {
-                    x: Math.floor(vm.mousePosition.x / 50),
-                    y: Math.floor(vm.mousePosition.y / 50)
-                },
-                ghost: true
+                pos,
+                ghost: true,
+                fill: isValid ? 'rgb(124,252,0, .1)' : 'rgb(255,0,0, .1)',
             });
         }
     }
@@ -272,8 +277,10 @@ var TowerSystem = function (map) {
     return that;
 }
 
+var towerSystem = TowerSystem();
+
 module.exports = {
-    TowerSystem,
+    TowerSystem: towerSystem,
     TowerType,
     tower
 };

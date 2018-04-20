@@ -1,5 +1,5 @@
 const input = require('../../framework/input');
-const { upgradeTower, sellTower, startLevel, quitGame, addTower } = require('./utils');
+const { upgradeTower, sellTower, startLevel, quitGame, addTowerToSystem } = require('./utils');
 
 var myMouse = input.Mouse();
 var myKeyboard = input.Keyboard();
@@ -15,7 +15,7 @@ function initInputs() {
     myKeyboard.registerCommand(input.KeyEvent.DOM_VK_G, startLevel, true);
     
     //myMouse = input.Mouse();
-    myMouse.registerCommand('mousedown', addTower);
+    myMouse.registerCommand('mousedown', addTowerToSystem);
         // mouseCapture = true;
         // myTexture.moveTo({x: e.clientX, y: e.clientY});
 //    });

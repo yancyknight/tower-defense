@@ -14,7 +14,7 @@ var mouseCapture = false;
 var myTexture = null;
 var cancelNextRequest = false;
 var lastTimeStamp;
-var towerSystem = TowerSystem(map);
+var towerSystem = TowerSystem;
 
 function initialize() {
 	console.log('game initializing...');
