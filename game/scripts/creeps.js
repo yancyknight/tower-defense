@@ -36,7 +36,8 @@ var creep = function ({
     let rot = 0;
     let speed = 40;
     var myPath = m_map.shortestPath(pos, goal);
-    that.health = 100;
+    that.health = 1000;
+    var maxHealth = that.health;
     
     switch(type) {
         case CreepType.EYEBALL:
@@ -75,6 +76,20 @@ var creep = function ({
 
     that.render = function () {
         m_sprite.draw();
+        if(maxHealth !== that.health) {
+            var healthPercent = that.health / maxHealth;
+            var fill;
+            if(healthPercent > .5) fill = '#00FF00';
+            else if(healthPercent > .25) fill = '#FFFF00';
+            else fill = '#FF0000';
+            graphics.drawRectangle({
+                x: that.myPos.x,
+                y: that.myPos.y - 20,
+                w: healthPercent*25,
+                h: 10,
+                fill
+            });
+        }
     }
 
     that.update = function (elapsedTime) {
