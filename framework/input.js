@@ -7,6 +7,15 @@ function Mouse() {
 		handlersUp: [],
 		handlersMove: []
 	};
+
+	function init() {
+		that.mouseDown.length = 0;
+		that.mouseUp.length = 0;
+		that.mouseMove.length = 0;
+		that.handlersDown.length = 0;
+		that.handlersUp.length = 0;
+		that.handlersMove.length = 0;
+	}
 	
 	function mouseDown(e) {
 		that.mouseDown.push(e);
