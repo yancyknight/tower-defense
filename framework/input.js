@@ -8,7 +8,7 @@ function Mouse() {
 		handlersMove: []
 	};
 
-	function init() {
+	that.init = function() {
 		that.mouseDown.length = 0;
 		that.mouseUp.length = 0;
 		that.mouseMove.length = 0;
@@ -83,6 +83,10 @@ function Keyboard() {
 			keys: {},
 			handlers: []
 		};
+
+	that.init = function() {
+		that.handlers.length = 0;
+	}
 	
 	function keyPress(e) {
 		that.keys[e.keyCode] = e.timeStamp;

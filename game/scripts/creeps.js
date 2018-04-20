@@ -26,6 +26,9 @@ var creep = function ({
     }
 } = {}) {
     var that = {};
+    that.goal = goal;
+    that.myPath = m_map.shortestPath(pos, goal);
+        
     that.myPos = {
         x: pos.x*1000/map.rowColSize + map.rowColSize/2,
         y: pos.y*1000/map.rowColSize + map.rowColSize/2
@@ -79,26 +82,27 @@ var creep = function ({
             audio.die();
             return true;
         }
-        var diffx = myPath[0].x - that.myPos.x;
+        var diffx = that.myPath[0].x - that.myPos.x;
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffx) > distanceToTraverse) {
             that.myPos.x += distanceToTraverse * Math.sign(diffx);
             rot = 0;
         } else {
-            that.myPos.x = myPath[0].x;
+            that.myPos.x = that.myPath[0].x;
         }
         
-        var diffy = myPath[0].y - that.myPos.y;
+        var diffy = that.myPath[0].y - that.myPos.y;
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffy) > distanceToTraverse) {
             that.myPos.y += distanceToTraverse * Math.sign(diffy);
         } else {
-            that.myPos.y = myPath[0].y;
+            that.myPos.y = that.myPath[0].y;
         }
 
-        if (that.myPos.x === myPath[0].x && that.myPos.y === myPath[0].y) {
-            if(myPath.length === 1) return true;
-            myPath.shift();
+        if (that.myPos.x === that.myPath[0].x && that.myPos.y === that.myPath[0].y) {
+            if(that.myPath.length === 1) return true;
+            that.myPath.shift();
+
         }
         m_sprite.update(elapsedTime);
         m_sprite.updatePosition({x:that.myPos.x, y:that.myPos.y});
@@ -148,6 +152,15 @@ var creepSystem = function () {
                 creepSystems[i].creepsMade++;
                 creepSystems[i].timePassed = 0;
             }
+        }
+    }
+
+    that.resetAllPaths = function() {
+        for(let i = 0; i < creeps.length; i++) {
+            var creep = creeps[i];
+            creep.myPath = m_map.shortestPath({x:Math.floor(creep.myPos.x/1000*map.rowColSize), 
+                                               y:Math.floor(creep.myPos.y/1000*map.rowColSize)},
+                                               creep.goal);
         }
     }
 

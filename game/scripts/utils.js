@@ -1,3 +1,6 @@
+const towers = require('./towers');
+const { map } = require('./map');
+
 function upgradeTower() {
     console.log(`upgrade tower now!`);
 }
@@ -8,6 +11,19 @@ function sellTower() {
 
 function startLevel() {
     console.log(`start level now!`);
+}
+
+function addTowerToSystem() {
+	if(vm.placeTower === '')return;
+	if(vm.money < 100) return; // tower cost
+	var position = { x: Math.floor(vm.mousePosition.x / 50),
+		y: Math.floor(vm.mousePosition.y / 50)};
+	if(!map.validPosition(position)) return;
+	towers.TowerSystem.addTower({
+        type: towers.TowerType[vm.placeTower],
+        pos: position
+    });
+    vm.placeTower = '';
 }
 
 function quitGame() {
@@ -31,5 +47,6 @@ module.exports = {
     upgradeTower,
     sellTower,
     startLevel,
-    quitGame
+	quitGame,
+	addTowerToSystem
 }

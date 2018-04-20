@@ -9,7 +9,7 @@ const rowColSize = 20;
 
 var createMap = function () {
     var that = {};
-    
+
     var grid = [];
     for (let i = 0; i < rowColSize; i++) {
         grid.push([]);
@@ -17,7 +17,7 @@ var createMap = function () {
             grid[i].push(SquareEnum.EMPTY);
         }
     }
-    
+
     for (let i = 1; i < rowColSize / 2 - 2; i++) {
         grid[i][1] = SquareEnum.BLOCK;
         grid[i][rowColSize - 2] = SquareEnum.BLOCK;
@@ -38,18 +38,20 @@ var createMap = function () {
     grid[rowColSize / 2 - 3][rowColSize - 1] = SquareEnum.BLOCK;
     grid[rowColSize / 2 + 2][rowColSize - 1] = SquareEnum.BLOCK;
 
-    that.update = function () {
-    }
+    that.update = function () {}
 
     that.render = function () {
 
     }
 
-    that.setTower = function({x, y}) {
+    that.setTower = function ({
+        x,
+        y
+    }) {
         grid[y][x] = SquareEnum.TOWER;
-        grid[y+1][x] = SquareEnum.TOWER;
-        grid[y][x+1] = SquareEnum.TOWER;
-        grid[y+1][x+1] = SquareEnum.TOWER;
+        grid[y + 1][x] = SquareEnum.TOWER;
+        grid[y][x + 1] = SquareEnum.TOWER;
+        grid[y + 1][x + 1] = SquareEnum.TOWER;
     }
 
     var CameFromEnum = {
@@ -96,7 +98,7 @@ var createMap = function () {
             return false;
         }
 
-        that.printList = function() {
+        that.printList = function () {
             for (let i = 0; i < items.length; i++) {
                 console.log('hEstimate: ' + items[i].hEstimate);
             }
@@ -105,7 +107,7 @@ var createMap = function () {
         return that;
     }
 
-    that.shortestPath = function (curPos, goal) {
+    that.shortestPath = function (curPos, goal, newTower = null) {
         let dist = calcDist(curPos, goal);
         let frontier = PriorityQueue();
         frontier.addItem({
@@ -125,10 +127,15 @@ var createMap = function () {
         }
         while (frontier.myLength() > 0) {
             let current = frontier.remove();
-            
+
             if (current.x === goal.x && current.y === goal.y) {
                 placesBeen[current.y][current.x] = current;
                 break;
+            }
+
+            if (newTower !== null){
+                if((current.x === newTower.x || current.x === newTower.x + 1) && 
+                (current.y === newTower.y || current.y === newTower.y + 1)) continue;
             }
 
             // up
@@ -136,7 +143,7 @@ var createMap = function () {
                     x: current.x,
                     y: current.y - 1
                 }) && placesBeen[current.y - 1][current.x] === undefined) {
-                    dist = calcDist(goal, {
+                dist = calcDist(goal, {
                     x: current.x,
                     y: current.y - 1
                 });
@@ -154,7 +161,7 @@ var createMap = function () {
                     x: current.x,
                     y: current.y + 1
                 }) && placesBeen[current.y + 1][current.x] === undefined) {
-                    
+
                 dist = calcDist(goal, {
                     x: current.x,
                     y: current.y + 1
@@ -173,7 +180,7 @@ var createMap = function () {
                     x: current.x - 1,
                     y: current.y
                 }) && placesBeen[current.y][current.x - 1] === undefined) {
-                    
+
                 dist = calcDist(goal, {
                     x: current.x - 1,
                     y: current.y
@@ -192,7 +199,7 @@ var createMap = function () {
                     x: current.x + 1,
                     y: current.y
                 }) && placesBeen[current.y][current.x + 1] === undefined) {
-                    
+
                 dist = calcDist(goal, {
                     x: current.x + 1,
                     y: current.y
@@ -208,11 +215,14 @@ var createMap = function () {
             }
             placesBeen[current.y][current.x] = current;
         }
-
+        if (frontier.myLength() === 0) return false;
         let path = [];
         let current = goal;
         while (current.x !== curPos.x || current.y !== curPos.y) {
-            path.push({x:Math.floor(current.x*1000/rowColSize+rowColSize/2), y: Math.floor(current.y*1000/rowColSize+rowColSize/2)});
+            path.push({
+                x: Math.floor(current.x * 1000 / rowColSize + rowColSize / 2),
+                y: Math.floor(current.y * 1000 / rowColSize + rowColSize / 2)
+            });
             switch (placesBeen[current.y][current.x].cameFrom) {
                 case CameFromEnum.UP:
                     current = {
@@ -245,6 +255,34 @@ var createMap = function () {
         }
 
         return path.reverse();
+    }
+
+    that.validPosition = function ({
+        x,
+        y
+    }) {
+        if (x < 2 || x >= 17 || y < 2 || y >= 17) return false;
+        if (grid[y][x] !== SquareEnum.EMPTY ||
+            grid[y + 1][x] !== SquareEnum.EMPTY ||
+            grid[y][x + 1] !== SquareEnum.EMPTY ||
+            grid[y + 1][x + 1] !== SquareEnum.EMPTY) return false;
+
+        if (that.shortestPath({
+                x: 8,
+                y: 0
+            }, {
+                x: 8,
+                y: 19
+            }, {x:x,y:y}) === false) return false;
+        if (that.shortestPath({
+                x: 0,
+                y: 8
+            }, {
+                x: 19,
+                y: 8
+            }, {x:x,y:y}) === false) return false;
+        return true;
+
     }
 
     return that;
