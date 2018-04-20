@@ -188,8 +188,7 @@ var tower = function ({
                         myPos:{x: towerCenter.x, y: towerCenter.y}, 
                         goal:creep.myPos
                     });
-                    
-                    collision.add(newBullet);
+                    collision.add(newBullet, creep);
 
                     lastFire = 0;
                 }

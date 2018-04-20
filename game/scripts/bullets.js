@@ -100,11 +100,6 @@ var bullet = function ({
 var bulletSystem = function () {
     var that = {};
     var bullets = [];
-    var toDestroy = [];
-
-    that.destroy = function(bullet) {
-        toDestroy.push(bullets.indexOf(bullet));
-    }
 
     that.addBullet = function ({
         type = BulletType.BULLET,
@@ -143,11 +138,6 @@ var bulletSystem = function () {
                 bullets[i].update(elapsedTime);
             }
         }
-
-        toDestroy.forEach(function(i) {
-            bullets.splice(i, 1);
-        });
-        
     }
 
     return that;

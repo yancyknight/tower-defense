@@ -3,19 +3,18 @@ const { creepSystem } = require('./creeps');
 const collision = require('../../framework/collision');
 
 function bulletHit(bullet, creep) {
+    console.log(`hit!`);
     creep.health -= bullet.damage;
-    bulletSystem.destroy(bullet);
+    bullet.hit = true;
 }
 
-function add(bullet) {
-    creepSystem.foreach(function(creep) {
-        collision.register({
-            obj1: bullet, 
-            obj2: creep,
-            once: true,
-            handler: bulletHit
-        });
-    })
+function add(bullet, creep) {
+    collision.register({
+        obj1: bullet, 
+        obj2: creep,
+        once: true,
+        handler: bulletHit
+    });
 }
 
 module.exports = {
