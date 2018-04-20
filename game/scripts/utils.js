@@ -1,3 +1,5 @@
+var towers = require('./towers');
+
 function upgradeTower() {
     console.log(`upgrade tower now!`);
 }
@@ -8,6 +10,19 @@ function sellTower() {
 
 function startLevel() {
     console.log(`start level now!`);
+}
+
+function addTower() {
+	console.log('addTower');
+	if(vm.placeTower === '')return;
+	towers.towerSystem.addTower({
+        type: TowerType[vm.placeTower],
+        pos: {
+            x: Math.floor(vm.mousePosition.x / 50),
+            y: Math.floor(vm.mousePosition.y / 50)
+        }
+    });
+    vm.placeTower = '';
 }
 
 function quitGame() {
@@ -31,5 +46,6 @@ module.exports = {
     upgradeTower,
     sellTower,
     startLevel,
-    quitGame
+	quitGame,
+	addTower
 }

@@ -23,7 +23,6 @@ var updateSetting = function(option) {
 
 var getSettingOr = function(option, defaultValue) {
     var setting = localStorage.getSettings(option);
-    console.log(option, setting);
     if(setting === null) return defaultValue;
     return setting;
 }
@@ -103,8 +102,8 @@ var vm = new Vue({
         this.$refs.gameCanvas.addEventListener('mousemove', (evt) => {
             var rect = this.$refs.gameCanvas.getBoundingClientRect();
             this.mousePosition = {
-                x: evt.clientX - rect.left,
-                y: evt.clientY - rect.top
+                x: Math.floor((evt.clientX - rect.left)*5/4),
+                y: Math.floor((evt.clientY - rect.top)*5/3)
             };
         });
 

@@ -27,7 +27,7 @@ function initialize() {
 	towerSystem.addTower({
 		type: TowerType.TOWER11,
 		pos: {x:9, y:9},
-	});
+	});/*
 
 	towerSystem.addTower({
 		type: TowerType.TOWER12,
@@ -62,7 +62,7 @@ function initialize() {
 	towerSystem.addTower({
 		type: TowerType.TOWER33,
 		pos: {x:11, y:7},
-	});
+	});*/
 }
 
 function update(elapsedTime) {
