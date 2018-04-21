@@ -15,6 +15,7 @@ function startLevel() {
 
 function addTowerToSystem() {
 	if(vm.placeTower === '')return;
+	if(!vm.mousePosition) return;
 	if(vm.money < 100) return; // tower cost
 	var position = { x: Math.floor(vm.mousePosition.x / 50),
 		y: Math.floor(vm.mousePosition.y / 50)};
