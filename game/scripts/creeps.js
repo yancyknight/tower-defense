@@ -123,7 +123,7 @@ var creep = function ({
             else if(healthPercent > .25) barFill = '#FFFF00';
             else barFill = '#FF0000';
         }
-        var diffx = that.myPath[0].x - that.myPos.x;
+        var diffx = that.myPath[0].x - that.myPos.x; // TODO: at some random occurance, this dies
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffx) > distanceToTraverse) {
             that.myPos.x += distanceToTraverse * Math.sign(diffx);
@@ -215,6 +215,15 @@ var creepSystem = function () {
     that.foreach = function(func) {
         for(let i = 0; i < creeps.length; i++) {
             func(creeps[i]);
+        }
+    }
+
+    that.explodeNearCreeps = function(bullet) {
+        for(let i = 0; i < creeps.length; i++) {
+            if(Math.sqrt(Math.pow(creeps[i].myPos.x - bullet.myPos.x, 2) + 
+               Math.pow(creeps[i].myPos.y - bullet.myPos.y,2)) < bullet.explodeRange) {
+                creeps[i].health -= bullet.damage;
+            }
         }
     }
 

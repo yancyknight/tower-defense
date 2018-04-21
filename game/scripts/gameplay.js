@@ -27,7 +27,7 @@ function initialize() {
 	cancelNextRequest = false;
 
 	towerSystem.addTower({
-		type: TowerType.TOWER11,
+		type: TowerType.TOWER21,
 		pos: {x:9, y:9},
 	});/*
 

@@ -60,7 +60,7 @@ var tower = function ({
 } = {}) {
     var that = {};
     let rot = 0;
-    let rateOfFire = 500;
+    let rateOfFire = 1000;
     let lastFire = 0;
     let range = 250;
 
@@ -222,7 +222,10 @@ var tower = function ({
                         myPos:{x: towerCenter.x, y: towerCenter.y}, 
                         goal:creep.myPos
                     });
-                    collision.add(newBullet, creep);
+                    if(type % 2 === 1)
+                        collision.add(newBullet, creep, true);
+                    else
+                        collision.add(newBullet, creep);
 
                     lastFire = 0;
                 }
