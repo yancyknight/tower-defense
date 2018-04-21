@@ -1,5 +1,6 @@
 const towers = require('./towers');
 const { map } = require('./map');
+const { nextLevel } = require('./level');
 
 function upgradeTower() {
     console.log(`upgrade tower now!`);
@@ -7,10 +8,6 @@ function upgradeTower() {
 
 function sellTower() {
     console.log(`sell tower now!`);
-}
-
-function startLevel() {
-    console.log(`start level now!`);
 }
 
 function addTowerToSystem() {
@@ -48,7 +45,6 @@ function quitGame() {
 module.exports = {
     upgradeTower,
     sellTower,
-    startLevel,
 	quitGame,
 	addTowerToSystem
 }

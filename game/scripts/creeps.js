@@ -156,6 +156,7 @@ var creep = function ({
 var creepSystem = function () {
     var that = {};
     var creepSystems = [];
+    var hasCreeps = false;
 
     that.addCreepSystem = function({
         time = 10000,
@@ -181,11 +182,16 @@ var creepSystem = function () {
                 creeps.splice(i,1);
                 i--;
                 //decrement lives
+                if(hasCreeps && creeps.length == 0) {
+                    hasCreeps = false;
+                    vm.$emit('level-complete');
+                }
             }
         }
         for(let i = 0; i < creepSystems.length; i++) {
             creepSystems[i].timePassed += elapsedTime;
             if (creepSystems[i].creepsMade < creepSystems[i].amount && creepSystems[i].time / creepSystems[i].amount < creepSystems[i].timePassed) {
+                hasCreeps = true;
                 creeps.push(creep({
                     type: creepSystems[i].type,
                     pos: creepSystems[i].startingPositions[Math.floor(Math.random() * creepSystems[i].startingPositions.length)],

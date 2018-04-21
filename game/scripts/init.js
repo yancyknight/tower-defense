@@ -15,7 +15,7 @@ Vue.use(ElementUI);
 const gameplay = require('./gameplay');
 const { myKeyboard } = require('./input');
 const { EventKey, KeyEvent } = require('../../framework/input');
-const { upgradeTower, sellTower, startLevel } = require('./utils');
+const { upgradeTower, sellTower } = require('./utils');
 
 var updateSetting = function(option) {
     localStorage.setSingleSetting(option, vm[option]);
@@ -31,6 +31,7 @@ var vm = new Vue({
     el: '#game',
     data: {
         show: 'main-menu',
+        playLevel: false,
         showOptions: false,
         showGrid: getSettingOr("showGrid", false),
         showTowerCoverage: getSettingOr("showTowerCoverage", false),
@@ -112,6 +113,10 @@ var vm = new Vue({
 
         this.$refs.gameCanvas.addEventListener('mouseout', () => {
             this.mousePosition = null
+        });
+
+        this.$on('level-complete', function() {
+            this.playLevel = false;
         });
     }
 });
