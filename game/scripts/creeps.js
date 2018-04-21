@@ -4,6 +4,7 @@ var m_map = map.map;
 const collision = require('../../framework/collision');
 const audio = require('./audio');
 const pointsSystem = require('./points').floatingPointSystem;
+const particleSystem = require('../../framework/ParticleSystem').ParticleSystemManager();
 
 var CreepType = {
     FIREWOOF: 0,
@@ -80,7 +81,7 @@ var creep = function ({
 
     that.render = function () {
         m_sprite.draw();
-        if(healthPercent !== 1) { // need to move this
+        if(healthPercent !== 1) { 
             graphics.drawRectangle({
                 x: that.myPos.x,
                 y: that.myPos.y - 20,
@@ -99,6 +100,19 @@ var creep = function ({
                 pos: that.myPos
             });
             vm.money += points;
+            particleSystem.addParticleSystem(that.myPos, {
+                speedmean: .1, speedstdev: 0.04,
+                lifetimemean: 500,lifetimestdev: 300,
+                sizemean: 10, sizestdev: 1,
+                fill: 'rgba(0, 255, 255, 0.75)',
+                stroke: 'rgba(0, 255, 0, 0.5)',
+                image: './firework.png',
+                amount: 200,
+                style: 'image',
+                imagedHeight: 20,
+                imagedWidth: 20
+            });
+
             return true;
         }
         healthPercent = that.health / maxHealth;
@@ -156,6 +170,7 @@ var creepSystem = function () {
         for (let i = 0; i < creeps.length; i++) {
             creeps[i].render();
         }
+        particleSystem.render();
     }
 
     that.update = function (elapsedTime) {
@@ -178,6 +193,7 @@ var creepSystem = function () {
                 creepSystems[i].timePassed = 0;
             }
         }
+        particleSystem.update(elapsedTime);        
     }
 
     that.resetAllPaths = function() {

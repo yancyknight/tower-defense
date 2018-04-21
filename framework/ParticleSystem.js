@@ -128,9 +128,11 @@ function ParticleSystem(center, {
             }
         }
         particles = keepMe;
+        console.log(particles.length);
         if(particles.length === 0) {
             return false;
         }
+        return true;
     };
 
     return that;
@@ -138,23 +140,24 @@ function ParticleSystem(center, {
 
 function ParticleSystemManager() {
     let that = {};
+
     that.addParticleSystem = function (center, {
-    speedmean,
-    speedstdev,
-    lifetimemean,
-    lifetimestdev,
-    sizemean,
-    sizestdev,
-    fill = 'rgba(0, 0, 255, 0.5)',
-    style,
-    stroke,
-    image,
-    imagedWidth,
-    imagedHeight,
-    rate,
-    amount,
-    angleOffset = 0,
-    angleTotal = 2 * Math.PI
+        speedmean,
+        speedstdev,
+        lifetimemean,
+        lifetimestdev,
+        sizemean,
+        sizestdev,
+        fill = 'rgba(0, 0, 255, 0.5)',
+        style,
+        stroke,
+        image,
+        imagedWidth,
+        imagedHeight,
+        rate,
+        amount,
+        angleOffset = 0,
+        angleTotal = 2 * Math.PI
 } = {}) {
         var system = ParticleSystem(center, {
             speedmean,
