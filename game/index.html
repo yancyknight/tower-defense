@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>YamBam Tower Defense</title>
+	<link href="https://fonts.googleapis.com/css?family=Gugi" rel="stylesheet">
 </head>
 
 <style>
@@ -41,24 +42,33 @@ body {
 			<!-- Normal Game Menu -->
 			<div v-show="!showOptions" id="tower-display">
 				<div id="tower-menu">
-					<div>
-						<img src="tower1.png" @click="placeTower = 'TOWER11'">Basic Ground</img>
+					<h5>Ground</h5>
+					<div class="button-group">
+						<el-button type="success" @click="selectTower('TOWER11')">
+							<img v-show="placeTower != 'TOWER11'" src="tower1.png" ></img>
+							<span v-show="placeTower == 'TOWER11'">Cancel</span>
+						</el-button>
+						<el-button type="success" @click="selectTower('TOWER21')">
+							<img v-show="placeTower != 'TOWER21'" src="tower2.png"></img>
+							<span v-show="placeTower == 'TOWER21'">Cancel</span>
+						</el-button>
 					</div>
-					<div>
-						<img src="tower2.png" @click="placeTower = 'TOWER21'">Bomb</img>
-					</div>
-					<div>
-						<img src="tower3.png" @click="placeTower = 'TOWER31'">Basic Air</img>
-					</div>
-					<div>
-						<img src="tower4.png" @click="placeTower = 'TOWER41'">Guided Missile</img>
+					<h5>Air</h5>
+					<div class="button-group" style="padding-bottom: 10px;">
+						<el-button type="danger" @click="selectTower('TOWER31')">
+							<img v-show="placeTower != 'TOWER31'" src="tower3.png"></img>
+							<span v-show="placeTower == 'TOWER31'">Cancel</span>
+						</el-button>
+						<el-button type="danger" @click="selectTower('TOWER41')">
+							<img v-show="placeTower != 'TOWER41'" src="tower4.png"></img>
+							<span v-show="placeTower == 'TOWER41'">Cancel</span>
+						</el-button>
 					</div>
 				</div>
 	
 				<div id="tower-details">
 					<span style="font-size: 16px; padding-left: 15px;">Score: {{score}}</span>
 					<span style="font-size: 16px; padding-left: 15px;">Money: ${{money}}</span>
-					<span style="font-size: 16px; padding-left: 15px;">mousePosition: ${{mousePosition}}</span>
 				</div>
 				<el-button class="btn--options" @click="showOptions = true">Options</el-button>
 			</div>
@@ -68,9 +78,9 @@ body {
 				<div id="game-options">
 					<h5 style="margin: 10px 10px;">Game Options</h5>
 					<ul class="menu">
-						<li><el-checkbox style="width: 175px; color: #fff;" v-model="showGrid" label="Show Placement Grid" border></el-checkbox></li>
-						<li><el-checkbox style="width: 175px; color: #fff;" v-model="showTowerCoverage" label="Show Tower Coverage" border></el-checkbox></li>
-						<li><el-checkbox style="width: 175px; color: #fff;" v-model="mute" label="Mute Sound Effects" border></el-checkbox></li>
+						<li><el-checkbox style="width: 195px; color: #fff;" v-model="showGrid" label="Show Placement Grid" border></el-checkbox></li>
+						<li><el-checkbox style="width: 195px; color: #fff;" v-model="showTowerCoverage" label="Show Tower Coverage" border></el-checkbox></li>
+						<li><el-checkbox style="width: 195px; color: #fff;" v-model="mute" label="Mute Sound Effects" border></el-checkbox></li>
 						<!-- <el-checkbox v-model="showEnemyPath" label="Show Enemy Path" border></el-checkbox> -->
 					</ul>
 				</div>

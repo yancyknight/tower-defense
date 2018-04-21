@@ -4,7 +4,7 @@ const startLevel = {
     one: function() {
         creepSystem.addCreepSystem({
             time: 1,
-            amount: 10,
+            amount: 5,
             type: CreepType.EYEBALL,
             startingPositions: [{
                 x: 0,
@@ -27,7 +27,7 @@ const startLevel = {
         
         creepSystem.addCreepSystem({
             time: 20000,
-            amount: 50,
+            amount: 5,
             type: CreepType.FIREWOOF,
             startingPositions: [{
                 x: 8,
@@ -50,7 +50,7 @@ const startLevel = {
         
         creepSystem.addCreepSystem({
             time: 30000,
-            amount: 70,
+            amount: 5,
             type: CreepType.JETSTER,
             startingPositions: [{
                 x: 8,

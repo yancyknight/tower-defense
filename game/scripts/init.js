@@ -96,6 +96,9 @@ var vm = new Vue({
                     vm.changeKeysVisible = false;
                 }
             }, { once: true });
+        },
+        selectTower(tower) {
+            this.placeTower = this.placeTower == tower ? '' : tower;
         }
     },
     mounted() {
