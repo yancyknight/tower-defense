@@ -41,12 +41,18 @@ body {
 			<!-- Normal Game Menu -->
 			<div v-show="!showOptions" id="tower-display">
 				<div id="tower-menu">
-					<ul>
-						<li><el-button type="danger" class="menu-btn" @click="placeTower = 'TOWER11'">Basic Ground</el-button></li>
-						<li><el-button type="danger" class="menu-btn" @click="placeTower = 'TOWER21'">Bomb</el-button></li>
-						<li><el-button type="danger" class="menu-btn" @click="placeTower = 'TOWER31'">Basic Air</el-button></li>
-						<li><el-button type="danger" class="menu-btn" @click="placeTower = 'TOWER41'">Guided Missile</el-button></li>
-					</ul>
+					<div>
+						<img src="tower1.png" @click="placeTower = 'TOWER11'">Basic Ground</img>
+					</div>
+					<div>
+						<img src="tower2.png" @click="placeTower = 'TOWER21'">Bomb</img>
+					</div>
+					<div>
+						<img src="tower3.png" @click="placeTower = 'TOWER31'">Basic Air</img>
+					</div>
+					<div>
+						<img src="tower4.png" @click="placeTower = 'TOWER41'">Guided Missile</img>
+					</div>
 				</div>
 	
 				<div id="tower-details">

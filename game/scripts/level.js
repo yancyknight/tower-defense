@@ -4,7 +4,7 @@ const startLevel = {
     one: function() {
         creepSystem.addCreepSystem({
             time: 1,
-            amount: 1,
+            amount: 10,
             type: CreepType.EYEBALL,
             startingPositions: [{
                 x: 0,
