@@ -62,3 +62,4 @@ typings/
 /server/public
 
 *.xcf
+.node-persist

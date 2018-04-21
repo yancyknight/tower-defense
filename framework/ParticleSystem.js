@@ -190,14 +190,10 @@ function ParticleSystemManager() {
     }
 
     that.update = function(elapsedTime) {
-        var toDelete = [];
         for(let i = 0; i < systems.length; i++) {
             if(systems[i].update(elapsedTime) === false) {
-                toDelete.push(i);
+                systems.splice(i, 1);
             }
-        }
-        for(let i = toDelete.length-1; i >= 0; i--) {
-            systems.splice(toDelete[i],1);
         }
     }
 

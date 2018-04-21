@@ -3,13 +3,14 @@ const object = require('../../framework/object');
 const { map } = require('./map');
 const { creepSystem } = require('./creeps');
 const { TowerSystem, TowerType } = require('./towers');
+const { initialize: initializeTowers } = TowerSystem;
 const { bulletSystem } = require('./bullets');
 const { myMouse, myKeyboard, initInputs } = require('./input');
 const input = require('../../framework/input');
 const audio = require('./audio');
 const { quitGame } = require('./utils');
-const { startLevel } = require('./level');
 const collision = require('../../framework/collision');
+const { initialize: initializeCollision } = require('./collision');;
 const pointsSystem = require('./points').floatingPointSystem;
 
 var mouseCapture = false;
@@ -17,14 +18,19 @@ var myTexture = null;
 var cancelNextRequest = false;
 var lastTimeStamp;
 var towerSystem = TowerSystem;
+var paused = false;
 
 function initialize() {
 	console.log('game initializing...');
 	initInputs();
-
-	startLevel.one();
+	initializeTowers();
+	creepSystem.initialize();
+	bulletSystem.initialize();
+	map.initialize();
+	initializeCollision();
 
 	cancelNextRequest = false;
+<<<<<<< HEAD
 
 	towerSystem.addTower({
 		type: TowerType.TOWER21,
@@ -65,6 +71,8 @@ function initialize() {
 		type: TowerType.TOWER33,
 		pos: {x:11, y:7},
 	});*/
+=======
+>>>>>>> origin/master
 }
 
 function update(elapsedTime) {
@@ -91,11 +99,13 @@ function render() {
 
 function gameLoop(time) {
 
-	update(time - lastTimeStamp);
-	// console.log(time - lastTimeStamp);
-	lastTimeStamp = time;
-
-	render();
+	if(!paused) {
+		update(time - lastTimeStamp);
+		// console.log(time - lastTimeStamp);
+		lastTimeStamp = time;
+	
+		render();
+	}
 
 	if (!cancelNextRequest) {
 		requestAnimationFrame(gameLoop);
@@ -110,7 +120,17 @@ function run() {
 	requestAnimationFrame(gameLoop);
 }
 
+function pause() {
+	paused = true;
+}
+
+function unpause() {
+	paused = false;
+}
+
 module.exports = {
-	initialize: initialize,
-	run: run
+	initialize,
+	run,
+	pause,
+	unpause
 };

@@ -1,5 +1,6 @@
 const towers = require('./towers');
 const { map } = require('./map');
+const { nextLevel } = require('./level');
 
 function upgradeTower() {
     console.log(`upgrade tower now!`);
@@ -7,10 +8,6 @@ function upgradeTower() {
 
 function sellTower() {
     console.log(`sell tower now!`);
-}
-
-function startLevel() {
-    console.log(`start level now!`);
 }
 
 function addTowerToSystem() {
@@ -29,9 +26,6 @@ function addTowerToSystem() {
 }
 
 function quitGame() {
-	// Stop the game loop by canceling the request for the next animation frame
-	cancelNextRequest = true;
-
 	vm.$confirm('Quit game and return to main menu?', 'Quit Game', {
 		confirmButtonText: 'Get me outta here!',
 		cancelButtonText: `No! I'm winning!`
@@ -41,14 +35,12 @@ function quitGame() {
 		vm.show = 'main-menu';
 	}).catch(function() {
 		cancelNextRequest = false;    
-		run();    
 	});
 }
 
 module.exports = {
     upgradeTower,
     sellTower,
-    startLevel,
 	quitGame,
 	addTowerToSystem
 }

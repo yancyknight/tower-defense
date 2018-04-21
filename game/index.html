@@ -2,7 +2,8 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>YamBam Tower Defense</title>
+	<title>Yam Bam Tower Defense</title>
+	<link href="https://fonts.googleapis.com/css?family=Gugi" rel="stylesheet">
 </head>
 
 <style>
@@ -30,9 +31,9 @@ body {
 
 		<div v-show="show == 'main-menu'" id="main-menu" class="screen">
 			<ul class="menu-center">
+				<h1>Yam Bam Tower Defense</h1>
 				<li><el-button type="danger" class="menu-btn" @click="startGame">New Game</el-button></li>
-				<li><el-button type="danger" class="menu-btn" @click="show = 'high-scores'">High Scores</el-button></li>
-				<li><el-button type="danger" class="menu-btn" @click="show = 'help'">Help</el-button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'high-scores'; getHighScores();">High Scores</el-button></li>
 				<li><el-button type="danger" class="menu-btn" @click="show = 'about'">About</el-button></li>
 			</ul>
 		</div>
@@ -41,24 +42,37 @@ body {
 			<!-- Normal Game Menu -->
 			<div v-show="!showOptions" id="tower-display">
 				<div id="tower-menu">
-					<div>
-						<img src="tower1.png" @click="placeTower = 'TOWER11'">Basic Ground</img>
+					<h5>Ground</h5>
+					<div class="button-group">
+						<el-button type="success" @click="selectTower('TOWER11')">
+							<img v-show="placeTower != 'TOWER11'" src="tower1.png" ></img>
+							<span v-show="placeTower == 'TOWER11'">Cancel</span>
+						</el-button>
+						<el-button type="success" @click="selectTower('TOWER21')">
+							<img v-show="placeTower != 'TOWER21'" src="tower2.png"></img>
+							<span v-show="placeTower == 'TOWER21'">Cancel</span>
+						</el-button>
 					</div>
-					<div>
-						<img src="tower2.png" @click="placeTower = 'TOWER21'">Bomb</img>
-					</div>
-					<div>
-						<img src="tower3.png" @click="placeTower = 'TOWER31'">Basic Air</img>
-					</div>
-					<div>
-						<img src="tower4.png" @click="placeTower = 'TOWER41'">Guided Missile</img>
+					<h5>Air</h5>
+					<div class="button-group" style="padding-bottom: 10px;">
+						<el-button type="danger" @click="selectTower('TOWER31')">
+							<img v-show="placeTower != 'TOWER31'" src="tower3.png"></img>
+							<span v-show="placeTower == 'TOWER31'">Cancel</span>
+						</el-button>
+						<el-button type="danger" @click="selectTower('TOWER41')">
+							<img v-show="placeTower != 'TOWER41'" src="tower4.png"></img>
+							<span v-show="placeTower == 'TOWER41'">Cancel</span>
+						</el-button>
 					</div>
 				</div>
 	
 				<div id="tower-details">
-					<span style="font-size: 16px; padding-left: 15px;">Score: {{score}}</span>
 					<span style="font-size: 16px; padding-left: 15px;">Money: ${{money}}</span>
-					<span style="font-size: 16px; padding-left: 15px;">mousePosition: ${{mousePosition}}</span>
+					<span style="font-size: 16px; padding-left: 15px;">Lives: {{lives}}</span>
+					<div v-show="placeTower">
+						Tower details here
+
+					</div>
 				</div>
 				<el-button class="btn--options" @click="showOptions = true">Options</el-button>
 			</div>
@@ -68,9 +82,9 @@ body {
 				<div id="game-options">
 					<h5 style="margin: 10px 10px;">Game Options</h5>
 					<ul class="menu">
-						<li><el-checkbox style="width: 175px; color: #fff;" v-model="showGrid" label="Show Placement Grid" border></el-checkbox></li>
-						<li><el-checkbox style="width: 175px; color: #fff;" v-model="showTowerCoverage" label="Show Tower Coverage" border></el-checkbox></li>
-						<li><el-checkbox style="width: 175px; color: #fff;" v-model="mute" label="Mute Sound Effects" border></el-checkbox></li>
+						<li><el-checkbox style="width: 195px; color: #fff;" v-model="showGrid" label="Show Placement Grid" border></el-checkbox></li>
+						<li><el-checkbox style="width: 195px; color: #fff;" v-model="showTowerCoverage" label="Show Tower Coverage" border></el-checkbox></li>
+						<li><el-checkbox style="width: 195px; color: #fff;" v-model="mute" label="Mute Sound Effects" border></el-checkbox></li>
 						<!-- <el-checkbox v-model="showEnemyPath" label="Show Enemy Path" border></el-checkbox> -->
 					</ul>
 				</div>
@@ -90,35 +104,33 @@ body {
 		<div v-show="show == 'high-scores'" id="high-scores" class="screen">
 			<h1>High Scores</h1>
 			<ol>
-				<li>10000</li>
-				<li>9000</li>
-				<li>8000</li>
-				<li>7000</li>
+				<li v-for="highscore in highScores">{{highscore.name}} {{highscore.score}}</li>
 			</ol>
-			<ul class="menu">
-				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
-			</ul>
-		</div>
-
-		<div v-show="show == 'help'" id="help" class="screen">
-			<h1>Help</h1>
-			<p>This is some help on how to play the game</p>
-			<ul class="menu">
+			<ul class="menu-center">
 				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
 
 		<div v-show="show == 'about'" id="about" class="screen">
 			<h1>About</h1>
-			<p>Developed by</p>
+			<p>Developed by:</p>
 			<p>Yancy Knight</p>
-			<p>Instructor</p>
+			<p>Cameron Frandsen</p>
+			<p>Instructor:</p>
 			<p>Dr. James Dean Mathias</p>
 			<ul class="menu-center">
 				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
+		<el-dialog title="New high score!" :visible.sync="highScoreInputVisible">
+			<h3>Enter your name, adventurer.</h3>
+			<el-input v-model="name"></el-input>
+			<el-button type="success" @click="submitHighScore">Submit</el-button>
+		</el-dialog>
+	
+	<!-- ALL VUE STUFF NEEDS TO BE ABOVE THIS POINT -->
 	</div>
+
 
 	<script src="/bundle.js"></script>
 </body>

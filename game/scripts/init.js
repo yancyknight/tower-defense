@@ -6,6 +6,7 @@ import lang from 'element-ui/lib/locale/lang/en';
 import locale from 'element-ui/lib/locale';
 import graphics from '../../framework/graphics';
 import localStorage from '../../framework/LocalStorage';
+import axios from 'axios';
 
 // configure language
 locale.use(lang);
@@ -15,7 +16,7 @@ Vue.use(ElementUI);
 const gameplay = require('./gameplay');
 const { myKeyboard } = require('./input');
 const { EventKey, KeyEvent } = require('../../framework/input');
-const { upgradeTower, sellTower, startLevel } = require('./utils');
+const { upgradeTower, sellTower } = require('./utils');
 
 var updateSetting = function(option) {
     localStorage.setSingleSetting(option, vm[option]);
@@ -31,6 +32,7 @@ var vm = new Vue({
     el: '#game',
     data: {
         show: 'main-menu',
+        playLevel: false,
         showOptions: false,
         showGrid: getSettingOr("showGrid", false),
         showTowerCoverage: getSettingOr("showTowerCoverage", false),
@@ -40,18 +42,34 @@ var vm = new Vue({
         startLevelKey: getSettingOr('startLevelKey', 'G'),
         command: '',
         changeKeysVisible: false,
-        score: 0,
         money: 1000,
         placeTower: '',
-        mousePosition: null
+        mousePosition: null,
+        highScores: [],
+        lives: 10,
+        highScoreInputVisible: false,
+        name: ''
     },
     watch:{
-        showGrid: function () {updateSetting("showGrid");},
-        showTowerCoverage: function() {updateSetting("showTowerCoverage");},
-        mute: function() {updateSetting("mute");},
-        upgradeTowerKey: function() {updateSetting("upgradeTowerKey");},
-        sellTowerKey: function() {updateSetting("sellTowerKey");},
-        startLevelKey: function() {updateSetting("startLevelKey");},
+        showGrid() {updateSetting("showGrid");},
+        showTowerCoverage() {updateSetting("showTowerCoverage");},
+        mute() {updateSetting("mute");},
+        upgradeTowerKey() {updateSetting("upgradeTowerKey");},
+        sellTowerKey() {updateSetting("sellTowerKey");},
+        startLevelKey() {updateSetting("startLevelKey");},
+        lives() {
+            if(this.lives < 1) {
+                gameplay.pause();
+                axios.get('/highscores').then(function(res) {
+                    vm.highScores = res.data;
+                    if(vm.highScores.length < 10 || vm.highScores[9].score < vm.money) {
+                        vm.highScoreInputVisible = true;
+                    } else {
+                        vm.show = 'main-menu';
+                    }
+                });
+            }
+        }
     },
     methods: {
         startGame() {
@@ -59,6 +77,11 @@ var vm = new Vue({
             gameplay.run();
             this.show = 'game-play';
             this.showOptions = false;
+            this.money = 1000;
+            this.lives = 10;
+            this.playLevel = false;
+            this.command = '';
+            this.name = '';
             graphics.init();
         },
         selectUpgradeTower() {
@@ -96,6 +119,22 @@ var vm = new Vue({
                     vm.changeKeysVisible = false;
                 }
             }, { once: true });
+        },
+        selectTower(tower) {
+            this.placeTower = this.placeTower == tower ? '' : tower;
+        },
+        getHighScores() {
+            axios.get('/highscores').then(function(res) {
+                vm.highScores = res.data;
+            });
+        },
+        submitHighScore() {
+            axios.post('/highscores', {name: this.name, score: this.money})
+                .then(function() {
+                    vm.getHighScores();
+                    vm.highScoreInputVisible = false;
+                    vm.show = 'high-scores';
+                });
         }
     },
     mounted() {
@@ -109,6 +148,10 @@ var vm = new Vue({
 
         this.$refs.gameCanvas.addEventListener('mouseout', () => {
             this.mousePosition = null
+        });
+
+        this.$on('level-complete', function() {
+            this.playLevel = false;
         });
     }
 });

@@ -177,6 +177,10 @@ var bulletSystem = function () {
         particleSystem.update(elapsedTime);
     }
 
+    that.initialize = function() {
+        bullets = [];
+    }
+
     return that;
 }
 
