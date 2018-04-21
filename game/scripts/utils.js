@@ -26,9 +26,6 @@ function addTowerToSystem() {
 }
 
 function quitGame() {
-	// Stop the game loop by canceling the request for the next animation frame
-	cancelNextRequest = true;
-
 	vm.$confirm('Quit game and return to main menu?', 'Quit Game', {
 		confirmButtonText: 'Get me outta here!',
 		cancelButtonText: `No! I'm winning!`
@@ -38,7 +35,6 @@ function quitGame() {
 		vm.show = 'main-menu';
 	}).catch(function() {
 		cancelNextRequest = false;    
-		// run();
 	});
 }
 

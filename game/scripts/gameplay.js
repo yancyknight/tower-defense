@@ -18,6 +18,7 @@ var myTexture = null;
 var cancelNextRequest = false;
 var lastTimeStamp;
 var towerSystem = TowerSystem;
+var paused = false;
 
 function initialize() {
 	console.log('game initializing...');
@@ -55,11 +56,13 @@ function render() {
 
 function gameLoop(time) {
 
-	update(time - lastTimeStamp);
-	// console.log(time - lastTimeStamp);
-	lastTimeStamp = time;
-
-	render();
+	if(!paused) {
+		update(time - lastTimeStamp);
+		// console.log(time - lastTimeStamp);
+		lastTimeStamp = time;
+	
+		render();
+	}
 
 	if (!cancelNextRequest) {
 		requestAnimationFrame(gameLoop);
@@ -74,7 +77,17 @@ function run() {
 	requestAnimationFrame(gameLoop);
 }
 
+function pause() {
+	paused = true;
+}
+
+function unpause() {
+	paused = false;
+}
+
 module.exports = {
-	initialize: initialize,
-	run: run
+	initialize,
+	run,
+	pause,
+	unpause
 };

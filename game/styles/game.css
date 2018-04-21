@@ -121,7 +121,7 @@ ul.menu li {
 	border-radius: 8px;
 }
 
-#about p {
+#about p, #help p {
 	text-align: center;
 }
 

@@ -46,7 +46,9 @@ var vm = new Vue({
         placeTower: '',
         mousePosition: null,
         highScores: [],
-        lives: 10
+        lives: 10,
+        highScoreInputVisible: false,
+        name: ''
     },
     watch:{
         showGrid() {updateSetting("showGrid");},
@@ -55,6 +57,19 @@ var vm = new Vue({
         upgradeTowerKey() {updateSetting("upgradeTowerKey");},
         sellTowerKey() {updateSetting("sellTowerKey");},
         startLevelKey() {updateSetting("startLevelKey");},
+        lives() {
+            if(this.lives < 1) {
+                gameplay.pause();
+                axios.get('/highscores').then(function(res) {
+                    vm.highScores = res.data;
+                    if(vm.highScores.length < 10 || vm.highScores[9].score < vm.money) {
+                        vm.highScoreInputVisible = true;
+                    } else {
+                        vm.show = 'main-menu';
+                    }
+                });
+            }
+        }
     },
     methods: {
         startGame() {
@@ -66,6 +81,7 @@ var vm = new Vue({
             this.lives = 10;
             this.playLevel = false;
             this.command = '';
+            this.name = '';
             graphics.init();
         },
         selectUpgradeTower() {
@@ -107,13 +123,18 @@ var vm = new Vue({
         selectTower(tower) {
             this.placeTower = this.placeTower == tower ? '' : tower;
         },
-        getHighScore() {
+        getHighScores() {
             axios.get('/highscores').then(function(res) {
                 vm.highScores = res.data;
             });
         },
-        setHighScore(score) {
-            axios.post('/highscores', {name: 'yancy', score: vm.money});
+        submitHighScore() {
+            axios.post('/highscores', {name: this.name, score: this.money})
+                .then(function() {
+                    vm.getHighScores();
+                    vm.highScoreInputVisible = false;
+                    vm.show = 'high-scores';
+                });
         }
     },
     mounted() {
@@ -132,8 +153,6 @@ var vm = new Vue({
         this.$on('level-complete', function() {
             this.playLevel = false;
         });
-
-        
     }
 });
 

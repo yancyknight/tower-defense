@@ -32,7 +32,7 @@ body {
 		<div v-show="show == 'main-menu'" id="main-menu" class="screen">
 			<ul class="menu-center">
 				<li><el-button type="danger" class="menu-btn" @click="startGame">New Game</el-button></li>
-				<li><el-button type="danger" class="menu-btn" @click="show = 'high-scores'">High Scores</el-button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'high-scores'; getHighScores();">High Scores</el-button></li>
 				<li><el-button type="danger" class="menu-btn" @click="show = 'help'">Help</el-button></li>
 				<li><el-button type="danger" class="menu-btn" @click="show = 'about'">About</el-button></li>
 			</ul>
@@ -125,13 +125,22 @@ body {
 			<h1>About</h1>
 			<p>Developed by</p>
 			<p>Yancy Knight</p>
+			<p>Cameron Frandsen</p>
 			<p>Instructor</p>
 			<p>Dr. James Dean Mathias</p>
 			<ul class="menu-center">
 				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
+		<el-dialog title="New high score!" :visible.sync="highScoreInputVisible">
+			<h3>Enter your name, adventurer.</h3>
+			<el-input v-model="name"></el-input>
+			<el-button type="success" @click="submitHighScore">Submit</el-button>
+		</el-dialog>
+	
+	<!-- ALL VUE STUFF NEEDS TO BE ABOVE THIS POINT -->
 	</div>
+
 
 	<script src="/bundle.js"></script>
 </body>

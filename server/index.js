@@ -25,11 +25,12 @@ app.get('/highscores', function(req, res) {
 });
 
 app.post('/highscores', function(req, res) {
-    addScore(req.body);
-    getScores().then(function(val) {
-        res.json(val);
-    })
-})
+    addScore(req.body).then(function() {
+        getScores().then(function(val) {
+            res.json(val);
+        })
+    });
+});
 
 app.listen(3001, function() {
     console.log(`Listening on port 3001`);
