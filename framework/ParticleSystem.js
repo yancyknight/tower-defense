@@ -128,7 +128,6 @@ function ParticleSystem(center, {
             }
         }
         particles = keepMe;
-        console.log(particles.length);
         if(particles.length === 0) {
             return false;
         }

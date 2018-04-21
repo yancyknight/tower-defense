@@ -82,8 +82,8 @@ function update(elapsedTime) {
 
 function render() {
 	graphics.clear();
-	creepSystem.render();
 	towerSystem.render();
+	creepSystem.render(); // Needs to render after tower system
 	bulletSystem.render();
 	collision.drawBoundingBox();
 	pointsSystem.render();
