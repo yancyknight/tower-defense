@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   context: __dirname,
@@ -10,9 +11,15 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js' 
+      'vue$': 'vue/dist/vue.esm.js'
     }
   },
+  devServer: {
+    contentBase: [path.join(__dirname, "game"),path.join(__dirname, "server/images"),path.join(__dirname, "server/audio")],
+    compress: true,
+    port: 3000
+  },
+  devtool: 'eval',
   module: {
     rules: [
       {
