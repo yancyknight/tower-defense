@@ -26,10 +26,11 @@ function initialize() {
 
 	cancelNextRequest = false;
 
-	towerSystem.addTower({
-		type: TowerType.TOWER11,
-		pos: {x:9, y:9},
-	});/*
+	// towerSystem.addTower({
+	// 	type: TowerType.TOWER11,
+	// 	pos: {x:9, y:9},
+	// });
+	/*
 
 	// towerSystem.addTower({
 	// 	type: TowerType.TOWER12,

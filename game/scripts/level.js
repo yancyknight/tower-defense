@@ -4,7 +4,7 @@ const startLevel = {
     one: function() {
         creepSystem.addCreepSystem({
             time: 1,
-            amount: 1,
+            amount: 10,
             type: CreepType.EYEBALL,
             startingPositions: [{
                 x: 0,
@@ -23,7 +23,7 @@ const startLevel = {
                               {x: 19,y: 9},
                               {x: 19,y: 10},
                               {x: 19,y: 11}]
-        });/*
+        });
         
         creepSystem.addCreepSystem({
             time: 20000,
@@ -69,7 +69,7 @@ const startLevel = {
                               {x: 9,y: 19},
                               {x: 10,y: 19},
                               {x: 11,y: 19}]
-        });*/
+        });
     }
 }
 

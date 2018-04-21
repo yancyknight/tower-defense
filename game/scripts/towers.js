@@ -16,17 +16,15 @@ var TowerType = {
     TOWER31: 6,
     TOWER32: 7,
     TOWER33: 8,
-    //    TOWER41: 9,
+    TOWER41: 9,
     //    TOWER42: 10,
     //    TOWER43: 11,
 };
 
 var towerBaseImage = graphics.Img("tankBase.png");
 
-let towerImages = [];
-for (let i = 0; i < Object.keys(TowerType).length; i++) {
-    towerImages.push(graphics.Img(`tower${ Math.ceil((i + 1) / 3) }-${ (i % 3) + 1 }.PNG`));
-}
+let towerImages = [graphics.Img("tower1.png"), graphics.Img("tower2.png"), graphics.Img("tower3.png"), graphics.Img("tower4.png")];
+
 const baseSize = 100;
 
 var tower = function ({
@@ -53,7 +51,7 @@ var tower = function ({
     let level = 0;
     var rotateSpeed = 12 * 3.14159 / 1000;
     var imageSize;
-    var towerImage = towerImages[type];
+    var towerImage = towerImages[Math.floor((type + 1) / 3)];
     switch (type) {
         case TowerType.TOWER11:
             var towerWidth = 80;
