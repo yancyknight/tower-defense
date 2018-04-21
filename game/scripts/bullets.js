@@ -25,7 +25,7 @@ var bullet = function ({
     var that = {};
     let rot = 0;
     let pic = 0;
-    var speed = .5;
+    var speed = .05;
     that.hit = false;
     var bulletWidth;
     var bulletHeight;
@@ -38,8 +38,8 @@ var bullet = function ({
             that.damage = 70;
             break;
         case BulletType.BOMB:
-            bulletWidth = 10;
-            bulletHeight = 10;
+            bulletWidth = 20;
+            bulletHeight = 20;
             that.damage = 85;
             break;
         case BulletType.ROCKET:
@@ -59,20 +59,18 @@ var bullet = function ({
     }
 
     that.render = function () {
-        graphics.drawCircle({x:myPos.x, y:myPos.y, radius: 10, fill: '#ff00ff'});
-        //graphics.drawCircle({x:goal.x+16, y:goal.y+16, radius: 10, fill: '#ffff00'});
-/*        graphics.drawImage({
-            image: bulletImage,
-            dx: myPos.x + bulletWidth/2,
-            dy: myPos.y + bulletHeight/2,
-            sx: bulletWidth,
-            sy: type * bulletHeight,
+        graphics.drawImage({
+            image: bulletImages[type],
+            dx: myPos.x,
+            dy: myPos.y,
+            sx: 0,
+            sy: 0,
             sWidth: bulletWidth,
             sHeight: bulletHeight,
             dWidth: bulletWidth,
             dHeight: bulletHeight,
             rotation: rot,
-        });*/
+        });
     }
 
     that.update = function (elapsedTime) {
