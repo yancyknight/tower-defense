@@ -29,6 +29,7 @@ var creep = function ({
 } = {}) {
     var that = {};
     that.goal = goal;
+    that.type = type;
         
     that.myPos = {
         x: pos.x*1000/map.rowColSize + map.rowColSize/2,
@@ -42,7 +43,7 @@ var creep = function ({
     var healthPercent;
     var barFill;
     
-    switch(type) {
+    switch(that.type) {
         case CreepType.EYEBALL:
         var creaturesImage = "eyebawl.png";
         that.myPath = m_map.shortestPath(pos, goal);
@@ -200,9 +201,14 @@ var creepSystem = function () {
     that.resetAllPaths = function() {
         for(let i = 0; i < creeps.length; i++) {
             var creep = creeps[i];
-            creep.myPath = m_map.shortestPath({x:Math.floor(creep.myPos.x/1000*map.rowColSize), 
+            if(creep.type < 2)
+                creep.myPath = m_map.shortestPath({x:Math.floor(creep.myPos.x/1000*map.rowColSize), 
                                                y:Math.floor(creep.myPos.y/1000*map.rowColSize)},
                                                creep.goal);
+            else
+                creep.myPath = m_map.directPath({x:Math.floor(creep.myPos.x/1000*map.rowColSize), 
+                    y:Math.floor(creep.myPos.y/1000*map.rowColSize)},
+                    creep.goal);
         }
     }
 
