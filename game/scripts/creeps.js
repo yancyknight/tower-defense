@@ -4,6 +4,7 @@ var m_map = map.map;
 const collision = require('../../framework/collision');
 const audio = require('./audio');
 const pointsSystem = require('./points').floatingPointSystem;
+const particleSystem = require('../../framework/ParticleSystem').ParticleSystemManager();
 
 var CreepType = {
     FIREWOOF: 0,
@@ -28,7 +29,7 @@ var creep = function ({
 } = {}) {
     var that = {};
     that.goal = goal;
-    that.myPath = m_map.shortestPath(pos, goal);
+    that.type = type;
         
     that.myPos = {
         x: pos.x*1000/map.rowColSize + map.rowColSize/2,
@@ -36,22 +37,24 @@ var creep = function ({
     }
     let rot = 0;
     let speed = 40;
-    var myPath = m_map.shortestPath(pos, goal);
     that.health = 1000;
     var maxHealth = that.health;
     var points = 10;
     var healthPercent;
     var barFill;
     
-    switch(type) {
+    switch(that.type) {
         case CreepType.EYEBALL:
         var creaturesImage = "eyebawl.png";
+        that.myPath = m_map.shortestPath(pos, goal);
         break;
         case CreepType.FIREWOOF:
         var creaturesImage = "firewoof.png";
+        that.myPath = m_map.shortestPath(pos, goal);
         break;
         case CreepType.JETSTER:
         var creaturesImage = "jetster.png";
+        that.myPath = m_map.directPath(pos, goal);
         break;
     }
 
@@ -80,7 +83,7 @@ var creep = function ({
 
     that.render = function () {
         m_sprite.draw();
-        if(healthPercent !== 1) { // need to move this
+        if(healthPercent !== 1) { 
             graphics.drawRectangle({
                 x: that.myPos.x,
                 y: that.myPos.y - 20,
@@ -99,6 +102,19 @@ var creep = function ({
                 pos: that.myPos
             });
             vm.money += points;
+            particleSystem.addParticleSystem(that.myPos, {
+                speedmean: .1, speedstdev: 0.04,
+                lifetimemean: 500,lifetimestdev: 300,
+                sizemean: 10, sizestdev: 1,
+                fill: 'rgba(0, 255, 255, 0.75)',
+                stroke: 'rgba(0, 255, 0, 0.5)',
+                image: './firework.png',
+                amount: 200,
+                style: 'image',
+                imagedHeight: 20,
+                imagedWidth: 20
+            });
+
             return true;
         }
         healthPercent = that.health / maxHealth;
@@ -156,6 +172,7 @@ var creepSystem = function () {
         for (let i = 0; i < creeps.length; i++) {
             creeps[i].render();
         }
+        particleSystem.render();
     }
 
     that.update = function (elapsedTime) {
@@ -178,14 +195,20 @@ var creepSystem = function () {
                 creepSystems[i].timePassed = 0;
             }
         }
+        particleSystem.update(elapsedTime);        
     }
 
     that.resetAllPaths = function() {
         for(let i = 0; i < creeps.length; i++) {
             var creep = creeps[i];
-            creep.myPath = m_map.shortestPath({x:Math.floor(creep.myPos.x/1000*map.rowColSize), 
+            if(creep.type < 2)
+                creep.myPath = m_map.shortestPath({x:Math.floor(creep.myPos.x/1000*map.rowColSize), 
                                                y:Math.floor(creep.myPos.y/1000*map.rowColSize)},
                                                creep.goal);
+            else
+                creep.myPath = m_map.directPath({x:Math.floor(creep.myPos.x/1000*map.rowColSize), 
+                    y:Math.floor(creep.myPos.y/1000*map.rowColSize)},
+                    creep.goal);
         }
     }
 

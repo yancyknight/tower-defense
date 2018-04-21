@@ -21,6 +21,13 @@ var TowerType = {
     //    TOWER43: 11,
 };
 
+var towerCosts = {
+    TOWER11: 50,
+    TOWER21: 100,
+    TOWER31: 50,
+    TOWER41: 100,
+}
+
 var towerBaseImage = graphics.Img("tankBase.png");
 
 let towerImages = [graphics.Img("tower1.png"), graphics.Img("tower2.png"), graphics.Img("tower3.png"), graphics.Img("tower4.png")];
@@ -261,7 +268,7 @@ var TowerSystem = function () {
                 x: Math.floor(vm.mousePosition.x / 50),
                 y: Math.floor(vm.mousePosition.y / 50)
             };
-            var isValid = m_map.validPosition(pos);
+            var isValid = m_map.validPosition(pos) && vm.money > towerCosts[vm.placeTower]; 
             placeTower = tower({
                 type: TowerType[vm.placeTower],
                 pos,
@@ -279,5 +286,6 @@ var towerSystem = TowerSystem();
 module.exports = {
     TowerSystem: towerSystem,
     TowerType,
-    tower
+    tower,
+    towerCosts,
 };

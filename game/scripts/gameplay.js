@@ -26,46 +26,45 @@ function initialize() {
 
 	cancelNextRequest = false;
 
-	// towerSystem.addTower({
-	// 	type: TowerType.TOWER11,
-	// 	pos: {x:9, y:9},
-	// });
-	/*
+	towerSystem.addTower({
+		type: TowerType.TOWER11,
+		pos: {x:9, y:9},
+	});
 
-	// towerSystem.addTower({
-	// 	type: TowerType.TOWER12,
-	// 	pos: {x:11, y:11},
-	// });
-	// towerSystem.addTower({
-	// 	type: TowerType.TOWER13,
-	// 	pos: {x:11, y:9},
-	// });
+	towerSystem.addTower({
+		type: TowerType.TOWER12,
+		pos: {x:11, y:11},
+	});
+	towerSystem.addTower({
+		type: TowerType.TOWER13,
+		pos: {x:11, y:9},
+	});
 	
-	// towerSystem.addTower({
-	// 	type: TowerType.TOWER21,
-	// 	pos: {x:9, y:11},
-	// });	
-	// towerSystem.addTower({
-	// 	type: TowerType.TOWER22,
-	// 	pos: {x:7, y:11},
-	// });	
-	// towerSystem.addTower({
-	// 	type: TowerType.TOWER23,
-	// 	pos: {x:7, y:7},
-	// });
-	// towerSystem.addTower({
-	// 	type: TowerType.TOWER31,
-	// 	pos: {x:7, y:9},
-	// });
+	towerSystem.addTower({
+		type: TowerType.TOWER21,
+		pos: {x:9, y:11},
+	});	
+	towerSystem.addTower({
+		type: TowerType.TOWER22,
+		pos: {x:7, y:11},
+	});	
+	towerSystem.addTower({
+		type: TowerType.TOWER23,
+		pos: {x:7, y:7},
+	});
+	towerSystem.addTower({
+		type: TowerType.TOWER31,
+		pos: {x:7, y:9},
+	});
 	
-	// towerSystem.addTower({
-	// 	type: TowerType.TOWER32,
-	// 	pos: {x:9, y:7},
-	// });	
-	// towerSystem.addTower({
-	// 	type: TowerType.TOWER33,
-	// 	pos: {x:11, y:7},
-	// });*/
+	towerSystem.addTower({
+		type: TowerType.TOWER32,
+		pos: {x:9, y:7},
+	});	
+	towerSystem.addTower({
+		type: TowerType.TOWER33,
+		pos: {x:11, y:7},
+	});
 }
 
 function update(elapsedTime) {
@@ -83,8 +82,8 @@ function update(elapsedTime) {
 
 function render() {
 	graphics.clear();
-	creepSystem.render();
 	towerSystem.render();
+	creepSystem.render(); // Needs to render after tower system
 	bulletSystem.render();
 	collision.drawBoundingBox();
 	pointsSystem.render();
