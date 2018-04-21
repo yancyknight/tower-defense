@@ -17,8 +17,8 @@ var TowerType = {
     TOWER32: 7,
     TOWER33: 8,
     TOWER41: 9,
-    //    TOWER42: 10,
-    //    TOWER43: 11,
+    TOWER42: 10,
+    TOWER43: 11,
 };
 
 var towerCosts = {
@@ -35,7 +35,7 @@ let towerImages = [graphics.Img("tower1.png"), graphics.Img("tower2.png"), graph
 const baseSize = 100;
 
 var tower = function ({
-    type = TowerType.TOWER1,
+    type = TowerType.TOWER11,
     pos = {
         x,
         y
@@ -57,55 +57,10 @@ var tower = function ({
     let pic = 0;
     let level = 0;
     var rotateSpeed = 12 * 3.14159 / 1000;
-    var imageSize;
     var towerImage = towerImages[Math.floor((type + 1) / 3)];
-    switch (type) {
-        case TowerType.TOWER11:
-            var towerWidth = 80;
-            var towerHeight = 80;
-            imageSize = 40;
-            break;
-        case TowerType.TOWER12:
-            var towerWidth = 90;
-            var towerHeight = 90;
-            imageSize = 45;
-            break;
-        case TowerType.TOWER13:
-            var towerWidth = 100;
-            var towerHeight = 100;
-            imageSize = 65;
-            break;
-        case TowerType.TOWER21:
-            var towerWidth = 80;
-            var towerHeight = 80;
-            imageSize = 50;
-            break;
-        case TowerType.TOWER22:
-            var towerWidth = 90;
-            var towerHeight = 90;
-            imageSize = 45;
-            break;
-        case TowerType.TOWER23:
-            var towerWidth = 100;
-            var towerHeight = 100;
-            imageSize = 55;
-            break;
-        case TowerType.TOWER31:
-            var towerWidth = 80;
-            var towerHeight = 80;
-            imageSize = 40;
-            break;
-        case TowerType.TOWER32:
-            var towerWidth = 90;
-            var towerHeight = 90;
-            imageSize = 45;
-            break;
-        case TowerType.TOWER33:
-            var towerWidth = 100;
-            var towerHeight = 100;
-            imageSize = 50;
-            break;
-    }
+    var towerWidth = 80;
+    var towerHeight = 80;
+    var imageSize = 45;
 
     var towerCenter = {
         x: myPos.x + 50,

@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>YamBam Tower Defense</title>
+	<title>Yam Bam Tower Defense</title>
 	<link href="https://fonts.googleapis.com/css?family=Gugi" rel="stylesheet">
 </head>
 
@@ -31,9 +31,9 @@ body {
 
 		<div v-show="show == 'main-menu'" id="main-menu" class="screen">
 			<ul class="menu-center">
+				<h1>Yam Bam Tower Defense</h1>
 				<li><el-button type="danger" class="menu-btn" @click="startGame">New Game</el-button></li>
 				<li><el-button type="danger" class="menu-btn" @click="show = 'high-scores'; getHighScores();">High Scores</el-button></li>
-				<li><el-button type="danger" class="menu-btn" @click="show = 'help'">Help</el-button></li>
 				<li><el-button type="danger" class="menu-btn" @click="show = 'about'">About</el-button></li>
 			</ul>
 		</div>
@@ -103,30 +103,20 @@ body {
 
 		<div v-show="show == 'high-scores'" id="high-scores" class="screen">
 			<h1>High Scores</h1>
-			<!-- <el-button @click="getHighScore">Get high scores</el-button>
-			<el-button @click="setHighScore(money)">Set high scores</el-button> -->
 			<ol>
 				<li v-for="highscore in highScores">{{highscore.name}} {{highscore.score}}</li>
 			</ol>
-			<ul class="menu">
-				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
-			</ul>
-		</div>
-
-		<div v-show="show == 'help'" id="help" class="screen">
-			<h1>Help</h1>
-			<p>This is some help on how to play the game</p>
-			<ul class="menu">
+			<ul class="menu-center">
 				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
 
 		<div v-show="show == 'about'" id="about" class="screen">
 			<h1>About</h1>
-			<p>Developed by</p>
+			<p>Developed by:</p>
 			<p>Yancy Knight</p>
 			<p>Cameron Frandsen</p>
-			<p>Instructor</p>
+			<p>Instructor:</p>
 			<p>Dr. James Dean Mathias</p>
 			<ul class="menu-center">
 				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
