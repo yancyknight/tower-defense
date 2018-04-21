@@ -16,7 +16,7 @@ function startLevel() {
 function addTowerToSystem() {
 	if(vm.placeTower === '')return;
 	if(!vm.mousePosition) return;
-	if(vm.money < 100) return; // tower cost
+	if(vm.money < towers.towerCosts[vm.placeTower]) return; // tower cost
 	var position = { x: Math.floor(vm.mousePosition.x / 50),
 		y: Math.floor(vm.mousePosition.y / 50)};
 	if(!map.validPosition(position)) return;
@@ -24,7 +24,8 @@ function addTowerToSystem() {
         type: towers.TowerType[vm.placeTower],
         pos: position
     });
-    vm.placeTower = '';
+	vm.money -= towers.towerCosts[vm.placeTower];
+	vm.placeTower = '';
 }
 
 function quitGame() {

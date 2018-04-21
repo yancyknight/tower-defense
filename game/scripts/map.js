@@ -286,38 +286,38 @@ var createMap = function () {
     }
 
     that.directPath = function({x,y}, goal) {
-        that = [];
+        var toReturn = [];
         while(x !== goal.x || y !== goal.y) {
             if(x > goal.x) {
                 x--;
-                that.push({
+                toReturn.push({
                     x: Math.floor(x * 1000 / rowColSize + rowColSize / 2),
                     y: Math.floor(y * 1000 / rowColSize + rowColSize / 2)
                 });
             }
             if(x < goal.x) {
                 x++;
-                that.push({
+                toReturn.push({
                     x: Math.floor(x * 1000 / rowColSize + rowColSize / 2),
                     y: Math.floor(y * 1000 / rowColSize + rowColSize / 2)
                 });
             }
             if(y > goal.y) {
                 y--;
-                that.push({
+                toReturn.push({
                     x: Math.floor(x * 1000 / rowColSize + rowColSize / 2),
                     y: Math.floor(y * 1000 / rowColSize + rowColSize / 2)
                 });
             }
             if(y < goal.y) {
                 y++;
-                that.push({
+                toReturn.push({
                     x: Math.floor(x * 1000 / rowColSize + rowColSize / 2),
                     y: Math.floor(y * 1000 / rowColSize + rowColSize / 2)
                 });
             }
         }
-        return that;
+        return toReturn;
     }
 
     return that;
