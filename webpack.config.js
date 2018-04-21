@@ -17,7 +17,10 @@ module.exports = {
   devServer: {
     contentBase: [path.join(__dirname, "game"),path.join(__dirname, "server/images"),path.join(__dirname, "server/audio")],
     compress: true,
-    port: 3000
+    port: 3000,
+    proxy: {
+      "/highscores": "http://localhost:3001"
+    }
   },
   devtool: 'eval',
   module: {

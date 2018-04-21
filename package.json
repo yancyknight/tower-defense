@@ -6,10 +6,10 @@
   "scripts": {
     "build": "webpack --mode production",
     "clean": "rimraf ./server/public/*",
-    "serve": "nodemon ./server/index.js",
+    "server-serve": "nodemon ./server/index.js",
     "start": "run-s clean build serve",
-    "webpack-watch": "webpack --watch",
-    "dev": "webpack-dev-server"
+    "webpack-serve": "webpack-dev-server",
+    "dev": "run-p webpack-serve server-serve"
   },
   "repository": {
     "type": "git",
@@ -35,8 +35,11 @@
     "webpack-dev-server": "^3.1.3"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
     "element-ui": "^2.3.4",
     "express": "^4.16.3",
+    "node-persist": "^3.0.0",
     "vue": "^2.5.16"
   }
 }

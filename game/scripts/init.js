@@ -6,6 +6,7 @@ import lang from 'element-ui/lib/locale/lang/en';
 import locale from 'element-ui/lib/locale';
 import graphics from '../../framework/graphics';
 import localStorage from '../../framework/LocalStorage';
+import axios from 'axios';
 
 // configure language
 locale.use(lang);
@@ -44,15 +45,16 @@ var vm = new Vue({
         score: 0,
         money: 1000,
         placeTower: '',
-        mousePosition: null
+        mousePosition: null,
+        highScores: []
     },
     watch:{
-        showGrid: function () {updateSetting("showGrid");},
-        showTowerCoverage: function() {updateSetting("showTowerCoverage");},
-        mute: function() {updateSetting("mute");},
-        upgradeTowerKey: function() {updateSetting("upgradeTowerKey");},
-        sellTowerKey: function() {updateSetting("sellTowerKey");},
-        startLevelKey: function() {updateSetting("startLevelKey");},
+        showGrid() {updateSetting("showGrid");},
+        showTowerCoverage() {updateSetting("showTowerCoverage");},
+        mute() {updateSetting("mute");},
+        upgradeTowerKey() {updateSetting("upgradeTowerKey");},
+        sellTowerKey() {updateSetting("sellTowerKey");},
+        startLevelKey() {updateSetting("startLevelKey");},
     },
     methods: {
         startGame() {
@@ -100,6 +102,14 @@ var vm = new Vue({
         },
         selectTower(tower) {
             this.placeTower = this.placeTower == tower ? '' : tower;
+        },
+        getHighScore() {
+            axios.get('/highscores').then(function(res) {
+                vm.highScores = res.data;
+            });
+        },
+        setHighScore(score) {
+            axios.post('/highscores', {name: 'yancy', score: vm.money});
         }
     },
     mounted() {
@@ -118,6 +128,8 @@ var vm = new Vue({
         this.$on('level-complete', function() {
             this.playLevel = false;
         });
+
+        
     }
 });
 
