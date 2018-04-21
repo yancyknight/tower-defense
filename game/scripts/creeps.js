@@ -29,7 +29,6 @@ var creep = function ({
 } = {}) {
     var that = {};
     that.goal = goal;
-    that.myPath = m_map.shortestPath(pos, goal);
         
     that.myPos = {
         x: pos.x*1000/map.rowColSize + map.rowColSize/2,
@@ -37,7 +36,6 @@ var creep = function ({
     }
     let rot = 0;
     let speed = 40;
-    var myPath = m_map.shortestPath(pos, goal);
     that.health = 1000;
     var maxHealth = that.health;
     var points = 10;
@@ -47,12 +45,15 @@ var creep = function ({
     switch(type) {
         case CreepType.EYEBALL:
         var creaturesImage = "eyebawl.png";
+        that.myPath = m_map.shortestPath(pos, goal);
         break;
         case CreepType.FIREWOOF:
         var creaturesImage = "firewoof.png";
+        that.myPath = m_map.shortestPath(pos, goal);
         break;
         case CreepType.JETSTER:
         var creaturesImage = "jetster.png";
+        that.myPath = m_map.directPath(pos, goal);
         break;
     }
 
