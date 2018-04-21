@@ -141,7 +141,10 @@ var creep = function ({
         }
 
         if (that.myPos.x === that.myPath[0].x && that.myPos.y === that.myPath[0].y) {
-            if(that.myPath.length === 1) return true;
+            if(that.myPath.length === 1) {
+                vm.lives -= 1;
+                return true;
+            }
             that.myPath.shift();
 
         }
@@ -157,6 +160,7 @@ var creepSystem = function () {
     var that = {};
     var creepSystems = [];
     var hasCreeps = false;
+    var creeps = [];
 
     that.addCreepSystem = function({
         time = 10000,
@@ -167,7 +171,6 @@ var creepSystem = function () {
     } = {}) {
         creepSystems.push({time, amount, type, startingPositions, endingPositions, creepsMade: 0, timePassed: 0});
     }
-    var creeps = [];
 
     that.render = function () {
         for (let i = 0; i < creeps.length; i++) {
@@ -234,6 +237,12 @@ var creepSystem = function () {
                 return creeps[i];
             }
         }
+    }
+
+    that.initialize = function() {
+        creepSystems = [];
+        creeps = [];
+        hasCreeps = false;
     }
 
     return that;

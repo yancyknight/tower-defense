@@ -38,7 +38,7 @@ function quitGame() {
 		vm.show = 'main-menu';
 	}).catch(function() {
 		cancelNextRequest = false;    
-		run();    
+		// run();
 	});
 }
 

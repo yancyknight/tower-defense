@@ -68,6 +68,7 @@ body {
 	
 				<div id="tower-details">
 					<span style="font-size: 16px; padding-left: 15px;">Money: ${{money}}</span>
+					<span style="font-size: 16px; padding-left: 15px;">Lives: {{lives}}</span>
 					<div v-show="placeTower">
 						Tower details here
 
@@ -102,13 +103,10 @@ body {
 
 		<div v-show="show == 'high-scores'" id="high-scores" class="screen">
 			<h1>High Scores</h1>
-			<el-button @click="getHighScore">Get high scores</el-button>
-			<el-button @click="setHighScore(money)">Set high scores</el-button>
+			<!-- <el-button @click="getHighScore">Get high scores</el-button>
+			<el-button @click="setHighScore(money)">Set high scores</el-button> -->
 			<ol>
-				<li>10000</li>
-				<li>9000</li>
-				<li>8000</li>
-				<li>7000</li>
+				<li v-for="highscore in highScores">{{highscore.name}} {{highscore.score}}</li>
 			</ol>
 			<ul class="menu">
 				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>

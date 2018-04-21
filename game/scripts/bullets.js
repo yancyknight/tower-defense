@@ -140,6 +140,10 @@ var bulletSystem = function () {
         }
     }
 
+    that.initialize = function() {
+        bullets = [];
+    }
+
     return that;
 }
 

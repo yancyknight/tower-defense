@@ -16,6 +16,11 @@ function add(bullet, creep) {
     });
 }
 
+function initialize() {
+    collision.unregisterAllHandlers();
+}
+
 module.exports = {
-    add
+    add,
+    initialize
 }

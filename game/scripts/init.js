@@ -42,11 +42,11 @@ var vm = new Vue({
         startLevelKey: getSettingOr('startLevelKey', 'G'),
         command: '',
         changeKeysVisible: false,
-        score: 0,
         money: 1000,
         placeTower: '',
         mousePosition: null,
-        highScores: []
+        highScores: [],
+        lives: 10
     },
     watch:{
         showGrid() {updateSetting("showGrid");},
@@ -62,6 +62,10 @@ var vm = new Vue({
             gameplay.run();
             this.show = 'game-play';
             this.showOptions = false;
+            this.money = 1000;
+            this.lives = 10;
+            this.playLevel = false;
+            this.command = '';
             graphics.init();
         },
         selectUpgradeTower() {

@@ -278,6 +278,11 @@ var TowerSystem = function () {
         }
     }
 
+    that.initialize = function() {
+        towers = [];
+        placeTower = false;
+    }
+
     return that;
 }
 

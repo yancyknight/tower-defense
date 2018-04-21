@@ -11,38 +11,11 @@ var createMap = function () {
     var that = {};
 
     var grid = [];
-    for (let i = 0; i < rowColSize; i++) {
-        grid.push([]);
-        for (let j = 0; j < rowColSize; j++) {
-            grid[i].push(SquareEnum.EMPTY);
-        }
-    }
-
-    for (let i = 1; i < rowColSize / 2 - 2; i++) {
-        grid[i][1] = SquareEnum.BLOCK;
-        grid[i][rowColSize - 2] = SquareEnum.BLOCK;
-        grid[1][i] = SquareEnum.BLOCK;
-        grid[rowColSize - 2][i] = SquareEnum.BLOCK;
-        grid[i + 11][1] = SquareEnum.BLOCK;
-        grid[i + 11][rowColSize - 2] = SquareEnum.BLOCK;
-        grid[1][i + 11] = SquareEnum.BLOCK;
-        grid[rowColSize - 2][i + 11] = SquareEnum.BLOCK;
-    }
-
-    grid[0][rowColSize / 2 - 3] = SquareEnum.BLOCK;
-    grid[0][rowColSize / 2 + 2] = SquareEnum.BLOCK;
-    grid[rowColSize - 1][rowColSize / 2 - 3] = SquareEnum.BLOCK;
-    grid[rowColSize - 1][rowColSize / 2 + 2] = SquareEnum.BLOCK;
-    grid[rowColSize / 2 - 3][0] = SquareEnum.BLOCK;
-    grid[rowColSize / 2 + 2][0] = SquareEnum.BLOCK;
-    grid[rowColSize / 2 - 3][rowColSize - 1] = SquareEnum.BLOCK;
-    grid[rowColSize / 2 + 2][rowColSize - 1] = SquareEnum.BLOCK;
+    initialize();
 
     that.update = function () {}
 
-    that.render = function () {
-
-    }
+    that.render = function () {}
 
     that.setTower = function ({
         x,
@@ -320,6 +293,37 @@ var createMap = function () {
         return toReturn;
     }
 
+    function initialize () {
+        grid = [];
+        for (let i = 0; i < rowColSize; i++) {
+            grid.push([]);
+            for (let j = 0; j < rowColSize; j++) {
+                grid[i].push(SquareEnum.EMPTY);
+            }
+        }
+    
+        for (let i = 1; i < rowColSize / 2 - 2; i++) {
+            grid[i][1] = SquareEnum.BLOCK;
+            grid[i][rowColSize - 2] = SquareEnum.BLOCK;
+            grid[1][i] = SquareEnum.BLOCK;
+            grid[rowColSize - 2][i] = SquareEnum.BLOCK;
+            grid[i + 11][1] = SquareEnum.BLOCK;
+            grid[i + 11][rowColSize - 2] = SquareEnum.BLOCK;
+            grid[1][i + 11] = SquareEnum.BLOCK;
+            grid[rowColSize - 2][i + 11] = SquareEnum.BLOCK;
+        }
+    
+        grid[0][rowColSize / 2 - 3] = SquareEnum.BLOCK;
+        grid[0][rowColSize / 2 + 2] = SquareEnum.BLOCK;
+        grid[rowColSize - 1][rowColSize / 2 - 3] = SquareEnum.BLOCK;
+        grid[rowColSize - 1][rowColSize / 2 + 2] = SquareEnum.BLOCK;
+        grid[rowColSize / 2 - 3][0] = SquareEnum.BLOCK;
+        grid[rowColSize / 2 + 2][0] = SquareEnum.BLOCK;
+        grid[rowColSize / 2 - 3][rowColSize - 1] = SquareEnum.BLOCK;
+        grid[rowColSize / 2 + 2][rowColSize - 1] = SquareEnum.BLOCK;
+    }
+    that.initialize = initialize;
+
     return that;
 }
 
@@ -327,6 +331,5 @@ var m_map = createMap();
 
 module.exports = {
     map: m_map,
-    rowColSize,
-    id: 'map'
+    rowColSize
 };

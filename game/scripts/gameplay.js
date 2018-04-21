@@ -3,12 +3,14 @@ const object = require('../../framework/object');
 const { map } = require('./map');
 const { creepSystem } = require('./creeps');
 const { TowerSystem, TowerType } = require('./towers');
+const { initialize: initializeTowers } = TowerSystem;
 const { bulletSystem } = require('./bullets');
 const { myMouse, myKeyboard, initInputs } = require('./input');
 const input = require('../../framework/input');
 const audio = require('./audio');
 const { quitGame } = require('./utils');
 const collision = require('../../framework/collision');
+const { initialize: initializeCollision } = require('./collision');;
 const pointsSystem = require('./points').floatingPointSystem;
 
 var mouseCapture = false;
@@ -20,6 +22,11 @@ var towerSystem = TowerSystem;
 function initialize() {
 	console.log('game initializing...');
 	initInputs();
+	initializeTowers();
+	creepSystem.initialize();
+	bulletSystem.initialize();
+	map.initialize();
+	initializeCollision();
 
 	cancelNextRequest = false;
 }
