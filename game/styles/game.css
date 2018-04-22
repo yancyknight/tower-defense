@@ -189,11 +189,11 @@ ul.menu li {
 	top: 580px;
 }
 
-.selected-tower {
+.selected-tower, .place-tower {
 	padding-left: 10px;
 }
 
-.selected-tower p {
+.selected-tower p, .place-tower p {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }

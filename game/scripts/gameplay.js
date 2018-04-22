@@ -56,7 +56,13 @@ function render() {
 			radius: 60,
 			fill: 'rgba(0,255,0,.5)',
 			stroke: '#000'
-		})
+		});
+		graphics.drawCircle({
+			x: vm.selectedTower.pos.x + 50,
+			y: vm.selectedTower.pos.y + 50,
+			radius: vm.selectedTower.stats.range,
+			fill: 'rgba(128, 223, 255, .1)',
+		});
 	}
 }
 

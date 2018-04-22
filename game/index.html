@@ -45,27 +45,23 @@ body {
 					<h5>Ground</h5>
 					<div class="button-group">
 						<el-button type="success" @click="selectTower('GROUND1')">
-							<img v-show="placeTower != 'GROUND1'" src="tower1.png" ></img>
-							<span v-show="placeTower == 'GROUND1'">Cancel</span>
+							<img src="tower1.png" ></img>
 						</el-button>
 						<el-button type="success" @click="selectTower('GROUND2')">
-							<img v-show="placeTower != 'GROUND2'" src="tower2.png"></img>
-							<span v-show="placeTower == 'GROUND2'">Cancel</span>
+							<img src="tower2.png"></img>
 						</el-button>
 					</div>
 					<h5>Air</h5>
 					<div class="button-group" style="padding-bottom: 10px;">
 						<el-button type="danger" @click="selectTower('AIR1')">
-							<img v-show="placeTower != 'AIR1'" src="tower3.png"></img>
-							<span v-show="placeTower == 'AIR1'">Cancel</span>
+							<img src="tower3.png"></img>
 						</el-button>
 						<el-button type="danger" @click="selectTower('AIR2')">
-							<img v-show="placeTower != 'AIR2'" src="tower4.png"></img>
-							<span v-show="placeTower == 'AIR2'">Cancel</span>
+							<img src="tower4.png"></img>
 						</el-button>
 					</div>
 				</div>
-	
+
 				<div id="tower-details">
 					<span style="font-size: 16px; padding-left: 15px;">Money: ${{money}}</span>
 					<span style="font-size: 16px; padding-left: 15px;">Lives: {{lives}}</span>
@@ -78,7 +74,12 @@ body {
 						<el-button type="danger" @click="selectedTower.sell()">Sell</el-button>
 					</div>
 					<div class="place-tower" v-show="placeTower">
-						New tower stats here
+						<p>Cost: {{placeTowerStats ? placeTowerStats.cost : ''}}</p>
+						<p>Level: {{placeTowerStats ? placeTowerStats.level : ''}}</p>
+						<p>Damage: {{placeTowerStats ? placeTowerStats.damage : ''}}</p>
+						<p>Rate of Fire: {{placeTowerStats ? placeTowerStats.rateOfFire : ''}}</p>
+						<p>Range: {{placeTowerStats ? placeTowerStats.range : ''}}</p>
+						<el-button type="danger" @click="placeTower = ''">Cancel</el-button>
 					</div>
 				</div>
 				<el-button type="success" class="btn--start-level" @click="nextLevel" v-show="!playLevel">Start Level</el-button>

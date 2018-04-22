@@ -48,6 +48,12 @@ let towerImages = [graphics.Img("tower1.png"), graphics.Img("tower2.png"), graph
 
 const baseSize = 100;
 
+const baseStats = {
+    rateOfFire: 1000,
+    range: 250,
+    level: 1,
+}
+
 var tower = function ({
     type = TowerType.GROUND1,
     pos,
@@ -62,9 +68,9 @@ var tower = function ({
     let rot = 0;
     var sold = false;
     var stats = {
-        rateOfFire: 1000,
-        range: 250,
-        level: 1,
+        rateOfFire: baseStats.rateOfFire,
+        range: baseStats.range,
+        level: baseStats.level,
         damage: towerDamage[type]
     }
 
@@ -318,4 +324,6 @@ module.exports = {
     TowerType,
     tower,
     towerCosts,
+    towerDamage,
+    baseStats
 };
