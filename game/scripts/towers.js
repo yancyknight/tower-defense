@@ -160,8 +160,10 @@ var tower = function ({
         //find creep to fire at
         var creep = creepSystem.findNextCreep({
             x: towerCenter.x,
-            y: towerCenter.y
-        }, stats.range);
+            y: towerCenter.y,
+        },
+        type < 2 ? 'ground' : 'air',
+        stats.range);
         if (creep !== undefined) {
             var angle = computeAngle(rot, {
                 x: towerCenter.x,
@@ -184,7 +186,7 @@ var tower = function ({
                         goal:creep.myPos,
                         damage: towerDamage[type] + (15 * stats.level)
                     });
-                    if(type % 2 === 1)
+                    if(type >= 2)
                         collision.add(newBullet, creep, true);
                     else
                         collision.add(newBullet, creep);
