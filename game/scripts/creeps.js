@@ -229,9 +229,12 @@ var creepSystem = function () {
 
     that.explodeNearCreeps = function(bullet) {
         for(let i = 0; i < creeps.length; i++) {
-            if(Math.sqrt(Math.pow(creeps[i].myPos.x - bullet.myPos.x, 2) + 
-               Math.pow(creeps[i].myPos.y - bullet.myPos.y,2)) < bullet.explodeRange) {
-                creeps[i].health -= bullet.damage;
+            if((creeps[i].type === 2 && bullet.type === 1) ||
+                creeps[i].type < 2 && bullet.type === 2) {
+                if(Math.sqrt(Math.pow(creeps[i].myPos.x - bullet.myPos.x, 2) + 
+                    Math.pow(creeps[i].myPos.y - bullet.myPos.y,2)) < bullet.explodeRange) {
+                    creeps[i].health -= bullet.damage;
+                }
             }
         }
     }
@@ -240,10 +243,13 @@ var creepSystem = function () {
         return Math.sqrt(Math.pow(a.x-b.x, 2) + Math.pow(a.y-b.y, 2));
     }
 
-    that.findNextCreep = function({x, y}, range) {
+    that.findNextCreep = function({x, y}, unitType, range) {
         for(let i = 0; i < creeps.length; i++) {
-            if(calcDist({x,y}, {x:creeps[i].myPos.x+16, y:creeps[i].myPos.y+16}) < range) {
-                return creeps[i];
+            if((creeps[i].type < 2 && unitType === 'ground') ||
+                creeps[i].type ===2 &&unitType === 'air') {
+                if(calcDist({x,y}, {x:creeps[i].myPos.x+16, y:creeps[i].myPos.y+16}) < range) {
+                    return creeps[i];
+                }
             }
         }
     }
