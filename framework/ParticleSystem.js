@@ -55,11 +55,14 @@ function ParticleSystem(center, {
     rate,
     amount,
     angleOffset = 0,
-    angleTotal = 2 * Math.PI
+    angleTotal = 2 * Math.PI,
+    parent,
+    dieOnParent
 } = {}) {
     let that = {};
     let particles = [];
     let toAdd;
+    that.center = center;
     if(rate === undefined) {
         toAdd = amount;
     } else {
@@ -82,8 +85,8 @@ function ParticleSystem(center, {
                 } else if (style == 'image') {
                     graphics.drawImage({
                         image: iImage,
-                        dx: particles[particle].particleCenter.x,
-                        dy: particles[particle].particleCenter.y,
+                        dx: particles[particle].particleCenter.x - imagedWidth/2,
+                        dy: particles[particle].particleCenter.y - imagedHeight/2,
                         dWidth: imagedWidth,
                         dHeight: imagedHeight
                     })
@@ -93,14 +96,18 @@ function ParticleSystem(center, {
     };
 
     that.update = function (elapsedTime) {
+        if(dieOnParent && parent.hit === true) return false;
+        if(parent !== undefined ) {
+            angleOffset = parent.rot + Math.PI*3/8;
+        }
         let keepMe = [];
 
         for (let particle = 0; particle < particles.length; particle++) {
             particles[particle].alive += elapsedTime;
+//            particles[particle].particleCenter = center;
             particles[particle].particleCenter.x += (elapsedTime * particles[particle].speed * particles[particle].direction.x);
             particles[particle].particleCenter.y += (elapsedTime * particles[particle].speed * particles[particle].direction.y);
             particles[particle].rotation += particles[particle].speed / .5;
-
             if (particles[particle].alive <= particles[particle].lifetime) {
                 keepMe.push(particles[particle]);
             }
@@ -156,7 +163,9 @@ function ParticleSystemManager() {
         rate,
         amount,
         angleOffset = 0,
-        angleTotal = 2 * Math.PI
+        angleTotal = 2 * Math.PI,
+        parent,
+        dieOnParent = false
 } = {}) {
         var system = ParticleSystem(center, {
             speedmean,
@@ -174,7 +183,9 @@ function ParticleSystemManager() {
             rate,
             amount,
             angleOffset,
-            angleTotal});
+            angleTotal,
+            parent,
+            dieOnParent});
         systems.push(system);
     }
 

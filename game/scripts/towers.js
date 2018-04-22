@@ -21,6 +21,21 @@ var TowerType = {
     TOWER43: 11,
 };
 
+var towerBullets = {
+    "0": bulletSystem.BulletType.BULLET,
+    "1": bulletSystem.BulletType.BULLET,
+    "2": bulletSystem.BulletType.BULLET,
+    "3": bulletSystem.BulletType.BOMB,
+    "4": bulletSystem.BulletType.BOMB,
+    "5": bulletSystem.BulletType.BOMB,
+    "6": bulletSystem.BulletType.BULLET,
+    "7": bulletSystem.BulletType.BULLET,
+    "8": bulletSystem.BulletType.BULLET,
+    "9": bulletSystem.BulletType.ROCKET,
+    "10": bulletSystem.BulletType.ROCKET,
+    "11": bulletSystem.BulletType.ROCKET,
+}
+
 var towerCosts = {
     TOWER11: 50,
     TOWER21: 100,
@@ -45,7 +60,7 @@ var tower = function ({
 } = {}) {
     var that = {};
     let rot = 0;
-    let rateOfFire = 500;
+    let rateOfFire = 1000;
     let lastFire = 0;
     let range = 250;
 
@@ -142,7 +157,6 @@ var tower = function ({
             y: towerCenter.y
         }, range);
         if (creep !== undefined) {
-            // console.log('creep loc: ' +creep.myPos.x + " " + creep.myPos.y);
             var angle = computeAngle(rot, {
                 x: towerCenter.x,
                 y: towerCenter.y
@@ -159,11 +173,14 @@ var tower = function ({
                 if (lastFire > rateOfFire && !ghost) {
                     //fire!
                     var newBullet = m_bulletSystem.addBullet({
-                        type:bulletSystem.BulletType.BULLET, 
+                        type:towerBullets[type], 
                         myPos:{x: towerCenter.x, y: towerCenter.y}, 
                         goal:creep.myPos
                     });
-                    collision.add(newBullet, creep);
+                    if(type % 2 === 1)
+                        collision.add(newBullet, creep, true);
+                    else
+                        collision.add(newBullet, creep);
 
                     lastFire = 0;
                 }

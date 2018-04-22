@@ -1,7 +1,6 @@
 const graphics = require('../../framework/graphics');
-// const map = require('./map');
-// var m_map = map.map;
 const { creepSystem } = require('./creeps');
+const particleSystem = require('../../framework/ParticleSystem').ParticleSystemManager();
 
 var BulletType = {
     BULLET: 0,
@@ -23,13 +22,15 @@ var bullet = function ({
     }
 } = {}) {
     var that = {};
-    let rot = 0;
+    that.rot = 0;
     let pic = 0;
-    var speed = .5;
+    var speed = .1;
     that.hit = false;
     var bulletWidth;
     var bulletHeight;
     var bulletImage = bulletImages[type];
+    var rocketEnd = {x:myPos.x, y:myPos.y};
+    that.myPos = myPos;
     
     switch(type) {
         case BulletType.BULLET:
@@ -38,9 +39,26 @@ var bullet = function ({
             that.damage = 70;
             break;
         case BulletType.BOMB:
-            bulletWidth = 10;
-            bulletHeight = 10;
+            bulletWidth = 40;
+            bulletHeight = 40;
             that.damage = 85;
+            particleSystem.addParticleSystem(rocketEnd, {
+                speedmean: .1, speedstdev: 0.04,
+                lifetimemean: 300,lifetimestdev: 50,
+                sizemean: 5, sizestdev: 0,
+                fill: 'rgba(0, 255, 255, 0.75)',
+                stroke: 'rgba(0, 255, 0, 0.5)',
+                image: 'smoke.png',
+                rate: 1, // If rate is undefined, it will use amount
+                amount: 100,
+                style: 'image',
+                angleOffset: Math.PI*7/8,
+                angleTotal: Math.PI/4,
+                imagedHeight: 20,
+                imagedWidth: 20,
+                parent: that, dieOnParent: true
+            });
+            that.explodeRange = 80;
             break;
         case BulletType.ROCKET:
             bulletWidth = 10;
@@ -51,28 +69,27 @@ var bullet = function ({
 
     that.getBoundingBox = function() {
         return {
-            x: myPos.x,
-            y: myPos.y,
+            x: myPos.x - bulletWidth/2,
+            y: myPos.y - bulletHeight/2,
             w: bulletWidth, 
             h: bulletHeight
         }
     }
 
     that.render = function () {
-        graphics.drawCircle({x:myPos.x, y:myPos.y, radius: 10, fill: '#ff00ff'});
-        //graphics.drawCircle({x:goal.x+16, y:goal.y+16, radius: 10, fill: '#ffff00'});
-/*        graphics.drawImage({
-            image: bulletImage,
-            dx: myPos.x + bulletWidth/2,
-            dy: myPos.y + bulletHeight/2,
-            sx: bulletWidth,
-            sy: type * bulletHeight,
+        graphics.drawImage({
+            image: bulletImages[type],
+            dx: myPos.x - bulletWidth/2,
+            dy: myPos.y - bulletHeight/2,
+            sx: 0,
+            sy: 0,
             sWidth: bulletWidth,
             sHeight: bulletHeight,
             dWidth: bulletWidth,
             dHeight: bulletHeight,
-            rotation: rot,
-        });*/
+            rotation: that.rot,
+        });
+        
     }
 
     that.update = function (elapsedTime) {
@@ -85,13 +102,19 @@ var bullet = function ({
             myPos.y = adjustedY;
         }
         else {
-            var angle = Math.atan2(adjustedY - myPos.y,adjustedX - myPos.x);
+            var angle = Math.atan2(adjustedY - myPos.y, adjustedX - myPos.x);
+            that.rot = angle + Math.PI/2;
             var newHyp = hyp - hypTravel;
             var newY = Math.sin(angle)*newHyp;
             var newX = Math.cos(angle)*newHyp;
             myPos.x = adjustedX - newX;
             myPos.y = adjustedY - newY;
+            if(type !== BulletType.BULLET) {
+                rocketEnd.x = myPos.x - Math.cos(angle) * bulletWidth/2
+                rocketEnd.y = myPos.y - Math.sin(angle) * bulletHeight/2;
+            }
         }
+        
     }
 
     return that;
@@ -118,7 +141,7 @@ var bulletSystem = function () {
         });
 
         bullets.push(newBullet);
-        
+
         return newBullet;
     }
 
@@ -126,11 +149,24 @@ var bulletSystem = function () {
         for (let i = 0; i < bullets.length; i++) {
             bullets[i].render();
         }
+        particleSystem.render();
     }
 
     that.update = function (elapsedTime) {
         for (let i = 0; i < bullets.length; i++) {
             if(bullets[i].hit) {
+                particleSystem.addParticleSystem(bullets[i].myPos, {
+                    speedmean: .1, speedstdev: 0.04,
+                    lifetimemean: 300,lifetimestdev: 50,
+                    sizemean: 5, sizestdev: 0,
+                    fill: 'rgba(0, 255, 255, 0.75)',
+                    stroke: 'rgba(0, 255, 0, 0.5)',
+                    image: 'fire.png',
+                    amount: 100,
+                    style: 'image',
+                    imagedHeight: 20,
+                    imagedWidth: 20,
+                });
                 bullets.splice(i, 1);
                 i--;
             }
@@ -138,6 +174,7 @@ var bulletSystem = function () {
                 bullets[i].update(elapsedTime);
             }
         }
+        particleSystem.update(elapsedTime);
     }
 
     that.initialize = function() {

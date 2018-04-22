@@ -7,12 +7,17 @@ function bulletHit(bullet, creep) {
     bullet.hit = true;
 }
 
-function add(bullet, creep) {
+function explosiveHit(bullet, creep) {
+    bullet.hit = true;
+    creepSystem.explodeNearCreeps(bullet)
+}
+
+function add(bullet, creep, explosion) {
     collision.register({
         obj1: bullet, 
         obj2: creep,
         once: true,
-        handler: bulletHit
+        handler: explosion === true ? explosiveHit : bulletHit
     });
 }
 
