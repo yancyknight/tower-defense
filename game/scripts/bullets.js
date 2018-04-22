@@ -79,7 +79,7 @@ var bullet = function ({
             });
             that.explodeRange = 70 + (10 * level);
             break;
-        case BulletType.ROCKET: // not super satisifed with this...
+        case BulletType.ROCKET:
             bulletWidth = 20;
             bulletHeight = 60;
             displayHeight = 60;
