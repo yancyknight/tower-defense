@@ -27,8 +27,6 @@ var towerDamage = {
     "3": 60
 }
 
-
-
 var towerCosts = {
     GROUND1: 50,
     GROUND2: 100,
@@ -86,6 +84,10 @@ var tower = function ({
     that.upgrade = function() {
         if(vm.money < 150) return;
         stats.level += 1;
+        stats.damage += 25;
+        stats.range += 10;
+        stats.rateOfFire -= 50;
+        if(stats.rateOfFire < 0) stats.rateOfFire = 0;
         vm.money -= 150;
     }
 
@@ -182,7 +184,7 @@ var tower = function ({
                         type:towerBullets[type], 
                         myPos:{x: towerCenter.x, y: towerCenter.y}, 
                         goal:creep.myPos,
-                        damage: towerDamage[type] + (15 * stats.level)
+                        damage: stats.damage
                     });
                     if(type % 2 === 1)
                         collision.add(newBullet, creep, true);

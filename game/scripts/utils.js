@@ -3,7 +3,9 @@ const { map } = require('./map');
 const { nextLevel } = require('./level');
 
 function upgradeTower() {
-    console.log(`upgrade tower now!`);
+    if(vm.selectedTower) {
+		vm.selectedTower.upgrade();
+	}
 }
 
 function sellTower() {
