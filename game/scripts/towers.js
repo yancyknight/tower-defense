@@ -289,7 +289,7 @@ var TowerSystem = function () {
                 x: Math.floor(vm.mousePosition.x / 50),
                 y: Math.floor(vm.mousePosition.y / 50)
             };
-            var isValid = m_map.validPosition(pos) && vm.money > towerCosts[vm.placeTower]; 
+            var isValid = m_map.validPosition(pos) && vm.money >= towerCosts[vm.placeTower]; 
             placeTower = tower({
                 type: TowerType[vm.placeTower],
                 pos,

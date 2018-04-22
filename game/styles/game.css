@@ -197,3 +197,7 @@ ul.menu li {
 	margin-top: 5px;
 	margin-bottom: 5px;
 }
+
+.red {
+	color: rgb(231, 7, 7);
+}

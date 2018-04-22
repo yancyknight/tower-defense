@@ -47,7 +47,7 @@ function render() {
 	towerSystem.render();
 	creepSystem.render(); // Needs to render after tower system
 	bulletSystem.render();
-	collision.drawBoundingBox();
+	// collision.drawBoundingBox();
 	pointsSystem.render();
 	if(vm.selectedTower) {
 		graphics.drawCircle({
