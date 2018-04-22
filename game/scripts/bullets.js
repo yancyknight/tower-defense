@@ -19,7 +19,9 @@ var bullet = function ({
     goal = {
         x,
         y
-    }
+    },
+    damage = 70,
+    level = 1
 } = {}) {
     var that = {};
     that.rot = 0;
@@ -31,17 +33,16 @@ var bullet = function ({
     var bulletImage = bulletImages[type];
     var rocketEnd = {x:myPos.x, y:myPos.y};
     that.myPos = myPos;
+    that.damage = damage;
     
     switch(type) {
         case BulletType.BULLET:
             bulletWidth = 10;
             bulletHeight = 10;
-            that.damage = 70;
             break;
         case BulletType.BOMB:
             bulletWidth = 40;
             bulletHeight = 40;
-            that.damage = 85;
             particleSystem.addParticleSystem(rocketEnd, {
                 speedmean: .1, speedstdev: 0.04,
                 lifetimemean: 300,lifetimestdev: 50,
@@ -58,12 +59,11 @@ var bullet = function ({
                 imagedWidth: 20,
                 parent: that, dieOnParent: true
             });
-            that.explodeRange = 80;
+            that.explodeRange = 70 + (10 * level);
             break;
         case BulletType.ROCKET:
             bulletWidth = 10;
             bulletHeight = 10;
-            that.damage = 90;
             break;
     }
 

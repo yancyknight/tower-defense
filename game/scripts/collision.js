@@ -9,7 +9,7 @@ function bulletHit(bullet, creep) {
 
 function explosiveHit(bullet, creep) {
     bullet.hit = true;
-    creepSystem.explodeNearCreeps(bullet)
+    creepSystem.explodeNearCreeps(bullet);
 }
 
 function add(bullet, creep, explosion) {

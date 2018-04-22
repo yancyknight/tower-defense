@@ -1,7 +1,7 @@
 const graphics = require('../../framework/graphics');
 const { map } = require('./map');
 const { creepSystem } = require('./creeps');
-const { TowerSystem, TowerType } = require('./towers');
+const { TowerSystem } = require('./towers');
 const { initialize: initializeTowers } = TowerSystem;
 const { bulletSystem } = require('./bullets');
 const { myMouse, myKeyboard, initInputs } = require('./input');
