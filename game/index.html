@@ -44,24 +44,24 @@ body {
 				<div id="tower-menu">
 					<h5>Ground</h5>
 					<div class="button-group">
-						<el-button type="success" @click="selectTower('TOWER11')">
-							<img v-show="placeTower != 'TOWER11'" src="tower1.png" ></img>
-							<span v-show="placeTower == 'TOWER11'">Cancel</span>
+						<el-button type="success" @click="selectTower('GROUND1')">
+							<img v-show="placeTower != 'GROUND1'" src="tower1.png" ></img>
+							<span v-show="placeTower == 'GROUND1'">Cancel</span>
 						</el-button>
-						<el-button type="success" @click="selectTower('TOWER21')">
-							<img v-show="placeTower != 'TOWER21'" src="tower2.png"></img>
-							<span v-show="placeTower == 'TOWER21'">Cancel</span>
+						<el-button type="success" @click="selectTower('GROUND2')">
+							<img v-show="placeTower != 'GROUND2'" src="tower2.png"></img>
+							<span v-show="placeTower == 'GROUND2'">Cancel</span>
 						</el-button>
 					</div>
 					<h5>Air</h5>
 					<div class="button-group" style="padding-bottom: 10px;">
-						<el-button type="danger" @click="selectTower('TOWER31')">
-							<img v-show="placeTower != 'TOWER31'" src="tower3.png"></img>
-							<span v-show="placeTower == 'TOWER31'">Cancel</span>
+						<el-button type="danger" @click="selectTower('AIR1')">
+							<img v-show="placeTower != 'AIR1'" src="tower3.png"></img>
+							<span v-show="placeTower == 'AIR1'">Cancel</span>
 						</el-button>
-						<el-button type="danger" @click="selectTower('TOWER41')">
-							<img v-show="placeTower != 'TOWER41'" src="tower4.png"></img>
-							<span v-show="placeTower == 'TOWER41'">Cancel</span>
+						<el-button type="danger" @click="selectTower('AIR2')">
+							<img v-show="placeTower != 'AIR2'" src="tower4.png"></img>
+							<span v-show="placeTower == 'AIR2'">Cancel</span>
 						</el-button>
 					</div>
 				</div>
@@ -69,11 +69,14 @@ body {
 				<div id="tower-details">
 					<span style="font-size: 16px; padding-left: 15px;">Money: ${{money}}</span>
 					<span style="font-size: 16px; padding-left: 15px;">Lives: {{lives}}</span>
-					<div v-show="placeTower">
-						Tower details here
-
+					<div class="selected-tower" v-show="selectedTower">
+						<p>Level: {{selectedTower ? selectedTower.stats.level : ''}}</p>
+						<p>Rate of Fire: {{selectedTower ? selectedTower.stats.rateOfFire : ''}}</p>
+						<p>Range: {{selectedTower ? selectedTower.stats.range : ''}}</p>
+						<el-button type="success" @click="selectedTower.upgrade()">Upgrade</el-button>
 					</div>
 				</div>
+				<el-button type="success" class="btn--start-level" @click="nextLevel" v-show="!playLevel">Start Level</el-button>
 				<el-button class="btn--options" @click="showOptions = true">Options</el-button>
 			</div>
 
@@ -122,10 +125,15 @@ body {
 				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>
 			</ul>
 		</div>
-		<el-dialog title="New high score!" :visible.sync="highScoreInputVisible">
+		<el-dialog 
+		title="New high score!"
+		:visible.sync="highScoreInputVisible"
+		:close-on-click-modal="false"
+		:close-on-press-escape="false"
+		:show-close="false">
 			<h3>Enter your name, adventurer.</h3>
-			<el-input v-model="name"></el-input>
-			<el-button type="success" @click="submitHighScore">Submit</el-button>
+			<el-input class="pb" v-model="name"></el-input>
+			<el-button :disabled="name.length < 1" type="success" @click="submitHighScore">Submit</el-button>
 		</el-dialog>
 	
 	<!-- ALL VUE STUFF NEEDS TO BE ABOVE THIS POINT -->

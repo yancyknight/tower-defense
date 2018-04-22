@@ -21,7 +21,9 @@ var bullet = function ({
     goal = {
         x,
         y
-    }
+    },
+    damage = 70,
+    level = 1
 } = {}) {
     var that = {};
     that.rot = 0;
@@ -39,6 +41,7 @@ var bullet = function ({
         y: myPos.y
     };
     that.myPos = myPos;
+<<<<<<< HEAD
 
     switch (type) {
         case BulletType.BULLET:
@@ -47,13 +50,24 @@ var bullet = function ({
             displayHeight = 20;
             displayWidth = 20;
             that.damage = 70;
+=======
+    that.damage = damage;
+    
+    switch(type) {
+        case BulletType.BULLET:
+            bulletWidth = 10;
+            bulletHeight = 10;
+>>>>>>> origin/master
             break;
         case BulletType.BOMB:
             bulletWidth = 40;
             bulletHeight = 40;
+<<<<<<< HEAD
             displayHeight = 40;
             displayWidth = 40;
             that.damage = 85;
+=======
+>>>>>>> origin/master
             particleSystem.addParticleSystem(rocketEnd, {
                 speedmean: .1,
                 speedstdev: 0.04,
@@ -74,8 +88,9 @@ var bullet = function ({
                 parent: that,
                 dieOnParent: true
             });
-            that.explodeRange = 80;
+            that.explodeRange = 70 + (10 * level);
             break;
+<<<<<<< HEAD
         case BulletType.ROCKET: // not super satisifed with this...
             bulletWidth = 20;
             bulletHeight = 60;
@@ -103,6 +118,11 @@ var bullet = function ({
                 dieOnParent: true
             });
             that.explodeRange = 80;
+=======
+        case BulletType.ROCKET:
+            bulletWidth = 10;
+            bulletHeight = 10;
+>>>>>>> origin/master
             break;
     }
 

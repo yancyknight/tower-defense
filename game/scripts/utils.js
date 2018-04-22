@@ -25,6 +25,13 @@ function addTowerToSystem() {
 	vm.placeTower = '';
 }
 
+function selectTower() {
+	if(vm.placeTower !== '') return;
+	if(!vm.mousePosition) return;
+	var t = towers.TowerSystem.selectTower(vm.mousePosition);
+	vm.selectedTower = t;
+}
+
 function quitGame() {
 	vm.$confirm('Quit game and return to main menu?', 'Quit Game', {
 		confirmButtonText: 'Get me outta here!',
@@ -42,5 +49,6 @@ module.exports = {
     upgradeTower,
     sellTower,
 	quitGame,
+	selectTower,
 	addTowerToSystem
 }

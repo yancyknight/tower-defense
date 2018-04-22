@@ -7,40 +7,33 @@ var m_bulletSystem = bulletSystem.bulletSystem;
 const collision = require('./collision');
 
 var TowerType = {
-    TOWER11: 0,
-    TOWER12: 1,
-    TOWER13: 2,
-    TOWER21: 3,
-    TOWER22: 4,
-    TOWER23: 5,
-    TOWER31: 6,
-    TOWER32: 7,
-    TOWER33: 8,
-    TOWER41: 9,
-    TOWER42: 10,
-    TOWER43: 11,
+    GROUND1: 0,
+    GROUND2: 1,
+    AIR1: 2,
+    AIR2: 3
 };
 
 var towerBullets = {
     "0": bulletSystem.BulletType.BULLET,
-    "1": bulletSystem.BulletType.BULLET,
+    "1": bulletSystem.BulletType.BOMB,
     "2": bulletSystem.BulletType.BULLET,
-    "3": bulletSystem.BulletType.BOMB,
-    "4": bulletSystem.BulletType.BOMB,
-    "5": bulletSystem.BulletType.BOMB,
-    "6": bulletSystem.BulletType.BULLET,
-    "7": bulletSystem.BulletType.BULLET,
-    "8": bulletSystem.BulletType.BULLET,
-    "9": bulletSystem.BulletType.ROCKET,
-    "10": bulletSystem.BulletType.ROCKET,
-    "11": bulletSystem.BulletType.ROCKET,
+    "3": bulletSystem.BulletType.ROCKET
 }
 
+var towerDamage = {
+    "0": 70,
+    "1": 60,
+    "2": 70,
+    "3": 60
+}
+
+
+
 var towerCosts = {
-    TOWER11: 50,
-    TOWER21: 100,
-    TOWER31: 50,
-    TOWER41: 100,
+    GROUND1: 50,
+    GROUND2: 100,
+    AIR1: 50,
+    AIR2: 100,
 }
 
 var towerBaseImage = graphics.Img("tankBase.png");
@@ -50,7 +43,7 @@ let towerImages = [graphics.Img("tower1.png"), graphics.Img("tower2.png"), graph
 const baseSize = 100;
 
 var tower = function ({
-    type = TowerType.TOWER11,
+    type = TowerType.GROUND1,
     pos = {
         x,
         y
@@ -60,19 +53,27 @@ var tower = function ({
 } = {}) {
     var that = {};
     let rot = 0;
-    let rateOfFire = 1000;
+    var stats = {
+        rateOfFire: 1000,
+        range: 250,
+        level: 1,
+        damage: towerDamage[type]
+    }
+
+    that.stats = stats;
+
     let lastFire = 0;
-    let range = 250;
 
     var myPos = {
         x: pos.x * 1000 / map.rowColSize,
         y: pos.y * 1000 / map.rowColSize
     }
 
+    that.pos = myPos;
+
     let pic = 0;
-    let level = 0;
     var rotateSpeed = 12 * 3.14159 / 1000;
-    var towerImage = towerImages[Math.floor((type + 1) / 3)];
+    var towerImage = towerImages[type];
     var towerWidth = 80;
     var towerHeight = 80;
     var imageSize = 45;
@@ -81,6 +82,12 @@ var tower = function ({
         x: myPos.x + 50,
         y: myPos.y + 50
     };
+
+    that.upgrade = function() {
+        if(vm.money < 150) return;
+        stats.level += 1;
+        vm.money -= 150;
+    }
 
     that.render = function () {
         graphics.drawImage({
@@ -108,7 +115,7 @@ var tower = function ({
             graphics.drawCircle({
                 x: towerCenter.x,
                 y: towerCenter.y,
-                radius: range,
+                radius: stats.range,
                 fill: fill,
             });
         }
@@ -137,7 +144,6 @@ var tower = function ({
         dp = v1.x * v2.x + v1.y * v2.y;
         angle = Math.acos(dp);
 
-        //
         // Get the cross product of the two vectors so we can know
         // which direction to rotate.
         cp = crossProduct2d(v1, v2);
@@ -154,9 +160,14 @@ var tower = function ({
         //find creep to fire at
         var creep = creepSystem.findNextCreep({
             x: towerCenter.x,
+<<<<<<< HEAD
             y: towerCenter.y,
             unitType: type
         }, range);
+=======
+            y: towerCenter.y
+        }, stats.range);
+>>>>>>> origin/master
         if (creep !== undefined) {
             var angle = computeAngle(rot, {
                 x: towerCenter.x,
@@ -171,12 +182,13 @@ var tower = function ({
                 } else {
                     rot -= angle.angle;
                 }
-                if (lastFire > rateOfFire && !ghost) {
+                if (lastFire > stats.rateOfFire && !ghost) {
                     //fire!
                     var newBullet = m_bulletSystem.addBullet({
                         type:towerBullets[type], 
                         myPos:{x: towerCenter.x, y: towerCenter.y}, 
-                        goal:creep.myPos
+                        goal:creep.myPos,
+                        damage: towerDamage[type] + (15 * stats.level)
                     });
                     if(type % 2 === 1)
                         collision.add(newBullet, creep, true);
@@ -204,7 +216,7 @@ var TowerSystem = function () {
     var placeTower = false;
 
     that.addTower = function ({
-        type = TowerType.TOWER1,
+        type = TowerType.GROUND1,
         pos = {
             x,
             y
@@ -254,6 +266,16 @@ var TowerSystem = function () {
     that.initialize = function() {
         towers = [];
         placeTower = false;
+    }
+
+    that.selectTower = function({x, y}) {
+        var t = null;
+        towers.forEach(function (tower) {
+            if(x >= tower.pos.x && x < tower.pos.x + 100 && y >= tower.pos.y && y < tower.pos.y + 100) {
+                t = tower; 
+            }
+        });
+        return t;
     }
 
     return that;
