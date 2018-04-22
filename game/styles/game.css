@@ -121,6 +121,19 @@ ul.menu li {
 	border-radius: 8px;
 }
 
+.el-dialog__header {
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+}
+
+.el-dialog__body {
+	padding-top: 0px !important;
+}
+
+.pb {
+	padding-bottom: 10px;
+}
+
 #about p, #help p {
 	text-align: center;
 }
@@ -165,5 +178,12 @@ ul.menu li {
 	display: block;
 	position: absolute;
 	left: 260px;
+	top: 580px;
+}
+
+.btn--start-level {
+	display: block;
+	position: absolute;
+	left: 20px;
 	top: 580px;
 }

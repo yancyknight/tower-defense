@@ -17,6 +17,7 @@ const gameplay = require('./gameplay');
 const { myKeyboard } = require('./input');
 const { EventKey, KeyEvent } = require('../../framework/input');
 const { upgradeTower, sellTower } = require('./utils');
+const { nextLevel } = require('./level');
 
 var updateSetting = function(option) {
     localStorage.setSingleSetting(option, vm[option]);
@@ -132,10 +133,11 @@ var vm = new Vue({
             axios.post('/highscores', {name: this.name, score: this.money})
                 .then(function() {
                     vm.getHighScores();
-                    vm.highScoreInputVisible = false;
-                    vm.show = 'high-scores';
                 });
-        }
+            vm.highScoreInputVisible = false;
+            vm.show = 'high-scores';
+        },
+        nextLevel
     },
     mounted() {
         this.$refs.gameCanvas.addEventListener('mousemove', (evt) => {
