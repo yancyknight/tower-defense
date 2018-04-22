@@ -75,6 +75,7 @@ body {
 						<p>Rate of Fire: {{selectedTower ? selectedTower.stats.rateOfFire : ''}}</p>
 						<p>Range: {{selectedTower ? selectedTower.stats.range : ''}}</p>
 						<el-button type="success" @click="selectedTower.upgrade()">Upgrade</el-button>
+						<el-button type="danger" @click="selectedTower.sell()">Sell</el-button>
 					</div>
 				</div>
 				<el-button type="success" class="btn--start-level" @click="nextLevel" v-show="!playLevel">Start Level</el-button>
