@@ -18,6 +18,7 @@ const { myKeyboard } = require('./input');
 const { EventKey, KeyEvent } = require('../../framework/input');
 const { upgradeTower, sellTower } = require('./utils');
 const { nextLevel } = require('./level');
+const { baseStats, towerDamage, towerCosts, TowerType } = require('./towers');
 
 var updateSetting = function(option) {
     localStorage.setSingleSetting(option, vm[option]);
@@ -73,6 +74,15 @@ var vm = new Vue({
             }
         }
     },
+    computed: {
+        placeTowerStats() {
+            return {
+                ...baseStats,
+                damage: towerDamage[TowerType[this.placeTower]],
+                cost: towerCosts[this.placeTower]
+            }
+        }
+    },
     methods: {
         startGame() {
             gameplay.initialize();
@@ -84,6 +94,7 @@ var vm = new Vue({
             this.playLevel = false;
             this.selectedTower = null;
             this.command = '';
+            this.placeTower = '';
             this.name = '';
             graphics.init();
         },
@@ -124,7 +135,7 @@ var vm = new Vue({
             }, { once: true });
         },
         selectTower(tower) {
-            this.placeTower = this.placeTower == tower ? '' : tower;
+            this.placeTower = tower;
             if(this.placeTower) this.selectedTower = null;
         },
         getHighScores() {
