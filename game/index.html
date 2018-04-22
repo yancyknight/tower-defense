@@ -65,16 +65,17 @@ body {
 				<div id="tower-details">
 					<span style="font-size: 16px; padding-left: 15px;">Money: ${{money}}</span>
 					<span style="font-size: 16px; padding-left: 15px;">Lives: {{lives}}</span>
+					<span style="font-size: 16px; padding-left: 15px;">Wave: {{currLevel}}</span>
 					<div class="selected-tower" v-show="selectedTower">
 						<p>Level: {{selectedTower ? selectedTower.stats.level : ''}}</p>
 						<p>Damage: {{selectedTower ? selectedTower.stats.damage : ''}}</p>
 						<p>Rate of Fire: {{selectedTower ? selectedTower.stats.rateOfFire : ''}}</p>
 						<p>Range: {{selectedTower ? selectedTower.stats.range : ''}}</p>
 						<el-button type="success" @click="selectedTower.upgrade()">Upgrade ($150)</el-button>
-						<el-button type="danger" @click="selectedTower.sell()">Sell</el-button>
+						<el-button type="danger" @click="selectedTower.sell()">Sell (${{selectedTower? selectedTower.stats.sellAmount : ''}})</el-button>
 					</div>
 					<div class="place-tower" v-show="placeTower">
-						<p>Cost: {{placeTowerStats ? placeTowerStats.cost : ''}}</p>
+						<p>Cost: ${{placeTowerStats ? placeTowerStats.cost : ''}}</p>
 						<p>Level: {{placeTowerStats ? placeTowerStats.level : ''}}</p>
 						<p>Damage: {{placeTowerStats ? placeTowerStats.damage : ''}}</p>
 						<p>Rate of Fire: {{placeTowerStats ? placeTowerStats.rateOfFire : ''}}</p>
@@ -113,7 +114,14 @@ body {
 		<div v-show="show == 'high-scores'" id="high-scores" class="screen">
 			<h1>High Scores</h1>
 			<ol>
-				<li v-for="highscore in highScores">{{highscore.name}} {{highscore.score}}</li>
+				<li v-for="highscore in highScores">
+					<span style="display: inline-block; width: 500px;">
+						{{highscore.name}}
+					</span>
+					<span style="display: inline-block; width: 200px;">
+						${{highscore.score}}
+					</span>
+				</li>
 			</ol>
 			<ul class="menu-center">
 				<li><el-button type="danger" class="menu-btn" @click="show = 'main-menu'">Back</el-button></li>

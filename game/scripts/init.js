@@ -51,7 +51,8 @@ var vm = new Vue({
         lives: 10,
         highScoreInputVisible: false,
         name: '',
-        selectedTower: null
+        selectedTower: null,
+        currLevel: 1
     },
     watch:{
         showGrid() {updateSetting("showGrid");},
@@ -87,6 +88,8 @@ var vm = new Vue({
         startGame() {
             gameplay.initialize();
             gameplay.run();
+            this.mousePosition = null;
+            this.currLevel = 1;
             this.show = 'game-play';
             this.showOptions = false;
             this.money = 1000;

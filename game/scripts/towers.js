@@ -51,7 +51,7 @@ const baseSize = 100;
 const baseStats = {
     rateOfFire: 1000,
     range: 250,
-    level: 1,
+    level: 1
 }
 
 var tower = function ({
@@ -71,7 +71,8 @@ var tower = function ({
         rateOfFire: baseStats.rateOfFire,
         range: baseStats.range,
         level: baseStats.level,
-        damage: towerDamage[type]
+        damage: towerDamage[type],
+        sellAmount: Math.ceil(towerCosts[TowerTypeNames[type]] * .65)
     }
 
     that.stats = stats;
@@ -103,15 +104,14 @@ var tower = function ({
         stats.damage += 25;
         stats.range += 10;
         stats.rateOfFire -= 50;
+        stats.sellAmount += 75;
         if(stats.rateOfFire < 0) stats.rateOfFire = 0;
         vm.money -= 150;
     }
 
     that.sell = function() {
         audio.sellTower();
-        var baseReturn = towerCosts[TowerTypeNames[type]] * .65;
-        var upgradeReturn = 75 * (stats.level - 1);
-        vm.money += Math.ceil(baseReturn + upgradeReturn);
+        vm.money += stats.sellAmount;
         sold = true;
         vm.selectedTower = null;
         m_map.removeTower({x, y});
