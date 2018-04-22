@@ -17,6 +17,13 @@ var createMap = function () {
 
     that.render = function () {}
 
+    that.removeTower = function({x, y}) {
+        grid[y][x] = SquareEnum.EMPTY;
+        grid[y + 1][x] = SquareEnum.EMPTY;
+        grid[y][x + 1] = SquareEnum.EMPTY;
+        grid[y + 1][x + 1] = SquareEnum.EMPTY;
+    }
+
     that.setTower = function ({
         x,
         y

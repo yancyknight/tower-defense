@@ -9,7 +9,9 @@ function upgradeTower() {
 }
 
 function sellTower() {
-    console.log(`sell tower now!`);
+    if(vm.selectedTower) {
+		vm.selectedTower.sell();
+	}
 }
 
 function addTowerToSystem() {

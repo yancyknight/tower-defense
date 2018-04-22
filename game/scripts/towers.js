@@ -13,6 +13,13 @@ var TowerType = {
     AIR2: 3
 };
 
+var TowerTypeNames = {
+    0: 'GROUND1',
+    1: 'GROUND2',
+    2: 'AIR1',
+    3: 'AIR2'
+};
+
 var towerBullets = {
     "0": bulletSystem.BulletType.BULLET,
     "1": bulletSystem.BulletType.BOMB,
@@ -42,15 +49,17 @@ const baseSize = 100;
 
 var tower = function ({
     type = TowerType.GROUND1,
-    pos = {
+    pos,
+    pos: {
         x,
         y
-    },
+    } = {},
     ghost = false,
     fill = 'rgba(128, 223, 255, .1)'
 } = {}) {
     var that = {};
     let rot = 0;
+    var sold = false;
     var stats = {
         rateOfFire: 1000,
         range: 250,
@@ -89,6 +98,15 @@ var tower = function ({
         stats.rateOfFire -= 50;
         if(stats.rateOfFire < 0) stats.rateOfFire = 0;
         vm.money -= 150;
+    }
+
+    that.sell = function() {
+        var baseReturn = towerCosts[TowerTypeNames[type]] * .65;
+        var upgradeReturn = 75 * (stats.level - 1);
+        vm.money += Math.ceil(baseReturn + upgradeReturn);
+        sold = true;
+        vm.selectedTower = null;
+        m_map.removeTower({x, y});
     }
 
     that.render = function () {
@@ -158,6 +176,7 @@ var tower = function ({
 
 
     that.update = function (elapsedTime) {
+        if (sold) return false;
         lastFire += elapsedTime;
         //find creep to fire at
         var creep = creepSystem.findNextCreep({
@@ -203,6 +222,8 @@ var tower = function ({
                 }
             }
         }
+
+        return true;
     }
 
     return that;
@@ -240,7 +261,10 @@ var TowerSystem = function () {
 
     that.update = function (elapsedTime) {
         for (let i = 0; i < towers.length; i++) {
-            towers[i].update(elapsedTime);
+            if(!towers[i].update(elapsedTime)) {
+                towers.splice(i, 1);
+                i--;
+            }
         }
         if (vm.placeTower === "") {
             placeTower = false;
