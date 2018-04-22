@@ -9,7 +9,7 @@ var right = [{x: 19, y: 8},{x: 19, y: 9},{x: 19, y: 10},{x: 19, y: 11}];
 var creepFunctions = [];
 function eyebawl(level, enter, exit) {
     return {
-        time: 1,
+        time: 1000*level,
         amount: 5 * level,
         type: CreepType.EYEBALL,
         startingPositions: enter,
@@ -20,7 +20,7 @@ creepFunctions.push(eyebawl);
 
 function firewoof(level, enter, exit) {
     return {
-        time: 20000,
+        time: 20000*level,
         amount: 5 * level,
         type: CreepType.FIREWOOF,
         startingPositions: enter,
@@ -31,7 +31,7 @@ creepFunctions.push(firewoof);
 
 function jetster(level, enter, exit) {
     return {
-        time: 30000,
+        time: 30000 * level,
         amount: 5 * level,
         type: CreepType.JETSTER,
         startingPositions: enter,
