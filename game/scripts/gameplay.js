@@ -30,49 +30,6 @@ function initialize() {
 	initializeCollision();
 
 	cancelNextRequest = false;
-<<<<<<< HEAD
-
-	towerSystem.addTower({
-		type: TowerType.TOWER21,
-		pos: {x:9, y:9},
-	});/*
-
-	towerSystem.addTower({
-		type: TowerType.TOWER12,
-		pos: {x:11, y:11},
-	});
-	towerSystem.addTower({
-		type: TowerType.TOWER13,
-		pos: {x:11, y:9},
-	});
-	
-	towerSystem.addTower({
-		type: TowerType.TOWER21,
-		pos: {x:9, y:11},
-	});	
-	towerSystem.addTower({
-		type: TowerType.TOWER22,
-		pos: {x:7, y:11},
-	});	
-	towerSystem.addTower({
-		type: TowerType.TOWER23,
-		pos: {x:7, y:7},
-	});
-	towerSystem.addTower({
-		type: TowerType.TOWER31,
-		pos: {x:7, y:9},
-	});
-	
-	towerSystem.addTower({
-		type: TowerType.TOWER32,
-		pos: {x:9, y:7},
-	});	
-	towerSystem.addTower({
-		type: TowerType.TOWER33,
-		pos: {x:11, y:7},
-	});*/
-=======
->>>>>>> origin/master
 }
 
 function update(elapsedTime) {
