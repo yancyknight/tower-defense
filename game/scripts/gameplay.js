@@ -1,13 +1,10 @@
 const graphics = require('../../framework/graphics');
-const object = require('../../framework/object');
 const { map } = require('./map');
 const { creepSystem } = require('./creeps');
 const { TowerSystem, TowerType } = require('./towers');
 const { initialize: initializeTowers } = TowerSystem;
 const { bulletSystem } = require('./bullets');
 const { myMouse, myKeyboard, initInputs } = require('./input');
-const input = require('../../framework/input');
-const audio = require('./audio');
 const { quitGame } = require('./utils');
 const collision = require('../../framework/collision');
 const { initialize: initializeCollision } = require('./collision');;
@@ -52,6 +49,15 @@ function render() {
 	bulletSystem.render();
 	collision.drawBoundingBox();
 	pointsSystem.render();
+	if(vm.selectedTower) {
+		graphics.drawCircle({
+			x: vm.selectedTower.pos.x + 50,
+			y: vm.selectedTower.pos.y + 50,
+			radius: 60,
+			fill: 'rgba(0,255,0,.5)',
+			stroke: '#000'
+		})
+	}
 }
 
 function gameLoop(time) {

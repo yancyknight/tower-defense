@@ -187,3 +187,7 @@ ul.menu li {
 	left: 20px;
 	top: 580px;
 }
+
+.selected-tower {
+	padding-left: 10px;
+}

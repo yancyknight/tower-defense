@@ -69,6 +69,8 @@ var tower = function ({
         y: pos.y * 1000 / map.rowColSize
     }
 
+    that.pos = myPos;
+
     let pic = 0;
     let level = 0;
     var rotateSpeed = 12 * 3.14159 / 1000;
@@ -81,6 +83,12 @@ var tower = function ({
         x: myPos.x + 50,
         y: myPos.y + 50
     };
+
+    that.stats = {
+        rateOfFire,
+        range,
+        level
+    }
 
     that.render = function () {
         graphics.drawImage({
@@ -253,6 +261,16 @@ var TowerSystem = function () {
     that.initialize = function() {
         towers = [];
         placeTower = false;
+    }
+
+    that.selectTower = function({x, y}) {
+        var t = null;
+        towers.forEach(function (tower) {
+            if(x >= tower.pos.x && x < tower.pos.x + 100 && y >= tower.pos.y && y < tower.pos.y + 100) {
+                t = tower; 
+            }
+        });
+        return t;
     }
 
     return that;

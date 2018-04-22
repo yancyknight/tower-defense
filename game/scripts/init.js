@@ -49,7 +49,8 @@ var vm = new Vue({
         highScores: [],
         lives: 10,
         highScoreInputVisible: false,
-        name: ''
+        name: '',
+        selectedTower: null
     },
     watch:{
         showGrid() {updateSetting("showGrid");},
