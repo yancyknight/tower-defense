@@ -5,6 +5,7 @@ const creepSystem = require('./creeps').creepSystem;
 const bulletSystem = require('./bullets');
 var m_bulletSystem = bulletSystem.bulletSystem;
 const collision = require('./collision');
+const audio = require('./audio');
 
 var TowerType = {
     GROUND1: 0,
@@ -101,6 +102,7 @@ var tower = function ({
     }
 
     that.sell = function() {
+        audio.sellTower();
         var baseReturn = towerCosts[TowerTypeNames[type]] * .65;
         var upgradeReturn = 75 * (stats.level - 1);
         vm.money += Math.ceil(baseReturn + upgradeReturn);
