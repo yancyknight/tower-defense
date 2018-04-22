@@ -178,12 +178,8 @@ var tower = function ({
 
 
     that.update = function (elapsedTime) {
-<<<<<<< HEAD
-        that.lastFire += elapsedTime;
-=======
         if (sold) return false;
-        lastFire += elapsedTime;
->>>>>>> origin/master
+        that.lastFire += elapsedTime;
         //find creep to fire at
         var creep = creepSystem.findNextCreep({
             x: towerCenter.x,
