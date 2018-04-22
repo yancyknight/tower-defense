@@ -3,6 +3,7 @@ const {
     creepSystem
 } = require('./creeps');
 const particleSystem = require('../../framework/ParticleSystem').ParticleSystemManager();
+const audio = require('./audio');
 
 var BulletType = {
     BULLET: 0,
@@ -212,6 +213,7 @@ var bulletSystem = function () {
                         imagedHeight: 20,
                         imagedWidth: 20,
                     });
+                    audio.explosion();
                 }
                 bullets.splice(i, 1);
                 i--;

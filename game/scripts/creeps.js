@@ -37,11 +37,12 @@ var creep = function ({
     }
     let rot = 0;
     let speed = 40;
-    that.health = 1000;
+    that.health = 100000;
     var maxHealth = that.health;
     var points = 10;
     var healthPercent;
     var barFill;
+    var horizontalFlip = true;
     
     switch(that.type) {
         case CreepType.EYEBALL:
@@ -78,11 +79,11 @@ var creep = function ({
         src: creaturesImage,
         spriteTime: 300,
         reverseOnFinish: true,
-        horizontalFlip: true
+        horizontalFlip: horizontalFlip
     });
 
     that.render = function () {
-        m_sprite.draw();
+        m_sprite.draw(horizontalFlip);
         if(healthPercent !== 1) { 
             graphics.drawRectangle({
                 x: that.myPos.x,
@@ -123,11 +124,11 @@ var creep = function ({
             else if(healthPercent > .25) barFill = '#FFFF00';
             else barFill = '#FF0000';
         }
-        var diffx = that.myPath[0].x - that.myPos.x; // TODO: at some random occurance, this dies
+        var diffx = that.myPath[0].x - that.myPos.x; // TODO: at some random occurances, this dies
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffx) > distanceToTraverse) {
             that.myPos.x += distanceToTraverse * Math.sign(diffx);
-            rot = 0;
+            horizontalFlip = (diffx > 0);
         } else {
             that.myPos.x = that.myPath[0].x;
         }
