@@ -154,7 +154,8 @@ var tower = function ({
         //find creep to fire at
         var creep = creepSystem.findNextCreep({
             x: towerCenter.x,
-            y: towerCenter.y
+            y: towerCenter.y,
+            unitType: type
         }, range);
         if (creep !== undefined) {
             var angle = computeAngle(rot, {
