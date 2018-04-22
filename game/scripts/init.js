@@ -82,6 +82,7 @@ var vm = new Vue({
             this.money = 1000;
             this.lives = 10;
             this.playLevel = false;
+            this.selectedTower = null;
             this.command = '';
             this.name = '';
             graphics.init();
@@ -124,6 +125,7 @@ var vm = new Vue({
         },
         selectTower(tower) {
             this.placeTower = this.placeTower == tower ? '' : tower;
+            if(this.placeTower) this.selectedTower = null;
         },
         getHighScores() {
             axios.get('/highscores').then(function(res) {

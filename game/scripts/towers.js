@@ -14,6 +14,13 @@ var TowerType = {
     AIR2: 3
 };
 
+var TowerTypeNames = {
+    0: 'GROUND1',
+    1: 'GROUND2',
+    2: 'AIR1',
+    3: 'AIR2'
+};
+
 var towerBullets = {
     "0": bulletSystem.BulletType.BULLET,
     "1": bulletSystem.BulletType.BOMB,
@@ -27,8 +34,6 @@ var towerDamage = {
     "2": 70,
     "3": 60
 }
-
-
 
 var towerCosts = {
     GROUND1: 50,
@@ -45,15 +50,17 @@ const baseSize = 100;
 
 var tower = function ({
     type = TowerType.GROUND1,
-    pos = {
+    pos,
+    pos: {
         x,
         y
-    },
+    } = {},
     ghost = false,
     fill = 'rgba(128, 223, 255, .1)'
 } = {}) {
     var that = {};
     let rot = 0;
+    var sold = false;
     var stats = {
         rateOfFire: 1000,
         range: 250,
@@ -87,7 +94,21 @@ var tower = function ({
     that.upgrade = function() {
         if(vm.money < 150) return;
         stats.level += 1;
+        stats.damage += 25;
+        stats.range += 10;
+        stats.rateOfFire -= 50;
+        if(stats.rateOfFire < 0) stats.rateOfFire = 0;
         vm.money -= 150;
+    }
+
+    that.sell = function() {
+        audio.sellTower();
+        var baseReturn = towerCosts[TowerTypeNames[type]] * .65;
+        var upgradeReturn = 75 * (stats.level - 1);
+        vm.money += Math.ceil(baseReturn + upgradeReturn);
+        sold = true;
+        vm.selectedTower = null;
+        m_map.removeTower({x, y});
     }
 
     that.render = function () {
@@ -157,7 +178,12 @@ var tower = function ({
 
 
     that.update = function (elapsedTime) {
+<<<<<<< HEAD
         that.lastFire += elapsedTime;
+=======
+        if (sold) return false;
+        lastFire += elapsedTime;
+>>>>>>> origin/master
         //find creep to fire at
         var creep = creepSystem.findNextCreep({
             x: towerCenter.x,
@@ -185,7 +211,7 @@ var tower = function ({
                         type:towerBullets[type], 
                         myPos:{x: towerCenter.x, y: towerCenter.y}, 
                         goal:creep.myPos,
-                        damage: towerDamage[type] + (15 * stats.level)
+                        damage: stats.damage
                     });
                     
                     if(type % 2 == 1){
@@ -207,6 +233,8 @@ var tower = function ({
                 }
             }
         }
+
+        return true;
     }
 
     return that;
@@ -245,7 +273,10 @@ var TowerSystem = function () {
 
     that.update = function (elapsedTime) {
         for (let i = 0; i < towers.length; i++) {
-            towers[i].update(elapsedTime);
+            if(!towers[i].update(elapsedTime)) {
+                towers.splice(i, 1);
+                i--;
+            }
         }
         if (vm.placeTower === "") {
             placeTower = false;

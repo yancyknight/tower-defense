@@ -71,9 +71,14 @@ body {
 					<span style="font-size: 16px; padding-left: 15px;">Lives: {{lives}}</span>
 					<div class="selected-tower" v-show="selectedTower">
 						<p>Level: {{selectedTower ? selectedTower.stats.level : ''}}</p>
+						<p>Damage: {{selectedTower ? selectedTower.stats.damage : ''}}</p>
 						<p>Rate of Fire: {{selectedTower ? selectedTower.stats.rateOfFire : ''}}</p>
 						<p>Range: {{selectedTower ? selectedTower.stats.range : ''}}</p>
-						<el-button type="success" @click="selectedTower.upgrade()">Upgrade</el-button>
+						<el-button type="success" @click="selectedTower.upgrade()">Upgrade ($150)</el-button>
+						<el-button type="danger" @click="selectedTower.sell()">Sell</el-button>
+					</div>
+					<div class="place-tower" v-show="placeTower">
+						New tower stats here
 					</div>
 				</div>
 				<el-button type="success" class="btn--start-level" @click="nextLevel" v-show="!playLevel">Start Level</el-button>
