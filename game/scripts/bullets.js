@@ -3,6 +3,7 @@ const {
     creepSystem
 } = require('./creeps');
 const particleSystem = require('../../framework/ParticleSystem').ParticleSystemManager();
+const audio = require('./audio');
 
 var BulletType = {
     BULLET: 0,
@@ -78,7 +79,7 @@ var bullet = function ({
             });
             that.explodeRange = 70 + (10 * level);
             break;
-        case BulletType.ROCKET: // not super satisifed with this...
+        case BulletType.ROCKET:
             bulletWidth = 20;
             bulletHeight = 60;
             displayHeight = 60;
@@ -212,6 +213,7 @@ var bulletSystem = function () {
                         imagedHeight: 20,
                         imagedWidth: 20,
                     });
+                    audio.explosion();
                 }
                 bullets.splice(i, 1);
                 i--;

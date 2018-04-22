@@ -4,11 +4,11 @@ const buyTowerSound = new Audio('buyTower.wav');
 const sellTowerSound = new Audio('sellTower.wav');
 const explosionSound = new Audio('explosion.wav');
 const rocketLaunchSound = new Audio('rocketlaunch.wav');
-const bulletSound = new Audio('bullet.ogg');
+const bulletSound = new Audio('laserfire01.ogg');
 
 function playSound(sound) {
     if(!vm.mute) {
-        sound.play();
+        sound.cloneNode().play();
     }
 }
 

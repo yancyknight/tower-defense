@@ -76,7 +76,7 @@ var tower = function ({
 
     that.stats = stats;
 
-    let lastFire = 0;
+    that.lastFire = 0;
 
     var myPos = {
         x: pos.x * 1000 / map.rowColSize,
@@ -185,7 +185,7 @@ var tower = function ({
 
     that.update = function (elapsedTime) {
         if (sold) return false;
-        lastFire += elapsedTime;
+        that.lastFire += elapsedTime;
         //find creep to fire at
         var creep = creepSystem.findNextCreep({
             x: towerCenter.x,
@@ -207,7 +207,7 @@ var tower = function ({
                 } else {
                     rot -= angle.angle;
                 }
-                if (lastFire > stats.rateOfFire && !ghost) {
+                if (that.lastFire > stats.rateOfFire && !ghost) {
                     //fire!
                     var newBullet = m_bulletSystem.addBullet({
                         type:towerBullets[type], 
@@ -215,12 +215,17 @@ var tower = function ({
                         goal:creep.myPos,
                         damage: stats.damage
                     });
-                    if(type >= 2)
+                    
+                    if(type % 2 == 1){
+                        audio.rocketLaunch();
                         collision.add(newBullet, creep, true);
-                    else
+                    }
+                    else{
+                        audio.bullet();
                         collision.add(newBullet, creep);
+                    }
 
-                    lastFire = 0;
+                    that.lastFire = 0;
                 }
             } else {
                 if (angle.crossProduct > 0) {
@@ -256,6 +261,7 @@ var TowerSystem = function () {
         placeTower = false;
         m_map.setTower(pos);
         creepSystem.resetAllPaths();
+        audio.buyTower();
     }
 
     that.render = function () {

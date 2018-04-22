@@ -113,7 +113,7 @@ function drawImage({
 		context.translate(center.x, center.y);
 		context.rotate(rotation); // TODO check with yancy
 		context.translate(-center.x, -center.y);
-		if (horizontalFlip) {
+		if (horizontalFlip === true) {
 			context.scale(-1, 1);
 			dx = -dx - dWidth;
 		}
@@ -162,6 +162,8 @@ function SpriteSheet({
 } = {}) {
 	var that = {};
 	var image = Img(src);
+	if(horizontalFlip === false) console.log("flipped");
+	
 
 	if(typeof spriteTime === 'number') {
 		var temp = [];
@@ -176,7 +178,7 @@ function SpriteSheet({
 		y = pos.y;
 	}
 
-	that.draw = function() {
+	that.draw = function(horizontalFlip) {
 		drawImage({
 			image,
 			sx: width * sprite,
@@ -187,7 +189,7 @@ function SpriteSheet({
 			dy: y,
 			dWidth: width,
 			dHeight: height,
-			horizontalFlip: true
+			horizontalFlip: horizontalFlip
 		})
 	};
 
