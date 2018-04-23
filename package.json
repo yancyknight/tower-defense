@@ -6,10 +6,10 @@
   "scripts": {
     "build": "webpack --mode production",
     "clean": "rimraf ./server/public/*",
-    "server-serve": "nodemon ./server/index.js",
-    "start": "run-s clean build serve",
-    "webpack-serve": "webpack-dev-server",
-    "dev": "run-p webpack-serve server-serve"
+    "express:serve": "node ./server/index.js",
+    "start": "run-s clean build express:serve",
+    "webpack:serve": "webpack-dev-server",
+    "dev": "run-p webpack:serve express:serve"
   },
   "repository": {
     "type": "git",
@@ -39,6 +39,7 @@
     "body-parser": "^1.18.2",
     "element-ui": "^2.3.4",
     "express": "^4.16.3",
+    "forever": "^0.15.3",
     "node-persist": "^3.0.0",
     "vue": "^2.5.16"
   }
