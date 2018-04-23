@@ -39,7 +39,7 @@ var creep = function ({
     let speed = 40;
     that.health = 1000;
     var maxHealth = that.health;
-    var points = 10;
+    var points = 25;
     var healthPercent;
     var barFill;
     var horizontalFlip = true;
@@ -124,6 +124,7 @@ var creep = function ({
             else if(healthPercent > .25) barFill = '#FFFF00';
             else barFill = '#FF0000';
         }
+        if(!that.myPath[0] || !that.myPos) return true; // This might fix it?
         var diffx = that.myPath[0].x - that.myPos.x; // TODO: at some random occurances, this dies
         var distanceToTraverse = speed * elapsedTime / 1000;
         if (Math.abs(diffx) > distanceToTraverse) {

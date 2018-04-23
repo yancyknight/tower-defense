@@ -19,6 +19,7 @@ var paused = false;
 
 function initialize() {
 	console.log('game initializing...');
+
 	initInputs();
 	initializeTowers();
 	creepSystem.initialize();

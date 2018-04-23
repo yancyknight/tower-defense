@@ -69,7 +69,7 @@ var vm = new Vue({
                     if(vm.highScores.length < 10 || vm.highScores[9].score < vm.money) {
                         vm.highScoreInputVisible = true;
                     } else {
-                        vm.show = 'main-menu';
+                        vm.show = 'high-scores';
                     }
                 });
             }
@@ -86,6 +86,7 @@ var vm = new Vue({
     },
     methods: {
         startGame() {
+            gameplay.unpause();
             gameplay.initialize();
             gameplay.run();
             this.mousePosition = null;
