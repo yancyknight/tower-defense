@@ -110,7 +110,7 @@ ul.menu li {
 	font-size: 0.5em;
 }
 
-#game-options, #options-display {
+#game-options, #game-options-menu, #options-display, #options-display-menu {
 	width: 360px;
 }
 
@@ -118,6 +118,14 @@ ul.menu li {
 	position: absolute;
 	left: 10px;
 	top: 10px;
+	border: 1px solid #fff;
+	border-radius: 8px;
+}
+
+#options-display-menu {
+	position: absolute;
+	left: 40%;
+	top: 40px;
 	border: 1px solid #fff;
 	border-radius: 8px;
 }
@@ -180,6 +188,13 @@ ul.menu li {
 	position: absolute;
 	left: 260px;
 	top: 580px;
+}
+
+.btn--options-menu {
+	display: block;
+	position: absolute;
+	left: 135px;
+	top: 490px;
 }
 
 .btn--start-level {

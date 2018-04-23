@@ -34,6 +34,7 @@ body {
 				<h1>Yam Bam Tower Defense</h1>
 				<li><el-button type="danger" class="menu-btn" @click="startGame">New Game</el-button></li>
 				<li><el-button type="danger" class="menu-btn" @click="show = 'high-scores'; getHighScores();">High Scores</el-button></li>
+				<li><el-button type="danger" class="menu-btn" @click="show = 'options';">Options</el-button></li>
 				<li><el-button type="danger" class="menu-btn" @click="show = 'about'">About</el-button></li>
 			</ul>
 		</div>
@@ -110,6 +111,28 @@ body {
 			</div>
 			<canvas ref="gameCanvas" :class="{grid: showGrid}" id="fw-canvas" width="1000" height="1000"></canvas>
 		</div>
+
+		<!-- Options Menu -->
+		<div v-show="show == 'options'" id="options-display-menu">
+				<div id="game-options-menu">
+					<h5 style="margin: 10px 10px;">Game Options</h5>
+					<ul class="menu">
+						<li><el-checkbox style="width: 195px; color: #fff;" v-model="showGrid" label="Show Placement Grid" border></el-checkbox></li>
+						<li><el-checkbox style="width: 195px; color: #fff;" v-model="showTowerCoverage" label="Show Tower Coverage" border></el-checkbox></li>
+						<li><el-checkbox style="width: 195px; color: #fff;" v-model="mute" label="Mute Sound Effects" border></el-checkbox></li>
+						<!-- <el-checkbox v-model="showEnemyPath" label="Show Enemy Path" border></el-checkbox> -->
+					</ul>
+				</div>
+				<div id="user-controls-menu">
+					<h5 style="margin: 10px 10px;">User Controls</h5>
+					<ul class="menu">
+						<li><el-button style="width: 175px;" type="info" @click="selectUpgradeTower">Upgrade Tower ({{upgradeTowerKey}})</el-button></li>
+						<li><el-button style="width: 175px;" type="info" @click="selectSellTower">Sell Tower ({{sellTowerKey}})</el-button></li>
+						<li><el-button style="width: 175px;" type="info" @click="selectStartLevel">Start Level ({{startLevelKey}})</el-button></li>
+					</ul>
+				</div>
+				<el-button class="btn--options-menu" @click="show = 'main-menu'">Back</el-button>
+			</div>
 
 		<div v-show="show == 'high-scores'" id="high-scores" class="screen">
 			<h1>High Scores</h1>
