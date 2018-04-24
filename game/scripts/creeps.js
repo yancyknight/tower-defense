@@ -37,7 +37,7 @@ var creep = function ({
     }
     let rot = 0;
     let speed = 40;
-    that.health = 1000;
+    that.health = 400;
     var maxHealth = that.health;
     var points = 25;
     var healthPercent;

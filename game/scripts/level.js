@@ -30,7 +30,7 @@ creepFunctions.push(firewoof);
 
 function jetster(level, enter, exit) {
     return {
-        time: 30000 * level,
+        time: 1000 * level,
         amount: 5 * level,
         type: CreepType.JETSTER,
         startingPositions: enter,
@@ -65,20 +65,25 @@ const nextLevel = function() {
                 }, 12000);
                 break;
             default:
-                for(var i = 0; i < vm.currLevel; i++){
-                    var nextType = Math.floor(Math.random()*3);
+                for(let i = 0; i < vm.currLevel; i++){
+                    let nextType = Math.floor(Math.random()*3);
+                    console.log(nextType);
                     setTimeout(function(){
                         switch(Math.floor(Math.random()*4)){
                             case 0:
                                 creepSystem.addCreepSystem(creepFunctions[nextType](vm.currLevel, left, right));
+                                break;
                             case 1:
                                 creepSystem.addCreepSystem(creepFunctions[nextType](vm.currLevel, right, left));
+                                break;
                             case 2:
                                 creepSystem.addCreepSystem(creepFunctions[nextType](vm.currLevel, top, bottom));
+                                break;
                             case 3:
                                 creepSystem.addCreepSystem(creepFunctions[nextType](vm.currLevel, bottom, top));
+                                break;
                         }
-                    }, Math.floor(Math.random()*i)*1000);
+                    }, Math.floor(Math.random()*i)*10000);
                 }
             break;
         }
