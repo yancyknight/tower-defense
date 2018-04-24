@@ -2,9 +2,12 @@ const express = require('express');
 const path = require('path');
 const { getScores, addScore } = require('../framework/HighScores');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+
+app.use(compression());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
