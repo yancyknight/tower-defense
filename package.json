@@ -4,9 +4,9 @@
   "description": "The coolest tower defense game around, made by YamBam",
   "main": "server/index.js",
   "scripts": {
-    "build": "webpack --mode production",
     "clean": "rimraf ./server/public/*",
-    "express:serve": "node ./server/index.js",
+    "build": "webpack --mode production",
+    "express:serve": "forever start ./server/index.js",
     "start": "run-s clean build express:serve",
     "webpack:serve": "webpack-dev-server",
     "dev": "run-p webpack:serve express:serve"
