@@ -31,9 +31,9 @@ var towerBullets = {
 
 var towerDamage = {
     "0": 70,
-    "1": 60,
+    "1": 40,
     "2": 70,
-    "3": 60
+    "3": 40
 }
 
 var towerCosts = {
@@ -102,7 +102,7 @@ var tower = function ({
     that.upgrade = function() {
         if(vm.money < 150) return;
         stats.level += 1;
-        stats.damage += 25;
+        stats.damage += 40;
         stats.range += 10;
         stats.rateOfFire -= 50;
         stats.sellAmount += 75;

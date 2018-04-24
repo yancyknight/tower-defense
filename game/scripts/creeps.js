@@ -25,7 +25,8 @@ var creep = function ({
     goal = {
         x,
         y
-    }
+    },
+    health
 } = {}) {
     var that = {};
     that.goal = goal;
@@ -37,7 +38,7 @@ var creep = function ({
     }
     let rot = 0;
     let speed = 40;
-    that.health = 400;
+    that.health = health;
     var maxHealth = that.health;
     var points = 25;
     var healthPercent;
@@ -110,7 +111,7 @@ var creep = function ({
                 fill: 'rgba(0, 255, 255, 0.75)',
                 stroke: 'rgba(0, 255, 0, 0.5)',
                 image: './firework.png',
-                amount: 200,
+                amount: 1000,
                 style: 'image',
                 imagedHeight: 20,
                 imagedWidth: 20
@@ -170,8 +171,9 @@ var creepSystem = function () {
         type = CreepType.ALIEN,
         startingPositions, // array of starting positions
         endingPositions,
+        health
     } = {}) {
-        creepSystems.push({time, amount, type, startingPositions, endingPositions, creepsMade: 0, timePassed: 0});
+        creepSystems.push({time, amount, type, startingPositions, endingPositions, creepsMade: 0, timePassed: 0, health});
     }
 
     that.render = function () {
@@ -201,6 +203,7 @@ var creepSystem = function () {
                     type: creepSystems[i].type,
                     pos: creepSystems[i].startingPositions[Math.floor(Math.random() * creepSystems[i].startingPositions.length)],
                     goal: creepSystems[i].endingPositions[Math.floor(Math.random() * creepSystems[i].endingPositions.length)],
+                    health: creepSystems[i].health,
                 }));
                 creepSystems[i].creepsMade++;
                 creepSystems[i].timePassed = 0;
