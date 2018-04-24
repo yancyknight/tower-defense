@@ -68,7 +68,7 @@ var bullet = function ({
                 stroke: 'rgba(0, 255, 0, 0.5)',
                 image: 'smoke.png',
                 rate: 1, // If rate is undefined, it will use amount
-                amount: 100,
+                amount: 500,
                 style: 'image',
                 angleOffset: Math.PI * 7 / 8,
                 angleTotal: Math.PI / 4,
@@ -96,7 +96,7 @@ var bullet = function ({
                 stroke: 'rgba(0, 255, 0, 0.5)',
                 image: 'smoke.png',
                 rate: 1, // If rate is undefined, it will use amount
-                amount: 100,
+                amount: 50,
                 style: 'image',
                 angleOffset: Math.PI * 7 / 8,
                 angleTotal: Math.PI / 4,
@@ -208,7 +208,7 @@ var bulletSystem = function () {
                         fill: 'rgba(0, 255, 255, 0.75)',
                         stroke: 'rgba(0, 255, 0, 0.5)',
                         image: 'fire.png',
-                        amount: 100,
+                        amount: 75,
                         style: 'image',
                         imagedHeight: 20,
                         imagedWidth: 20,
