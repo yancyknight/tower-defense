@@ -106,7 +106,7 @@ var creep = function ({
             vm.money += points;
             particleSystem.addParticleSystem(that.myPos, {
                 speedmean: .1, speedstdev: 0.04,
-                lifetimemean: 500,lifetimestdev: 300,
+                lifetimemean: 1000,lifetimestdev: 300,
                 sizemean: 10, sizestdev: 1,
                 fill: 'rgba(0, 255, 255, 0.75)',
                 stroke: 'rgba(0, 255, 0, 0.5)',
