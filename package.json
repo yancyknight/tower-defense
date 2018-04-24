@@ -7,7 +7,7 @@
     "clean": "rimraf ./server/public/*",
     "build": "webpack --mode production",
     "postinstall": "run-s clean build",
-    "express:serve": "forever start ./server/index.js",
+    "express:serve": "node ./server/index.js",
     "express:watch": "nodemon ./server/index.js",
     "start": "npm run express:serve",
     "webpack:serve": "webpack-dev-server",
