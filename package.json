@@ -6,9 +6,10 @@
   "scripts": {
     "clean": "rimraf ./server/public/*",
     "build": "webpack --mode production",
+    "postinstall": "run-s clean build",
     "express:serve": "forever start ./server/index.js",
     "express:watch": "nodemon ./server/index.js",
-    "start": "run-s clean build express:serve",
+    "start": "npm run express:serve",
     "webpack:serve": "webpack-dev-server",
     "dev": "run-p webpack:serve express:watch"
   },
