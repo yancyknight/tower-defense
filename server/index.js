@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const { getScores, addScore } = require('../framework/HighScores');
 const bodyParser = require('body-parser');
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
@@ -32,6 +33,6 @@ app.post('/highscores', function(req, res) {
     });
 });
 
-app.listen(3001, function() {
-    console.log(`Listening on port 3001`);
+app.listen(PORT, function() {
+    console.log(`Listening on port ${PORT}`);
 });
