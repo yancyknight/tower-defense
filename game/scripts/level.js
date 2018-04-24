@@ -71,14 +71,18 @@ const nextLevel = function() {
                         switch(Math.floor(Math.random()*4)){
                             case 0:
                                 creepSystem.addCreepSystem(creepFunctions[nextType](vm.currLevel, left, right));
+                                break;
                             case 1:
                                 creepSystem.addCreepSystem(creepFunctions[nextType](vm.currLevel, right, left));
+                                break;
                             case 2:
                                 creepSystem.addCreepSystem(creepFunctions[nextType](vm.currLevel, top, bottom));
+                                break;
                             case 3:
                                 creepSystem.addCreepSystem(creepFunctions[nextType](vm.currLevel, bottom, top));
+                                break;
                         }
-                    }, Math.floor(Math.random()*i)*1000);
+                    }, Math.floor(Math.random()*i)*10000);
                 }
             break;
         }
