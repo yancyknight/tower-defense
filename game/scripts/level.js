@@ -12,18 +12,20 @@ function eyebawl(level, enter, exit) {
         amount: 5 * level,
         type: CreepType.EYEBALL,
         startingPositions: enter,
-        endingPositions: exit
+        endingPositions: exit,
+        health: 400 + level*30,
     }
 }
 creepFunctions.push(eyebawl);
 
 function firewoof(level, enter, exit) {
     return {
-        time: 20000*level,
+        time: 1000*level,
         amount: 5 * level,
         type: CreepType.FIREWOOF,
         startingPositions: enter,
-        endingPositions: exit
+        endingPositions: exit,
+        health: 400 + level*30,
     }
 }
 creepFunctions.push(firewoof);
@@ -34,7 +36,8 @@ function jetster(level, enter, exit) {
         amount: 5 * level,
         type: CreepType.JETSTER,
         startingPositions: enter,
-        endingPositions: exit
+        endingPositions: exit,
+        health: 400 + level*30,
     }
 }
 creepFunctions.push(jetster);
@@ -67,7 +70,6 @@ const nextLevel = function() {
             default:
                 for(let i = 0; i < vm.currLevel; i++){
                     let nextType = Math.floor(Math.random()*3);
-                    console.log(nextType);
                     setTimeout(function(){
                         switch(Math.floor(Math.random()*4)){
                             case 0:
