@@ -12,6 +12,10 @@
     "webpack:serve": "webpack-dev-server",
     "dev": "run-p webpack:serve express:watch"
   },
+  "engines": {
+    "node": "9.9.0",
+    "npm": "5.8.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yancyknight/tower-defense.git"
