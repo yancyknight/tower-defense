@@ -30,7 +30,7 @@ creepFunctions.push(firewoof);
 
 function jetster(level, enter, exit) {
     return {
-        time: 30000 * level,
+        time: 1000 * level,
         amount: 5 * level,
         type: CreepType.JETSTER,
         startingPositions: enter,
@@ -65,8 +65,9 @@ const nextLevel = function() {
                 }, 12000);
                 break;
             default:
-                for(var i = 0; i < vm.currLevel; i++){
-                    var nextType = Math.floor(Math.random()*3);
+                for(let i = 0; i < vm.currLevel; i++){
+                    let nextType = Math.floor(Math.random()*3);
+                    console.log(nextType);
                     setTimeout(function(){
                         switch(Math.floor(Math.random()*4)){
                             case 0:
