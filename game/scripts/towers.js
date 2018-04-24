@@ -6,6 +6,7 @@ const bulletSystem = require('./bullets');
 var m_bulletSystem = bulletSystem.bulletSystem;
 const collision = require('./collision');
 const audio = require('./audio');
+const particleSystem = require('../../framework/ParticleSystem').ParticleSystemManager();
 
 var TowerType = {
     GROUND1: 0,
@@ -115,6 +116,20 @@ var tower = function ({
         sold = true;
         vm.selectedTower = null;
         m_map.removeTower({x, y});
+        particleSystem.addParticleSystem(towerCenter, {
+            speedmean: .1, speedstdev: 0.04,
+            lifetimemean: 500,lifetimestdev: 300,
+            sizemean: 50, sizestdev: 5,
+            fill: 'rgba(0, 255, 255, 0.75)',
+            stroke: 'rgba(0, 255, 0, 0.5)',
+            image: './goldCoin.png',
+            amount: 10,
+            style: 'image',
+            angleOffset: Math.PI * 11 / 8,
+            angleTotal: Math.PI / 4,
+            imagedHeight: 50,
+            imagedWidth: 50
+        });
     }
 
     that.render = function () {
@@ -139,6 +154,7 @@ var tower = function ({
             rotation: rot + Math.PI / 2,
             alpha: ghost ? .5 : 1
         });
+        particleSystem.render();
         if (vm.showTowerCoverage || ghost) {
             graphics.drawCircle({
                 x: towerCenter.x,
@@ -235,6 +251,7 @@ var tower = function ({
                 }
             }
         }
+        particleSystem.update(elapsedTime);
 
         return true;
     }
